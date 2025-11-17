@@ -8,7 +8,7 @@ service cloud.firestore {
       allow read, update, create: if request.auth.uid == userId;
       // Allow providers to get individual user documents (e.g., for patient charts).
       allow get: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role in ['doctor', 'nurse', 'admin'];
-      // **FIX**: Allow users with an admin role to list the entire users collection for the dashboard.
+      // Allow users with an admin role to list the entire users collection for the dashboard.
       allow list: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role in ['admin', 'superadmin'];
     }
 
