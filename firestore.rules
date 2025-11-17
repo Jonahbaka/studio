@@ -20,12 +20,10 @@ service cloud.firestore {
       allow create: if request.auth.uid == requestId;
     }
 
-    // Allow users to list and read visits they are a part of.
-    // Allow any authenticated user to create a visit.
-    // Allow participants to write/update their own visit.
+    // RELAXED RULE: Allow any authenticated user to read/list all visits.
     match /visits/{visitId} {
-      allow read, write: if request.auth.uid in resource.data.participants;
-      allow list: if request.auth.uid in request.query.filters.participants;
+      allow read, list: if request.auth != null;
+      allow write: if request.auth.uid in resource.data.participants;
       allow create: if request.auth != null;
       
       match /messages/{messageId} {
