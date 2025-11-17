@@ -3,44 +3,40 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { ArrowRight, BookMarked, BriefcaseMedical, ChevronDown, HeartPulse, Hospital, MapPin, PersonStanding, Pill, Search, Stethoscope, User, Droplet, Brain, Bone, Baby } from 'lucide-react';
-import { useState } from 'react';
+import { ArrowRight, Brain, Stethoscope, Video, Droplet, Bone, Baby, HeartPulse } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { Header } from '@/components/shared/header';
 import { Footer } from '@/components/shared/footer';
-import { Input } from '@/components/ui/input';
-import { useToast } from '@/hooks/use-toast';
 import { LocationSearch } from '@/components/shared/location-search';
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel"
 
 const specialties = [
-    { name: 'Dermatology', icon: User },
-    { name: 'Dentist', icon: Stethoscope }, // No tooth icon
+    { name: 'General', icon: Stethoscope },
     { name: 'Psychiatry', icon: Brain },
     { name: 'Pediatrics', icon: Baby },
-    { name: 'Orthopedics', icon: Bone },
-    { name: 'Urology', icon: Droplet },
     { name: 'Cardiology', icon: HeartPulse },
-    { name: 'ENT', icon: BriefcaseMedical }
+    { name: 'Urology', icon: Droplet },
+    { name: 'Orthopedics', icon: Bone },
 ];
 
-const popularMeds = [
-    "Lisinopril", "Atorvastatin", "Levothyroxine", "Metformin",
-    "Amlodipine", "Metoprolol", "Albuterol", "Omeprazole"
+const treatments = [
+    { name: 'Erectile Dysfunction', imageId: 'treatment3', category: 'Men\'s Health' },
+    { name: 'Hair Loss', imageId: 'treatment2', category: 'Wellness' },
+    { name: 'Mental Health', imageId: 'treatment4', category: 'Psychiatry' },
+    { name: 'Urgent Care', imageId: 'treatment5', category: 'General' },
 ]
-
-const healthTopics = [
-    { title: "What Is Ozempic Face?", category: "Diabetes", imageId: "goodrx-info-1" },
-    { title: "Managing High Blood Pressure", category: "Heart Health", imageId: "goodrx-info-2" },
-    { title: "The Best Cold & Flu Remedies", category: "Cold & Flu", imageId: "goodrx-info-1" },
-]
-
 
 export default function Home() {
-  const adImage = PlaceHolderImages.find(p => p.id === 'goodrx-ad-1');
+  const heroImage = PlaceHolderImages.find(p => p.id === 'hero');
 
   return (
     <div className="flex flex-col min-h-screen bg-background">
@@ -48,90 +44,122 @@ export default function Home() {
       <main className="flex-grow">
         
         {/* Hero Section */}
-        <section className="bg-secondary py-12 md:py-20">
-            <div className="container mx-auto px-4 text-center">
-                <h1 className="text-4xl md:text-6xl font-headline text-primary">
-                    Stop paying too much for prescriptions
-                </h1>
-                <p className="mt-4 text-lg md:text-xl text-foreground/80 max-w-3xl mx-auto">
-                    Compare prices, find free coupons, and save up to 80% on your next prescription. It's 100% free to use.
-                </p>
-                <div className="mt-8 max-w-4xl mx-auto">
-                   <LocationSearch />
+        <section className="relative bg-primary/10">
+            <div className="container mx-auto px-4 grid lg:grid-cols-2 gap-8 items-center py-12 md:py-24">
+                <div className="text-center lg:text-left">
+                    <h1 className="text-4xl md:text-6xl font-headline text-primary">
+                        Your home for health
+                    </h1>
+                    <p className="mt-4 text-lg md:text-xl text-foreground/80 max-w-2xl mx-auto lg:mx-0">
+                        Find and book in-person or video consultations with the best doctors and specialists.
+                    </p>
+                    <div className="mt-8 max-w-xl mx-auto lg:mx-0">
+                       <LocationSearch />
+                    </div>
                 </div>
-                <div className="mt-6">
-                    <p className="text-sm font-medium text-foreground">Popular prescriptions:</p>
-                    <div className="flex flex-wrap justify-center gap-x-4 gap-y-2 mt-2">
-                        {popularMeds.map(med => (
-                            <Button key={med} variant="link" className="text-foreground/70 hover:text-primary">
-                                {med}
-                            </Button>
-                        ))}
+                 <div className="relative h-80 lg:h-full min-h-[20rem] rounded-lg overflow-hidden shadow-2xl">
+                    {heroImage && (
+                        <Image src={heroImage.imageUrl} alt={heroImage.description} fill className="object-cover" data-ai-hint={heroImage.imageHint} />
+                    )}
+                 </div>
+            </div>
+        </section>
+
+        {/* How It Works Section */}
+        <section className="py-16 bg-background">
+            <div className="container mx-auto px-4">
+                <h2 className="text-3xl font-headline text-center mb-10">Consult a Doctor in 3 Easy Steps</h2>
+                <div className="grid md:grid-cols-3 gap-8 text-center">
+                    <div className="flex flex-col items-center">
+                        <div className="flex items-center justify-center w-16 h-16 rounded-full bg-accent text-accent-foreground mb-4">
+                            <span className="text-2xl font-bold">1</span>
+                        </div>
+                        <h3 className="text-xl font-semibold mb-2">Find a Doctor</h3>
+                        <p className="text-muted-foreground">Search by specialty and book a consultation that fits your schedule.</p>
+                    </div>
+                     <div className="flex flex-col items-center">
+                        <div className="flex items-center justify-center w-16 h-16 rounded-full bg-accent text-accent-foreground mb-4">
+                            <span className="text-2xl font-bold">2</span>
+                        </div>
+                        <h3 className="text-xl font-semibold mb-2">Start Your Visit</h3>
+                        <p className="text-muted-foreground">Connect with your doctor via our secure video platform from anywhere.</p>
+                    </div>
+                     <div className="flex flex-col items-center">
+                        <div className="flex items-center justify-center w-16 h-16 rounded-full bg-accent text-accent-foreground mb-4">
+                            <span className="text-2xl font-bold">3</span>
+                        </div>
+                        <h3 className="text-xl font-semibold mb-2">Get a Plan</h3>
+                        <p className="text-muted-foreground">Receive a diagnosis, treatment plan, and prescriptions if needed.</p>
                     </div>
                 </div>
             </div>
         </section>
-
-        {/* Ad Section */}
-        <section className="py-12">
-            <div className="container mx-auto px-4">
-                <Link href="#" className="group block">
-                     <Card className="overflow-hidden md:flex items-center bg-card shadow-lg hover:shadow-xl transition-shadow">
-                        {adImage && (
-                             <div className="md:w-1/2 h-64 md:h-auto relative">
-                                <Image src={adImage.imageUrl} alt="Advertisement" fill className="object-cover" data-ai-hint={adImage.imageHint} />
-                            </div>
-                        )}
-                        <div className="p-8 md:w-1/2">
-                            <h2 className="text-2xl md:text-3xl font-headline text-primary">Save even more with Zuma Gold</h2>
-                            <p className="mt-2 text-foreground/80">Get exclusive prices on thousands of prescriptions and pay as little as $2. Plus, get telehealth visits starting at $19.</p>
-                             <Button className="mt-4" variant="default" size="lg">
-                                Start Your Free Trial <ArrowRight className="ml-2" />
-                            </Button>
-                        </div>
-                    </Card>
-                </Link>
+        
+        {/* Ad Banner for Gold */}
+        <section className="py-12 bg-yellow-400/20">
+            <div className="container mx-auto px-4 text-center">
+                <h2 className="text-2xl md:text-3xl font-headline text-yellow-800">Become a Zuma Gold Member</h2>
+                <p className="mt-2 text-yellow-700/80 max-w-2xl mx-auto">Get exclusive pricing on meds, unlimited $25 doctor visits, and more for just $99/year.</p>
+                <Button asChild size="lg" className="mt-6 bg-yellow-500 hover:bg-yellow-600 text-yellow-900">
+                    <Link href="/app/billing">Learn More <ArrowRight className="ml-2" /></Link>
+                </Button>
             </div>
         </section>
 
-        {/* Health Information Section */}
-        <section className="py-12 bg-secondary">
-             <div className="container mx-auto px-4">
-                <h2 className="text-3xl font-headline text-center mb-8">Get the latest on your health</h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {healthTopics.map((topic) => {
-                        const topicImage = PlaceHolderImages.find(p => p.id === topic.imageId);
-                        return (
-                             <Link href="#" key={topic.title} className="group block">
-                                <Card className="overflow-hidden h-full flex flex-col">
-                                    {topicImage && (
-                                        <div className="h-48 relative">
-                                            <Image src={topicImage.imageUrl} alt={topic.title} fill className="object-cover" data-ai-hint={topicImage.imageHint} />
-                                        </div>
-                                    )}
-                                    <CardHeader>
-                                        <p className="text-sm font-semibold text-primary">{topic.category}</p>
-                                        <CardTitle className="text-xl group-hover:text-primary transition-colors">{topic.title}</CardTitle>
-                                    </CardHeader>
-                                </Card>
-                            </Link>
-                        )
-                    })}
-                </div>
+        {/* Treatments Section */}
+        <section className="py-16">
+            <div className="container mx-auto px-4">
+                 <h2 className="text-3xl font-headline text-center mb-2">Find care for your condition</h2>
+                 <p className="text-center text-muted-foreground mb-8 max-w-xl mx-auto">From urgent care to chronic conditions, we've got you covered. Here are some of our popular treatments.</p>
+                <Carousel
+                    opts={{
+                        align: "start",
+                        loop: true,
+                    }}
+                    className="w-full"
+                >
+                    <CarouselContent>
+                         {treatments.map((treatment) => {
+                            const image = PlaceHolderImages.find(p => p.id === treatment.imageId);
+                            return (
+                                <CarouselItem key={treatment.name} className="md:basis-1/2 lg:basis-1/3">
+                                    <Link href="#" className="group block h-full">
+                                        <Card className="overflow-hidden h-full flex flex-col shadow-lg hover:shadow-2xl transition-shadow duration-300">
+                                            {image && (
+                                                <div className="h-56 relative">
+                                                    <Image src={image.imageUrl} alt={treatment.name} fill className="object-cover" data-ai-hint={image.imageHint} />
+                                                </div>
+                                            )}
+                                            <CardHeader>
+                                                <p className="text-sm font-semibold text-primary">{treatment.category}</p>
+                                                <CardTitle className="text-xl group-hover:text-primary transition-colors">{treatment.name}</CardTitle>
+                                            </CardHeader>
+                                             <CardContent className="flex-grow flex items-end">
+                                                <p className="text-primary font-semibold group-hover:underline">Learn More <ArrowRight className="inline h-4 w-4 ml-1" /></p>
+                                            </CardContent>
+                                        </Card>
+                                    </Link>
+                                </CarouselItem>
+                            );
+                        })}
+                    </CarouselContent>
+                    <CarouselPrevious className="hidden sm:flex" />
+                    <CarouselNext className="hidden sm:flex" />
+                </Carousel>
             </div>
         </section>
-
-
-        <section id="specialties" className="py-16">
+        
+        {/* Specialties Section */}
+        <section id="specialties" className="py-16 bg-secondary">
             <div className="container mx-auto px-4">
-                <h2 className="text-3xl font-headline text-center mb-8">Find a doctor for your problem</h2>
-                <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-8 gap-x-4 gap-y-8 text-center">
+                <h2 className="text-3xl font-headline text-center mb-8">All the specialists you need</h2>
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-x-4 gap-y-8 text-center">
                     {specialties.map((specialty) => (
                         <Link href="#" key={specialty.name} className="flex flex-col items-center gap-2 group">
-                            <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center group-hover:bg-primary/20 transition-colors">
-                                <specialty.icon className="h-8 w-8 text-primary" />
+                            <div className="w-20 h-20 bg-background rounded-full flex items-center justify-center group-hover:bg-primary/10 transition-colors shadow-md">
+                                <specialty.icon className="h-10 w-10 text-primary" />
                             </div>
-                            <p className="text-sm font-medium text-foreground">{specialty.name}</p>
+                            <p className="text-base font-medium text-foreground group-hover:text-primary">{specialty.name}</p>
                         </Link>
                     ))}
                 </div>
@@ -143,3 +171,5 @@ export default function Home() {
     </div>
   );
 }
+
+    

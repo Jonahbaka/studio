@@ -3,91 +3,91 @@
     {
       "id": "hero",
       "description": "A compassionate doctor consulting with a patient via a tablet.",
-      "imageUrl": "https://images.unsplash.com/photo-1758691462848-ba1e929da259?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxtZWRpY2FsJTIwcHJvZmVzc2lvbmFsJTIwdGVsZWhlYWx0aHxlbnwwfHx8fDE3NjI5ODIwMzd8MA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "medical professional telehealth"
+      "imageUrl": "https://images.unsplash.com/photo-1758691462848-ba1e929da259?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8dGVsZWhlYWx0aCUyMGNvbnN1bHRhdGlvbnxlbnwwfHx8fDE3NjMzNTU2Mzd8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "telehealth consultation"
     },
     {
       "id": "practo-clinic",
       "description": "A female doctor smiling at her desk in a clinic.",
-      "imageUrl": "https://images.unsplash.com/photo-1685022036574-12bffde5e2b7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxmZW1hbGUlMjBkb2N0b3IlMjBjbGluaWN8ZW58MHx8fHwxNzYzMjgzMjIyfDA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "female doctor clinic"
+      "imageUrl": "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxmZW1hbGUlMjBkb2N0b3J8ZW58MHx8fHwxNzYzMjc1NTk1fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "female doctor"
     },
     {
       "id": "practo-video",
       "description": "A male doctor waving during a video consultation on a smartphone.",
-      "imageUrl": "https://images.unsplash.com/photo-1758691463393-a2aa9900af8a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxtYWxlJTIwZG9jdG9yJTIwdmlkZW98ZW58MHx8fHwxNzYzMjgzMjIyfDA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "male doctor video"
+      "imageUrl": "https://images.unsplash.com/photo-1659353888306-e06177765540?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxkb2N0b3IlMjB2aWRlb3xlbnwwfHx8fDE3NjMzNTU2Mzd8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "doctor video"
     },
     {
       "id": "treatment2",
       "description": "Close up of a man's hair.",
-      "imageUrl": "https://images.unsplash.com/photo-1574621100236-d25b64cfd647?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxoYWlyJTIwY2FyZXxlbnwwfHx8fDE3NjI5ODIwMzd8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1500917293891-ef795e70e1f6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxoYWlyJTIwY2FyZXxlbnwwfHx8fDE3NjMzMTY1ODZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "hair care"
     },
     {
       "id": "treatment3",
       "description": "A man working out, representing strength and testosterone.",
-      "imageUrl": "https://images.unsplash.com/photo-1683934808546-cfea6e3d7d56?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxmaXRuZXNzJTIwc3RyZW5ndGh8ZW58MHx8fHwxNzYyOTAxODQ5fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1738523686787-7bdf0e63c8f3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxmaXRuZXNzJTIwc3RyZW5ndGh8ZW58MHx8fHwxNzYzMzU1NjM3fDA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "fitness strength"
     },
     {
       "id": "treatment4",
       "description": "A calm and serene landscape, representing mental peace.",
-      "imageUrl": "https://images.unsplash.com/photo-1705747894563-f47ca490bca4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzZXJlbmUlMjBsYW5kc2NhcGV8ZW58MHx8fHwxNzYyOTI5ODA4fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1705747894529-df18ecf5025e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxzZXJlbmUlMjBsYW5kc2NhcGV8ZW58MHx8fHwxNzYzMjg1MjM0fDA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "serene landscape"
     },
     {
       "id": "treatment5",
       "description": "A first aid kit, representing urgent care.",
-      "imageUrl": "https://images.unsplash.com/photo-1609840534195-e6385ca0d10a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8Zmlyc3QlMjBhaWR8ZW58MHx8fHwxNzYyOTI1NTQ1fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1630964046403-8b745c1e3c69?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxmaXJzdCUyMGFpZHxlbnwwfHx8fDE3NjMzMDk5Mzh8MA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "first aid"
     },
     {
       "id": "treatment6",
       "description": "Fresh fruits and vegetables, representing wellness.",
-      "imageUrl": "https://images.unsplash.com/photo-1540420773420-3366772f4999?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxoZWFsdGh5JTIwZm9vZHxlbnwwfHx8fDE3NjI5MTkwMDV8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1498837167922-ddd27525d352?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxoZWFsdGh5JTIwZm9vZHxlbnwwfHx8fDE3NjMyNzQxOTZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "healthy food"
     },
     {
       "id": "avatar1",
       "description": "Avatar for a male patient.",
-      "imageUrl": "https://images.unsplash.com/photo-1522556189639-b150ed9c4330?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxtYW4lMjBwb3J0cmFpdHxlbnwwfHx8fDE3NjI5NTI2MDJ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1636377985931-898218afd306?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxtYW4lMjBwb3J0cmFpdHxlbnwwfHx8fDE3NjMyODUxOTZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "man portrait"
     },
     {
       "id": "avatar2",
       "description": "Avatar for a female patient.",
-      "imageUrl": "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHx3b21hbiUyMHBvcnRyYWl0fGVufDB8fHx8MTc2Mjg4ODYyM3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1557053910-d9eadeed1c58?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHx3b21hbiUyMHBvcnRyYWl0fGVufDB8fHx8MTc2MzMyODY5NXww&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "woman portrait"
     },
     {
       "id": "avatar3",
       "description": "Avatar for another patient.",
-      "imageUrl": "https://images.unsplash.com/photo-1600180758890-6b94519a8ba6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxwZXJzb24lMjBwb3J0cmFpdHxlbnwwfHx8fDE3NjI5MzU5MTR8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxwZXJzb24lMjBwb3J0cmFpdHxlbnwwfHx8fDE3NjMyNTYwOTF8MA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "person portrait"
     },
     {
       "id": "doctor1",
       "description": "Portrait of a male doctor.",
-      "imageUrl": "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxtYWxlJTIwZG9jdG9yfGVufDB8fHx8MTc2Mjk2OTc3NHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1637059824899-a441006a6875?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxtYWxlJTIwZG9jdG9yfGVufDB8fHx8MTc2MzM1NTYzN3ww&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "male doctor"
     },
     {
       "id": "doctor2",
       "description": "Portrait of a female doctor.",
-      "imageUrl": "https://images.unsplash.com/photo-1673865641073-4479f93a7776?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxmZW1hbGUlMjBkb2N0b3J8ZW58MHx8fHwxNzYyOTE5ODY3fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1638202993928-7267aad84c31?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxmZW1hbGUlMjBkb2N0b3J8ZW58MHx8fHwxNzYzMjc1NTk1fDA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "female doctor"
     },
     {
       "id": "goodrx-ad-1",
       "description": "Advertisement for a mobile app showing prescription savings.",
-      "imageUrl": "https://images.unsplash.com/photo-1623511907283-2803370a1642?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxtb2JpbGUlMjBhcHAlMjBwcmVzY3JpcHRpb258ZW58MHx8fHwxNzYzMzU1MzgxfDA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "mobile app prescription"
+      "imageUrl": "https://images.unsplash.com/photo-1514575110897-1253ff7b2ccb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxtb2JpbGUlMjBhcHB8ZW58MHx8fHwxNzYzMzQ4MTEzfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "mobile app"
     },
     {
       "id": "goodrx-info-1",
       "description": "Informational card about cold and flu season.",
-      "imageUrl": "https://images.unsplash.com/photo-1634128221567-3220e071d1ea?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxjb2xkJTIwZmx1fGVufDB8fHx8MTc2MzM1NTM4MXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1616408621653-6755190009a3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxjb2xkJTIwZmx1fGVufDB8fHx8MTc2MzM1NTM4MXww&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "cold flu"
     },
     {
