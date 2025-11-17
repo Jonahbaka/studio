@@ -1,41 +1,24 @@
 
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { MapPin, Search, Loader2, Pill, Stethoscope, Beaker } from 'lucide-react';
+import { MapPin, Search, Loader2, Stethoscope } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { Separator } from '../ui/separator';
 
-const searchTerms = [
-    { term: "medication", icon: Pill },
-    { term: "treatment", icon: Stethoscope },
-    { term: "doctor", icon: Stethoscope },
-    { term: "lab", icon: Beaker },
-    { term: "pharmacy", icon: Pill },
-];
-
 export function LocationSearch() {
-    const [currentTermIndex, setCurrentTermIndex] = useState(0);
     const [searchQuery, setSearchQuery] = useState('');
     const [location, setLocation] = useState('');
     const [coords, setCoords] = useState<{lat: number, lon: number} | null>(null);
     const [isLocating, setIsLocating] = useState(false);
     const { toast } = useToast();
     const router = useRouter();
-
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setCurrentTermIndex((prevIndex) => (prevIndex + 1) % searchTerms.length);
-        }, 3000); // Change text every 3 seconds
-        return () => clearInterval(interval);
-    }, []);
-
-    const CurrentIcon = searchTerms[currentTermIndex].icon;
-    const placeholder = `Search for a ${searchTerms[currentTermIndex].term}...`;
+    
+    const placeholder = `Search for doctors, treatments, pharmacies...`;
 
     const handleGeoLocation = () => {
         if (!navigator.geolocation) {
@@ -73,7 +56,7 @@ export function LocationSearch() {
 
     const handleSearch = (e: React.FormEvent) => {
         e.preventDefault();
-        const finalQuery = searchQuery || searchTerms[currentTermIndex].term;
+        const finalQuery = searchQuery || 'doctor';
         
         let url = `/search?q=${encodeURIComponent(finalQuery)}`;
         if (coords) {
@@ -94,7 +77,7 @@ export function LocationSearch() {
                     <div className="flex h-14 w-full items-center rounded-full bg-background shadow-inner border">
                         {/* Search Query Input */}
                         <div className="relative flex h-full flex-grow items-center">
-                            <CurrentIcon className="absolute left-4 h-5 w-5 text-muted-foreground" />
+                            <Stethoscope className="absolute left-4 h-5 w-5 text-muted-foreground" />
                             <Input
                                 type="search"
                                 placeholder={placeholder}

@@ -6,34 +6,36 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: '2024-06-20',
 });
 
+const getOrCreateProduct = async (name: string) => {
+    const products = await stripe.products.list({ limit: 1, active: true });
+    let product = products.data.find(p => p.name === name);
+    if (!product) {
+        product = await stripe.products.create({ name });
+    }
+    return product;
+};
+
+const getOrCreatePrice = async (productId: string, amount: number, interval?: Stripe.Price.Recurring.Interval) => {
+    const prices = await stripe.prices.list({ product: productId, active: true });
+    let price = prices.data.find(p => p.unit_amount === amount && p.recurring?.interval === interval);
+    if (!price) {
+        price = await stripe.prices.create({
+            product: productId,
+            unit_amount: amount,
+            currency: 'usd',
+            ...(interval && { recurring: { interval } }),
+        });
+    }
+    return price;
+};
+
+
 const handleSubscription = async (plan: string, returnUrl: string) => {
-    let price;
-    const productName = 'Zuma Gold Membership';
-
     try {
-        // Check if product exists
-        const products = await stripe.products.list({ limit: 1, active: true });
-        let product = products.data.find(p => p.name === productName);
-
-        if (!product) {
-            product = await stripe.products.create({ name: productName });
-        }
-
-        if (plan === 'yearly') {
-            price = await stripe.prices.create({
-                product: product.id,
-                unit_amount: 12000, // $120.00
-                currency: 'usd',
-                recurring: { interval: 'year' },
-            });
-        } else { // default to monthly
-            price = await stripe.prices.create({
-                product: product.id,
-                unit_amount: 2500, // $25.00
-                currency: 'usd',
-                recurring: { interval: 'month' },
-            });
-        }
+        const product = await getOrCreateProduct('Zuma Gold Membership');
+        const amount = plan === 'yearly' ? 12000 : 2500;
+        const interval = plan === 'yearly' ? 'year' : 'month';
+        const price = await getOrCreatePrice(product.id, amount, interval);
         
         const session = await stripe.checkout.sessions.create({
             ui_mode: 'embedded',
@@ -55,15 +57,8 @@ const handleSubscription = async (plan: string, returnUrl: string) => {
 
 const handleOneTimePayment = async (visitId: string, returnUrl: string) => {
      try {
-        const product = await stripe.products.create({
-          name: `ZumaTeledoc Consultation (Visit: ${visitId.substring(0,8)})`,
-        });
-
-        const price = await stripe.prices.create({
-          product: product.id,
-          unit_amount: 4900, // $49.00
-          currency: 'usd',
-        });
+        const product = await getOrCreateProduct(`ZumaTeledoc Consultation`);
+        const price = await getOrCreatePrice(product.id, 4900);
         
         const session = await stripe.checkout.sessions.create({
           ui_mode: 'embedded',
@@ -91,7 +86,6 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'A Visit ID or Subscription Plan is required' }, { status: 400 });
   }
   
-  // The return_url depends on what is being purchased
   const baseUrl = request.headers.get('origin') || 'http://localhost:3000';
   const returnUrl = `${baseUrl}/return?session_id={CHECKOUT_SESSION_ID}${visitId ? `&visitId=${visitId}` : ''}${plan ? `&plan=${plan}` : ''}`;
 
