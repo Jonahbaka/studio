@@ -172,7 +172,7 @@ export default function PatientPortalLayout({
             <div className="flex-1">
                 <h1 className="text-xl font-headline">Patient Portal</h1>
             </div>
-             {!user.emailVerified && (
+             {user.email && !user.emailVerified && (
                 <div className="flex items-center gap-2 text-xs text-destructive-foreground bg-destructive p-2 rounded-md">
                     <span>Please verify your email address.</span>
                      <Button
