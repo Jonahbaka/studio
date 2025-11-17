@@ -98,27 +98,27 @@
     },
     {
       "id": "feature-video",
-      "description": "A person on a video call with a doctor.",
-      "imageUrl": "https://images.unsplash.com/photo-1659353887977-c310d90c751a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHx2aWRlbyUyMGNhbGwlMjBkb2N0b3J8ZW58MHx8fHwxNzYzMzU4ODg4fDA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "video call doctor"
+      "description": "A friendly doctor on a laptop screen during a video call.",
+      "imageUrl": "https://images.unsplash.com/photo-1584515933487-779824d29309?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzNDE5ODJ8MHwxfHNlYXJjaHwzfHxkb2N0b3IlMjB2aWRlbyUyMGNhbGx8ZW58MHx8fHwxNzY0NzUwNDI4fDA&ixlib=rb-4.0.3&q=80&w=1080",
+      "imageHint": "doctor video call"
     },
     {
       "id": "feature-find",
-      "description": "A map interface showing locations of doctors.",
-      "imageUrl": "https://images.unsplash.com/photo-1527824786100-2787b7fdc674?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxkb2N0b3IlMjBtYXB8ZW58MHx8fHwxNzYzMzU4ODg4fDA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "doctor map"
+      "description": "A person using a smartphone to search for doctors on a map.",
+      "imageUrl": "https://images.unsplash.com/photo-1621927734438-a2b85c13e5ad?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzNDE5ODJ8MHwxfHNlYXJjaHwxfHxkb2N0b3IlMjBzZWFyY2glMjBtb2JpbGV8ZW58MHx8fHwxNzY0NzUwNTM4fDA&ixlib=rb-4.0.3&q=80&w=1080",
+      "imageHint": "doctor search mobile"
     },
     {
       "id": "feature-gold",
-      "description": "Abstract gold patterns.",
-      "imageUrl": "https://images.unsplash.com/photo-1608935405374-223bbea5d535?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxnb2xkJTIwcGF0dGVybnxlbnwwfHx8fDE3NjMzNTg4ODh8MA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "gold pattern"
+      "description": "An abstract, luxurious gold texture.",
+      "imageUrl": "https://images.unsplash.com/photo-1554189097-9491f0f3a696?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzNDE5ODJ8MHwxfHNlYXJjaHw0fHxnb2xkJTIwdGV4dHVyZXxlbnwwfHx8fDE3NjQ3NTA2MDd8MA&ixlib=rb-4.0.3&q=80&w=1080",
+      "imageHint": "gold texture"
     },
     {
       "id": "feature-meds",
-      "description": "A variety of pills and capsules.",
-      "imageUrl": "https://images.unsplash.com/photo-1668453569370-789848f41ebe?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxwaWxscyUyMG1lZGljYXRpb258ZW58MHx8fHwxNzYzMzExNDczfDA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "pills medication"
+      "description": "A close-up of various colorful pills and capsules.",
+      "imageUrl": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzNDE5ODJ8MHwxfHNlYXJjaHwxfHxwaWxscyUyMG1lZGljaW5lfGVufDB8fHx8MTc2NDc1MDY3N3ww&ixlib=rb-4.0.3&q=80&w=1080",
+      "imageHint": "pills medicine"
     }
   ]
 }
