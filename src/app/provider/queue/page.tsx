@@ -32,16 +32,18 @@ function WaitingRoomContent() {
     );
     const { data: userProfile, isLoading: isProfileLoading } = useDoc(userProfileRef);
 
+    // **FIX**: Only create the query if the user is confirmed to be a provider.
     const isProvider = userProfile && ['doctor', 'nurse', 'admin'].includes(userProfile.role);
 
     const waitingRoomQuery = useMemoFirebase(
       () => (firestore && isProvider) ? query(collection(firestore, 'visits'), where('status', '==', 'Waiting')) : null,
-      [firestore, isProvider]
+      [firestore, isProvider] // Dependency ensures query re-evaluates when isProvider is known.
     );
 
     const { data: waitingRoom, isLoading: isWaitingRoomLoading } = useCollection(waitingRoomQuery);
 
-    const isLoading = isProfileLoading || isWaitingRoomLoading;
+    // The component is loading if we are still fetching the user profile OR the waiting room data.
+    const isLoading = isProfileLoading || (isProvider && isWaitingRoomLoading);
 
     function calculateWaitTime(createdAt: any) {
         if (!createdAt?.toDate) return '...';

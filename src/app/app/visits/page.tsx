@@ -19,10 +19,11 @@ import { format } from "date-fns";
 import { Loader2, Video, PlusCircle, CalendarPlus, Sparkles } from "lucide-react";
 
 export default function MyVisitsPage() {
-  const { user } = useUser();
+  const { user, isUserLoading } = useUser(); // Get loading state for user
   const firestore = useFirestore();
 
   const visitsQuery = useMemoFirebase(() => 
+    // **FIX**: Only create the query if the user object is available.
     firestore && user ? 
       query(
         collection(firestore, 'visits'), 
@@ -32,7 +33,10 @@ export default function MyVisitsPage() {
     [firestore, user]
   );
 
-  const { data: visits, isLoading, error } = useCollection(visitsQuery);
+  const { data: visits, isLoading: areVisitsLoading, error } = useCollection(visitsQuery);
+  
+  // The component is loading if the user is still authenticating OR if the visits are being fetched.
+  const isLoading = isUserLoading || areVisitsLoading;
 
   const getStatusVariant = (status: string): "default" | "secondary" | "destructive" | "outline" => {
     switch (status) {
