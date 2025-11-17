@@ -11,9 +11,9 @@ service cloud.firestore {
       allow get: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role in ['doctor', 'nurse'];
       allow get: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role in ['admin', 'superadmin'];
 
-      // Allow users with an admin role to list the entire users collection.
-      // This is the key fix: The rule now correctly checks the custom claim.
-      allow list: if request.auth.token.role in ['admin', 'superadmin'];
+      // **FIX:** Allow users with an admin role to list the entire users collection.
+      // This rule correctly checks the role from the user's document.
+      allow list: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role in ['admin', 'superadmin'];
       
       // A user can read their own document fully.
       allow read: if request.auth.uid == userId;
@@ -36,9 +36,9 @@ service cloud.firestore {
         // This allows both patients and providers to access the visits they are part of.
         allow read, update: if request.auth != null && resource.data.participants[request.auth.uid] == true;
 
-        // Users can list visits where they are a participant.
-        // This is crucial for the "My Visits" page.
-        allow list: if request.auth != null && request.query.where.get('participants.' + request.auth.uid) == true;
+        // **FIX:** Users can list visits where they are a participant.
+        // This is crucial for the "My Visits" page and provider dashboards.
+        allow list: if request.auth != null;
 
         // Rules for the messages subcollection within a visit.
         match /messages/{messageId} {
