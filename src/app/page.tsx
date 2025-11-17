@@ -37,8 +37,9 @@ const treatments = [
 
 export default function Home() {
   const heroImage = PlaceHolderImages.find(p => p.id === 'hero');
-  const videoImage = PlaceHolderImages.find(p => p.id === 'practo-video');
-  const clinicImage = PlaceHolderImages.find(p => p.id === 'practo-clinic');
+  const step1Image = PlaceHolderImages.find(p => p.id === 'step-search-diverse');
+  const step2Image = PlaceHolderImages.find(p => p.id === 'step-book-diverse');
+  const step3Image = PlaceHolderImages.find(p => p.id === 'step-consult-diverse');
 
   return (
     <div className="flex flex-col min-h-screen bg-background">
@@ -67,42 +68,40 @@ export default function Home() {
             </div>
         </section>
 
-        {/* Value Prop Section */}
-        <section className="py-16 bg-secondary">
-          <div className="container mx-auto px-4">
-            <div className="grid md:grid-cols-2 gap-8">
-              <Card className="overflow-hidden shadow-lg">
-                <CardContent className="p-0">
-                  <div className="p-6">
-                    <CardTitle className="text-2xl font-headline">Instant Video Consultation</CardTitle>
-                    <p className="text-muted-foreground mt-1">Connect within 60 secs</p>
-                    <ul className="mt-4 space-y-2 text-sm">
-                      <li className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-green-500"/> Verified doctors</li>
-                      <li className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-green-500"/> 100% private and confidential</li>
-                    </ul>
-                  </div>
-                  <div className="relative h-48 bg-gray-200">
-                    {videoImage && <Image src={videoImage.imageUrl} alt="Video Consultation" fill className="object-cover" data-ai-hint={videoImage.imageHint}/>}
-                  </div>
-                </CardContent>
-              </Card>
-               <Card className="overflow-hidden shadow-lg">
-                <CardContent className="p-0">
-                  <div className="p-6">
-                    <CardTitle className="text-2xl font-headline">Find Doctors Near You</CardTitle>
-                    <p className="text-muted-foreground mt-1">Confirmed appointments</p>
-                     <ul className="mt-4 space-y-2 text-sm">
-                      <li className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-green-500"/> In-clinic and video options</li>
-                      <li className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-green-500"/> Book appointments with top specialists</li>
-                    </ul>
-                  </div>
-                  <div className="relative h-48 bg-gray-200">
-                    {clinicImage && <Image src={clinicImage.imageUrl} alt="Find Doctors" fill className="object-cover" data-ai-hint={clinicImage.imageHint}/>}
-                  </div>
-                </CardContent>
-              </Card>
+        {/* How It Works Section */}
+        <section className="py-16">
+            <div className="container mx-auto px-4">
+                <h2 className="text-3xl font-headline text-center mb-8">Get Started in 3 Easy Steps</h2>
+                <div className="grid md:grid-cols-3 gap-8 text-center">
+                    <Card className="shadow-lg">
+                        <CardHeader>
+                            {step1Image && <Image src={step1Image.imageUrl} alt={step1Image.description} width={200} height={200} className="w-32 h-32 rounded-full mx-auto object-cover mb-4" data-ai-hint={step1Image.imageHint}/>}
+                            <CardTitle>1. Find Your Provider</CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                            <p className="text-muted-foreground">Search for doctors by specialty, condition, or name. Find the right care for you, anytime.</p>
+                        </CardContent>
+                    </Card>
+                     <Card className="shadow-lg">
+                        <CardHeader>
+                            {step2Image && <Image src={step2Image.imageUrl} alt={step2Image.description} width={200} height={200} className="w-32 h-32 rounded-full mx-auto object-cover mb-4" data-ai-hint={step2Image.imageHint}/>}
+                            <CardTitle>2. Book a Consultation</CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                            <p className="text-muted-foreground">Choose an in-person appointment or start an instant video visit in minutes.</p>
+                        </CardContent>
+                    </Card>
+                     <Card className="shadow-lg">
+                        <CardHeader>
+                            {step3Image && <Image src={step3Image.imageUrl} alt={step3Image.description} width={200} height={200} className="w-32 h-32 rounded-full mx-auto object-cover mb-4" data-ai-hint={step3Image.imageHint}/>}
+                            <CardTitle>3. Get Care</CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                            <p className="text-muted-foreground">Talk to a licensed provider, get a diagnosis, and receive a treatment plan.</p>
+                        </CardContent>
+                    </Card>
+                </div>
             </div>
-          </div>
         </section>
         
         {/* Ad Banner for Gold */}
