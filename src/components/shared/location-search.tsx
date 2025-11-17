@@ -1,7 +1,7 @@
-
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -23,6 +23,7 @@ export function LocationSearch() {
     const [location, setLocation] = useState('');
     const [isLocating, setIsLocating] = useState(false);
     const { toast } = useToast();
+    const router = useRouter();
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -68,10 +69,10 @@ export function LocationSearch() {
 
     const handleSearch = (e: React.FormEvent) => {
         e.preventDefault();
-        toast({
-            title: "Search Submitted (Demo)",
-            description: `Searching for "${searchQuery || searchTerms[currentTermIndex].term}" near "${location || 'your area'}".`,
-        });
+        const finalQuery = searchQuery || searchTerms[currentTermIndex].term;
+        const finalLocation = location || 'anywhere';
+
+        router.push(`/search?q=${encodeURIComponent(finalQuery)}&location=${encodeURIComponent(finalLocation)}`);
     }
 
     return (
