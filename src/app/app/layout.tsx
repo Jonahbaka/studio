@@ -26,11 +26,14 @@ import {
   Video,
   Loader2,
   DollarSign,
+  Mail,
 } from "lucide-react";
 import { useUser, useAuth, useFirestore } from "@/firebase";
-import { signOut } from "firebase/auth";
-import { useEffect } from "react";
+import { sendEmailVerification, signOut } from "firebase/auth";
+import { useEffect, useState } from "react";
 import { BottomNavBar } from "@/components/shared/bottom-nav-bar";
+import { Button } from "@/components/ui/button";
+import { useToast } from "@/hooks/use-toast";
 
 
 const menuItems = [
@@ -51,16 +54,15 @@ export default function PatientPortalLayout({
   const auth = useAuth();
   const firestore = useFirestore(); // Get firestore instance
   const router = useRouter();
+  const { toast } = useToast();
+  const [isResending, setIsResending] = useState(false);
+
 
   const isLoading = isUserLoading || !firestore;
 
   useEffect(() => {
     if (!isLoading && !user) {
       router.push('/login');
-    } else if (!isLoading && user && !user.emailVerified) {
-        // Optional: you can add a banner or a modal to prompt for verification
-        // For now, we allow access but they may be restricted in certain features.
-        console.log("User email is not verified.");
     }
   }, [isLoading, user, router]);
 
@@ -68,6 +70,29 @@ export default function PatientPortalLayout({
     if (auth) {
       await signOut(auth);
       router.push('/login');
+    }
+  };
+  
+  const handleResendVerification = async () => {
+    if (!user) {
+        toast({ variant: "destructive", title: "Not Logged In", description: "You must be logged in to resend a verification email."});
+        return;
+    }
+    setIsResending(true);
+    try {
+        await sendEmailVerification(user);
+        toast({
+            title: "Email Sent!",
+            description: "A new verification email has been sent to your address. Please check your inbox."
+        });
+    } catch (error: any) {
+        toast({
+            variant: "destructive",
+            title: "Error Sending Email",
+            description: error.message || "Could not send the verification email. Please try again later."
+        });
+    } finally {
+        setIsResending(false);
     }
   };
 
@@ -148,8 +173,17 @@ export default function PatientPortalLayout({
                 <h1 className="text-xl font-headline">Patient Portal</h1>
             </div>
              {!user.emailVerified && (
-                <div className="text-xs text-destructive-foreground bg-destructive p-2 rounded-md">
-                    Please verify your email address.
+                <div className="flex items-center gap-2 text-xs text-destructive-foreground bg-destructive p-2 rounded-md">
+                    <span>Please verify your email address.</span>
+                     <Button
+                        size="sm"
+                        variant="destructive"
+                        className="h-auto px-2 py-0.5 border border-destructive-foreground/50 hover:bg-destructive/80"
+                        onClick={handleResendVerification}
+                        disabled={isResending}
+                    >
+                        {isResending ? <Loader2 className="h-4 w-4 animate-spin"/> : <><Mail className="mr-1 h-3 w-3"/> Resend Email</>}
+                    </Button>
                 </div>
              )}
         </header>
