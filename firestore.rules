@@ -15,8 +15,8 @@ service cloud.firestore {
     // Allow admins to read/write license requests.
     // Allow users to create their own license request.
     match /licenseRequests/{requestId} {
-      // Use custom claims for role-based access.
-      allow read, write: if request.auth.token.role in ['admin', 'superadmin'];
+      // Use a direct role check on the user's document for security.
+      allow read, write: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role in ['admin', 'superadmin'];
       allow create: if request.auth.uid == requestId;
     }
 
@@ -32,12 +32,11 @@ service cloud.firestore {
       }
     }
     
-    // Providers/Admins can query the waiting room for 'Waiting' patients.
-    // Patients can query for their own visits.
-    // This rule is now based on custom claims for performance and security.
+    // Providers/Admins can list 'Waiting' patients.
+    // Patients can list their own visits.
     match /visits/{visitId} {
-       allow list: if (request.auth.token.role in ['doctor', 'nurse', 'admin'] && request.query.where.size() == 1 && request.query.where[0][0] == 'status' && request.query.where[0][1] == '==' && request.query.where[0][2] == 'Waiting')
-                      || (request.query.where.size() == 1 && request.query.where[0][0] == 'participants.' + request.auth.uid && request.query.where[0][1] == '==' && request.query.where[0][2] == true);
+       allow list: if (get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role in ['doctor', 'nurse', 'admin'] && request.query.where[0][0] == 'status' && request.query.where[0][1] == '==' && request.query.where[0][2] == 'Waiting')
+                      || (request.query.where[0][0] == 'participants.' + request.auth.uid && request.query.where[0][1] == '==' && request.query.where[0][2] == true);
     }
 
     // Fallback for other collections - requires authentication
