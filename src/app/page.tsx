@@ -3,7 +3,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowRight, Brain, Stethoscope, Video, Droplet, Bone, Baby, HeartPulse } from 'lucide-react';
+import { ArrowRight, Brain, Stethoscope, Video, Droplet, Bone, Baby, HeartPulse, CheckCircle } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -37,6 +37,8 @@ const treatments = [
 
 export default function Home() {
   const heroImage = PlaceHolderImages.find(p => p.id === 'hero');
+  const videoImage = PlaceHolderImages.find(p => p.id === 'practo-video');
+  const clinicImage = PlaceHolderImages.find(p => p.id === 'practo-clinic');
 
   return (
     <div className="flex flex-col min-h-screen bg-background">
@@ -65,34 +67,42 @@ export default function Home() {
             </div>
         </section>
 
-        {/* How It Works Section */}
-        <section className="py-16 bg-background">
-            <div className="container mx-auto px-4">
-                <h2 className="text-3xl font-headline text-center mb-10">Consult a Doctor in 3 Easy Steps</h2>
-                <div className="grid md:grid-cols-3 gap-8 text-center">
-                    <div className="flex flex-col items-center">
-                        <div className="flex items-center justify-center w-16 h-16 rounded-full bg-accent text-accent-foreground mb-4">
-                            <span className="text-2xl font-bold">1</span>
-                        </div>
-                        <h3 className="text-xl font-semibold mb-2">Find a Doctor</h3>
-                        <p className="text-muted-foreground">Search by specialty and book a consultation that fits your schedule.</p>
-                    </div>
-                     <div className="flex flex-col items-center">
-                        <div className="flex items-center justify-center w-16 h-16 rounded-full bg-accent text-accent-foreground mb-4">
-                            <span className="text-2xl font-bold">2</span>
-                        </div>
-                        <h3 className="text-xl font-semibold mb-2">Start Your Visit</h3>
-                        <p className="text-muted-foreground">Connect with your doctor via our secure video platform from anywhere.</p>
-                    </div>
-                     <div className="flex flex-col items-center">
-                        <div className="flex items-center justify-center w-16 h-16 rounded-full bg-accent text-accent-foreground mb-4">
-                            <span className="text-2xl font-bold">3</span>
-                        </div>
-                        <h3 className="text-xl font-semibold mb-2">Get a Plan</h3>
-                        <p className="text-muted-foreground">Receive a diagnosis, treatment plan, and prescriptions if needed.</p>
-                    </div>
-                </div>
+        {/* Value Prop Section */}
+        <section className="py-16 bg-secondary">
+          <div className="container mx-auto px-4">
+            <div className="grid md:grid-cols-2 gap-8">
+              <Card className="overflow-hidden shadow-lg">
+                <CardContent className="p-0">
+                  <div className="p-6">
+                    <CardTitle className="text-2xl font-headline">Instant Video Consultation</CardTitle>
+                    <p className="text-muted-foreground mt-1">Connect within 60 secs</p>
+                    <ul className="mt-4 space-y-2 text-sm">
+                      <li className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-green-500"/> Verified doctors</li>
+                      <li className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-green-500"/> 100% private and confidential</li>
+                    </ul>
+                  </div>
+                  <div className="relative h-48 bg-gray-200">
+                    {videoImage && <Image src={videoImage.imageUrl} alt="Video Consultation" fill className="object-cover" data-ai-hint={videoImage.imageHint}/>}
+                  </div>
+                </CardContent>
+              </Card>
+               <Card className="overflow-hidden shadow-lg">
+                <CardContent className="p-0">
+                  <div className="p-6">
+                    <CardTitle className="text-2xl font-headline">Find Doctors Near You</CardTitle>
+                    <p className="text-muted-foreground mt-1">Confirmed appointments</p>
+                     <ul className="mt-4 space-y-2 text-sm">
+                      <li className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-green-500"/> In-clinic and video options</li>
+                      <li className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-green-500"/> Book appointments with top specialists</li>
+                    </ul>
+                  </div>
+                  <div className="relative h-48 bg-gray-200">
+                    {clinicImage && <Image src={clinicImage.imageUrl} alt="Find Doctors" fill className="object-cover" data-ai-hint={clinicImage.imageHint}/>}
+                  </div>
+                </CardContent>
+              </Card>
             </div>
+          </div>
         </section>
         
         {/* Ad Banner for Gold */}
