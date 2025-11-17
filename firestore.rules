@@ -20,15 +20,12 @@ service cloud.firestore {
       allow create: if request.auth.uid == requestId;
     }
 
-    // A patient can create a visit for themselves.
-    // A patient or provider can read/update a visit if they are a participant.
-    // Any authenticated user can list visits (for dashboards/queues, filtered on client).
+    // Allow any authenticated user to read or write to the visits collection and its subcollections.
     match /visits/{visitId} {
       allow read, write: if request.auth != null;
       
-      // Messages subcollection
       match /messages/{messageId} {
-         allow read, create: if request.auth != null;
+         allow read, write: if request.auth != null;
       }
     }
   }
