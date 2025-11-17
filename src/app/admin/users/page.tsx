@@ -16,9 +16,11 @@ import { useCollection, useFirestore, useMemoFirebase } from "@/firebase";
 import { collection, query } from "firebase/firestore";
 import { Loader2 } from "lucide-react";
 import { format } from "date-fns";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 function UserTable({ role }: { role: 'patient' | 'doctor' }) {
     const firestore = useFirestore();
+    const isMobile = useIsMobile();
     const usersQuery = useMemoFirebase(() => 
         firestore ? query(collection(firestore, 'users')) : null, // A real app would filter by role
         [firestore]
@@ -30,6 +32,34 @@ function UserTable({ role }: { role: 'patient' | 'doctor' }) {
 
     if (isLoading) {
         return <div className="flex justify-center items-center h-48"><Loader2 className="animate-spin" /></div>
+    }
+
+    if (isMobile) {
+        return (
+            <div className="space-y-4">
+                {filteredUsers.map(user => (
+                    <Card key={user.id}>
+                        <CardContent className="p-4 flex items-center justify-between">
+                            <div className="flex items-center gap-3">
+                                <Avatar className="h-10 w-10">
+                                    <AvatarFallback>{user.firstName?.[0]}{user.lastName?.[0]}</AvatarFallback>
+                                </Avatar>
+                                <div>
+                                    <div className="font-medium">{user.firstName} {user.lastName}</div>
+                                    <div className="text-sm text-muted-foreground">{user.email}</div>
+                                    <div className="text-xs text-muted-foreground">
+                                        Joined: {user.createdAt ? format(user.createdAt.toDate(), 'PPP') : 'N/A'}
+                                    </div>
+                                </div>
+                            </div>
+                            <Badge variant={user.licenseStatus === 'approved' || role === 'patient' ? 'secondary' : 'outline'}>
+                                {role === 'patient' ? 'Active' : user.licenseStatus}
+                            </Badge>
+                        </CardContent>
+                    </Card>
+                ))}
+            </div>
+        )
     }
 
     return (

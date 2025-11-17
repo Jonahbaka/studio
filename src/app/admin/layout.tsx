@@ -29,46 +29,15 @@ import {
 import { useUser, useAuth, useFirestore } from "@/firebase";
 import { signOut } from "firebase/auth";
 import { useEffect } from "react";
-import { cn } from "@/lib/utils";
+import { BottomNavBar } from "@/components/shared/bottom-nav-bar";
 
 const menuItems = [
     { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
     { href: "/admin/users", label: "Users", icon: Users },
     { href: "/admin/billing", label: "Billing", icon: DollarSign },
+    { href: "/provider", label: "Provider", icon: Briefcase },
 ];
 
-function BottomNavBar() {
-    const pathname = usePathname();
-    return (
-        <nav className="fixed bottom-0 left-0 right-0 z-40 h-16 border-t bg-background/95 backdrop-blur-sm md:hidden">
-            <div className="grid h-full grid-cols-4">
-                {menuItems.map((item) => (
-                    <Link
-                        key={item.href}
-                        href={item.href}
-                        className={cn(
-                            "flex flex-col items-center justify-center gap-1 text-xs font-medium",
-                            pathname === item.href ? 'text-primary' : 'text-muted-foreground'
-                        )}
-                    >
-                        <item.icon className="h-5 w-5"/>
-                        <span>{item.label}</span>
-                    </Link>
-                ))}
-                 <Link
-                    href="/provider"
-                    className={cn(
-                        "flex flex-col items-center justify-center gap-1 text-xs font-medium",
-                        'text-muted-foreground'
-                    )}
-                >
-                    <Briefcase className="h-5 w-5" />
-                    <span>Provider</span>
-                </Link>
-            </div>
-        </nav>
-    )
-}
 
 export default function AdminPortalLayout({
   children,
@@ -116,7 +85,7 @@ export default function AdminPortalLayout({
         </SidebarHeader>
         <SidebarContent>
           <SidebarMenu>
-            {menuItems.map((item) => (
+            {menuItems.filter(i => i.href !== '/provider').map((item) => (
               <SidebarMenuItem key={item.href}>
                 <SidebarMenuButton
                   asChild
@@ -182,7 +151,7 @@ export default function AdminPortalLayout({
             </div>
         </header>
         <main className="flex-1 p-4 md:p-6 pb-20 md:pb-6">{children}</main>
-        <BottomNavBar />
+        <BottomNavBar menuItems={menuItems} />
       </SidebarInset>
     </SidebarProvider>
   );

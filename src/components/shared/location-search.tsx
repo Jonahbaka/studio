@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -136,6 +137,32 @@ export function LocationSearch() {
                             <Search className="mr-2 h-5 w-5" />
                             <span className="hidden sm:inline">Search</span>
                         </Button>
+                    </div>
+                     <div className="md:hidden mt-2">
+                        <div className="relative flex h-14 w-full items-center rounded-full bg-background shadow-inner border">
+                             <MapPin className="absolute left-4 h-5 w-5 text-muted-foreground" />
+                             <Input
+                                type="text"
+                                placeholder="Your location"
+                                className="h-full w-full border-none bg-transparent pl-12 pr-10 text-base focus-visible:ring-0"
+                                value={location}
+                                onChange={(e) => {
+                                    setLocation(e.target.value);
+                                    if (coords) setCoords(null);
+                                }}
+                            />
+                            <Button
+                                type="button"
+                                variant="ghost"
+                                size="icon"
+                                className="absolute right-1 top-1/2 -translate-y-1/2 h-10 w-10 text-primary"
+                                onClick={handleGeoLocation}
+                                disabled={isLocating}
+                                aria-label="Use my location"
+                            >
+                                {isLocating ? <Loader2 className="animate-spin" /> : <MapPin />}
+                            </Button>
+                        </div>
                     </div>
                 </form>
             </CardContent>

@@ -30,7 +30,7 @@ import {
 import { useUser, useAuth, useFirestore } from "@/firebase";
 import { signOut } from "firebase/auth";
 import { useEffect } from "react";
-import { cn } from "@/lib/utils";
+import { BottomNavBar } from "@/components/shared/bottom-nav-bar";
 
 
 const menuItems = [
@@ -40,29 +40,6 @@ const menuItems = [
     { href: "/app/billing", label: "Billing", icon: DollarSign },
     { href: "/app/account", label: "Account", icon: User },
 ];
-
-function BottomNavBar() {
-    const pathname = usePathname();
-    return (
-        <nav className="fixed bottom-0 left-0 right-0 z-40 h-16 border-t bg-background/95 backdrop-blur-sm md:hidden">
-            <div className="grid h-full grid-cols-5">
-                {menuItems.map((item) => (
-                    <Link
-                        key={item.href}
-                        href={item.href}
-                        className={cn(
-                            "flex flex-col items-center justify-center gap-1 text-xs font-medium",
-                            pathname === item.href ? 'text-primary' : 'text-muted-foreground'
-                        )}
-                    >
-                        <item.icon className="h-5 w-5"/>
-                        <span>{item.label}</span>
-                    </Link>
-                ))}
-            </div>
-        </nav>
-    )
-}
 
 export default function PatientPortalLayout({
   children,
@@ -177,7 +154,7 @@ export default function PatientPortalLayout({
              )}
         </header>
         <main className="flex-1 p-4 md:p-6 pb-20 md:pb-6">{children}</main>
-        <BottomNavBar />
+        <BottomNavBar menuItems={menuItems} />
       </SidebarInset>
     </SidebarProvider>
   );
