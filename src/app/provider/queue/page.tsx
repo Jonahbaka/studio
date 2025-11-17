@@ -17,21 +17,31 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { Loader2, Video } from "lucide-react";
 import { formatDistanceToNowStrict } from 'date-fns';
-import { useCollection, useFirestore, useMemoFirebase, useUser } from "@/firebase";
-import { collection, query, where, DocumentData, Query } from "firebase/firestore";
+import { useCollection, useFirestore, useMemoFirebase, useUser, useDoc } from "@/firebase";
+import { collection, query, where, DocumentData, Query, doc } from "firebase/firestore";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 function WaitingRoomContent() {
     const firestore = useFirestore();
     const { user } = useUser();
     const isMobile = useIsMobile();
-
-    const waitingRoomQuery = useMemoFirebase(
-        () => (firestore && user) ? query(collection(firestore, 'visits'), where('status', '==', 'Waiting')) : null,
+    
+    const userProfileRef = useMemoFirebase(() => 
+        firestore && user ? doc(firestore, 'users', user.uid) : null, 
         [firestore, user]
     );
+    const { data: userProfile, isLoading: isProfileLoading } = useDoc(userProfileRef);
 
-    const { data: waitingRoom, isLoading } = useCollection(waitingRoomQuery as Query<DocumentData> | null);
+    const isProvider = userProfile && ['doctor', 'nurse', 'admin'].includes(userProfile.role);
+
+    const waitingRoomQuery = useMemoFirebase(
+      () => (firestore && isProvider) ? query(collection(firestore, 'visits'), where('status', '==', 'Waiting')) : null,
+      [firestore, isProvider]
+    );
+
+    const { data: waitingRoom, isLoading: isWaitingRoomLoading } = useCollection(waitingRoomQuery);
+
+    const isLoading = isProfileLoading || isWaitingRoomLoading;
 
     function calculateWaitTime(createdAt: any) {
         if (!createdAt?.toDate) return '...';
