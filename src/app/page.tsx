@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { ArrowRight, Brain, Stethoscope, Video, Droplet, Bone, Baby, HeartPulse, CheckCircle, Pill, Search } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { Header } from '@/components/shared/header';
 import { Footer } from '@/components/shared/footer';
@@ -39,34 +39,26 @@ const featureCards = [
     {
         title: 'Instant Video Consultation',
         description: 'Connect with a doctor in minutes.',
-        icon: Video,
+        imageId: 'practo-video',
         href: '/app/book-visit',
-        iconColor: 'text-sky-500',
-        iconBg: 'bg-sky-100',
     },
     {
         title: 'Find Doctors Near You',
         description: 'Search by specialty and location.',
-        icon: Stethoscope,
+        imageId: 'practo-clinic',
         href: '#specialties',
-        iconColor: 'text-red-500',
-        iconBg: 'bg-red-100',
     },
     {
         title: 'Zuma Gold Membership',
         description: 'Exclusive benefits and savings.',
-        icon: CheckCircle,
+        imageId: 'goodrx-ad-1',
         href: '/app/billing',
-        iconColor: 'text-amber-500',
-        iconBg: 'bg-amber-100',
     },
     {
         title: 'Order Medicines',
         description: 'Coming soon to your area.',
-        icon: Pill,
+        imageId: 'treatment6',
         href: '#',
-        iconColor: 'text-teal-500',
-        iconBg: 'bg-teal-100',
     }
 ]
 
@@ -96,25 +88,32 @@ export default function Home() {
         <section className="py-12">
             <div className="container mx-auto px-4">
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                    {featureCards.map((card) => (
-                        <Link href={card.href} key={card.title} className="group">
-                             <Card className="shadow-md hover:shadow-xl transition-shadow duration-300 h-full overflow-hidden">
-                                <CardContent className="p-6 flex flex-col items-start gap-4 h-full text-left">
-                                    <div className={`w-14 h-14 rounded-lg flex items-center justify-center ${card.iconBg}`}>
-                                        <card.icon className={`w-8 h-8 ${card.iconColor}`} />
-                                    </div>
-                                    <div className="flex-1">
-                                        <h3 className="text-lg font-semibold transition-colors text-foreground">{card.title}</h3>
+                    {featureCards.map((card) => {
+                         const image = PlaceHolderImages.find(p => p.id === card.imageId);
+                         return (
+                            <Link href={card.href} key={card.title} className="group">
+                                <Card className="shadow-md hover:shadow-xl transition-shadow duration-300 h-full overflow-hidden flex flex-col">
+                                   {image && (
+                                     <div className="relative h-48 w-full">
+                                         <Image src={image.imageUrl} alt={card.title} fill className="object-cover" data-ai-hint={image.imageHint} />
+                                     </div>
+                                   )}
+                                    <CardHeader>
+                                        <CardTitle className="text-lg font-semibold transition-colors text-foreground group-hover:text-primary">{card.title}</CardTitle>
+                                    </CardHeader>
+                                    <CardContent className="flex-grow">
                                         <p className="text-sm text-muted-foreground mt-1">{card.description}</p>
-                                    </div>
-                                    <div className="flex items-center text-sm font-semibold text-primary group-hover:underline">
-                                      <span>Learn More</span>
-                                      <ArrowRight className="ml-2 h-4 w-4" />
-                                    </div>
-                                </CardContent>
-                            </Card>
-                        </Link>
-                    ))}
+                                    </CardContent>
+                                    <CardFooter>
+                                        <div className="flex items-center text-sm font-semibold text-primary">
+                                            <span>Learn More</span>
+                                            <ArrowRight className="ml-2 h-4 w-4" />
+                                        </div>
+                                    </CardFooter>
+                                </Card>
+                            </Link>
+                        )
+                    })}
                 </div>
             </div>
         </section>

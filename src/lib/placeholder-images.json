@@ -8,15 +8,15 @@
     },
     {
       "id": "practo-clinic",
-      "description": "A female doctor smiling at her desk in a clinic.",
-      "imageUrl": "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxmZW1hbGUlMjBkb2N0b3J8ZW58MHx8fHwxNzYzMjc1NTk1fDA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "female doctor"
+      "description": "A female doctor of color smiling at her desk in a clinic.",
+      "imageUrl": "https://images.unsplash.com/photo-1622253692010-333f2da60710?q=80&w=1080&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "imageHint": "female doctor clinic"
     },
     {
       "id": "practo-video",
-      "description": "A male doctor waving during a video consultation on a smartphone.",
-      "imageUrl": "https://images.unsplash.com/photo-1659353888306-e06177765540?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxkb2N0b3IlMjB2aWRlb3xlbnwwfHx8fDE3NjMzNTU2Mzd8MA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "doctor video"
+      "description": "A male doctor of color smiling during a video consultation.",
+      "imageUrl": "https://images.unsplash.com/photo-1594289876272-c5949a2153b6?q=80&w=1080&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "imageHint": "doctor video call"
     },
     {
       "id": "treatment2",
@@ -45,7 +45,7 @@
     {
       "id": "treatment6",
       "description": "Fresh fruits and vegetables, representing wellness.",
-      "imageUrl": "https://images.unsplash.com/photo-1498837167922-ddd27525d352?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxoZWFsdGh5JTIwZm9vZHxlbnwwfHx8fDE3NjMyNzQxOTZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1490818387583-1b48b90b2848?q=80&w=1080&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       "imageHint": "healthy food"
     },
     {
@@ -63,7 +63,7 @@
     {
       "id": "avatar3",
       "description": "Avatar for another patient.",
-      "imageUrl": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxwZXJzb24lMjBwb3J0cmFpdHxlbnwwfHx8fDE3NjMyNTYwOTF8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxwZXJzb24lMjBwb3J0cmFpdHxlbnwwfHx8fDE3NjMyNTYwOTF8MA&ixlibrb-4.1.0&q=80&w=1080",
       "imageHint": "person portrait"
     },
     {
@@ -80,9 +80,9 @@
     },
     {
       "id": "goodrx-ad-1",
-      "description": "Advertisement for a mobile app showing prescription savings.",
-      "imageUrl": "https://images.unsplash.com/photo-1514575110897-1253ff7b2ccb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxtb2JpbGUlMjBhcHB8ZW58MHx8fHwxNzYzMzQ4MTEzfDA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "mobile app"
+      "description": "Person on a gold background looking at a phone.",
+      "imageUrl": "https://images.unsplash.com/photo-1599658880122-6b95b8a85a49?q=80&w=1080&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "imageHint": "gold phone"
     },
     {
       "id": "goodrx-info-1",
