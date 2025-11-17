@@ -49,13 +49,13 @@ const infoCards = [
         image: PlaceHolderImages.find(p => p.id === 'goodrx-info-2') 
     },
      { 
-        name: 'Hair Loss', 
+        title: 'Hair Loss', 
         description: 'Explore treatment options for hair loss.',
         href: '#', 
         image: PlaceHolderImages.find(p => p.id === 'treatment2') 
     },
     { 
-        name: 'Mental Health', 
+        title: 'Mental Health', 
         description: 'Connect with a therapist or psychiatrist.',
         href: '#', 
         image: PlaceHolderImages.find(p => p.id === 'treatment4') 
@@ -155,7 +155,7 @@ export default function Home() {
                                     <div className="relative h-40">
                                         <Image
                                             src={card.image.imageUrl}
-                                            alt={card.title || card.name || ''}
+                                            alt={card.title}
                                             fill
                                             className="object-cover transition-transform duration-300 group-hover:scale-105"
                                             data-ai-hint={card.image.imageHint}
@@ -163,7 +163,7 @@ export default function Home() {
                                     </div>
                                 )}
                                 <CardContent className="p-4 flex-grow flex flex-col">
-                                    <h3 className="font-headline text-lg text-foreground">{card.title || card.name}</h3>
+                                    <h3 className="font-headline text-lg text-foreground">{card.title}</h3>
                                     <p className="text-sm text-muted-foreground mt-1 flex-grow">{card.description}</p>
                                 </CardContent>
                            </Card>
