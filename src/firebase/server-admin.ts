@@ -10,7 +10,7 @@ import { firebaseConfig } from './config';
  * This is used for server-side operations.
  */
 export async function getAuthenticatedAppForUser() {
-  const session = cookies().get('firebase-session')?.value;
+  const session = (await cookies()).get('firebase-session')?.value;
   if (!session) {
     return { app: null, auth: null };
   }
