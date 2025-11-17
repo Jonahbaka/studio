@@ -3,14 +3,13 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowRight, Video, FlaskConical, HeartPulse, CheckCircle, Brain, Meh, Search } from 'lucide-react';
-import { Stethoscope, User } from 'lucide-react';
+import { ArrowRight, CheckCircle, FlaskConical, HeartPulse, Brain, Meh, Stethoscope } from 'lucide-react';
+import { User } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { Header } from '@/components/shared/header';
 import { Footer } from '@/components/shared/footer';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
-import { LocationSearch } from '@/components/shared/location-search';
 
 const treatments = [
     { name: 'Cold & Flu', icon: Meh },
