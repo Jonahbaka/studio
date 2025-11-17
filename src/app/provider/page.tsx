@@ -19,8 +19,8 @@ import Link from "next/link";
 import SoapNoteClient from "./soap-note-client";
 import DiagnosisClient from "./diagnosis-client";
 import DispenseClient from "./dispense-client";
-import { useCollection, useFirestore, useMemoFirebase, useUser } from "@/firebase";
-import { collection, query, where, DocumentData, Query } from "firebase/firestore";
+import { useCollection, useDoc, useFirestore, useMemoFirebase, useUser } from "@/firebase";
+import { collection, query, where, DocumentData, Query, doc } from "firebase/firestore";
 import { formatDistanceToNowStrict } from 'date-fns';
 
 
@@ -32,14 +32,23 @@ const scheduledAppointments = [
 function WaitingRoomContent() {
     const firestore = useFirestore();
     const { user } = useUser();
+    
+    const userProfileRef = useMemoFirebase(() => 
+        firestore && user ? doc(firestore, 'users', user.uid) : null, 
+        [firestore, user]
+    );
+    const { data: userProfile, isLoading: isProfileLoading } = useDoc(userProfileRef);
 
-    // **FIX**: Query is only created when firestore and user are available.
+    const isProvider = userProfile && ['doctor', 'nurse', 'admin'].includes(userProfile.role);
+
     const waitingRoomQuery = useMemoFirebase(
-      () => (firestore && user) ? query(collection(firestore, 'visits'), where('status', '==', 'Waiting')) : null,
-      [firestore, user]
+      () => (firestore && isProvider) ? query(collection(firestore, 'visits'), where('status', '==', 'Waiting')) : null,
+      [firestore, isProvider]
     );
 
-    const { data: waitingRoom, isLoading } = useCollection(waitingRoomQuery as Query<DocumentData> | null);
+    const { data: waitingRoom, isLoading: isWaitingRoomLoading } = useCollection(waitingRoomQuery);
+    
+    const isLoading = isProfileLoading || isWaitingRoomLoading;
 
     function calculateWaitTime(createdAt: any) {
         if (!createdAt?.toDate) return '...';
