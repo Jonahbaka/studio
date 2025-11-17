@@ -234,33 +234,42 @@ export default function VisitPage() {
     const providerAvatar = PlaceHolderImages.find(p => p.id === 'doctor2');
 
     return (
-        <div className="flex flex-col lg:flex-row h-[calc(100vh-4rem)] bg-background lg:bg-primary/20 relative overflow-hidden">
-            <div className="flex-1 flex flex-col p-2 sm:p-4 gap-4 relative">
-                
-                <div className="w-full lg:absolute lg:top-4 lg:right-4 lg:z-20 lg:w-80">
-                    <Card>
-                        <CardHeader>
-                            <CardTitle className="text-lg">Your Visit</CardTitle>
-                        </CardHeader>
-                        <CardContent className="space-y-4">
-                            <p><strong>Reason:</strong> {visit?.reason || 'Loading...'}</p>
-                             <p><strong>Patient:</strong> {visit?.patientName || 'Loading...'}</p>
-                            <div className="flex items-center gap-2">
-                                <strong>Provider:</strong>
-                                <Avatar className="h-6 w-6">
-                                    {providerAvatar && <AvatarImage src={providerAvatar.imageUrl} />}
-                                    <AvatarFallback>DR</AvatarFallback>
-                                </Avatar>
-                                <span>{visit?.providerName || 'Waiting...'}</span>
+        <div className="flex flex-col lg:flex-row h-[calc(100vh-4rem)] bg-background relative overflow-hidden">
+            <div className="flex-1 flex flex-col relative">
+                {/* Header for Visit Info */}
+                 <header className="flex-shrink-0 p-2 sm:p-4 border-b">
+                    <Card className="shadow-none border-none">
+                        <CardHeader className="p-2 flex-row items-center gap-4 space-y-0">
+                             <Button variant="ghost" size="icon" className="shrink-0" onClick={handleReturnToDashboard}>
+                                <ArrowLeft />
+                            </Button>
+                            <div className="flex-grow">
+                                <CardTitle className="text-lg">Your Visit</CardTitle>
+                                <p className="text-sm text-muted-foreground">Reason: {visit?.reason || 'Loading...'}</p>
                             </div>
-                            {visit?.status && <Badge variant={visit.status === 'Waiting' ? 'outline' : 'secondary'}>{visit.status}</Badge>}
-                        </CardContent>
+                             <div className="hidden md:flex items-center gap-4 text-sm">
+                                <div>
+                                    <span className="font-semibold">Patient:</span> {visit?.patientName || '...'}
+                                </div>
+                                 <div className="flex items-center gap-2">
+                                     <span className="font-semibold">Provider:</span>
+                                     <Avatar className="h-6 w-6">
+                                        {providerAvatar && <AvatarImage src={providerAvatar.imageUrl} />}
+                                        <AvatarFallback>DR</AvatarFallback>
+                                    </Avatar>
+                                    <span>{visit?.providerName || 'Waiting...'}</span>
+                                </div>
+                                {visit?.status && <Badge variant={visit.status === 'Waiting' ? 'outline' : 'secondary'}>{visit.status}</Badge>}
+                            </div>
+                        </CardHeader>
                     </Card>
-                </div>
-                
-                <div className="flex flex-col flex-1 items-center justify-center">
+                 </header>
+
+
+                {/* Main Video Content */}
+                <main className="flex-1 flex flex-col items-center justify-center p-2 sm:p-4 relative">
                     <div className="w-full max-w-4xl aspect-video bg-black rounded-lg shadow-2xl relative overflow-hidden">
-                        <video ref={videoRef} className="w-full h-full object-cover" autoPlay muted playsInline />
+                        <video ref={videoRef} className="w-full h-full object-contain" autoPlay muted playsInline />
                         
                         {(isLoading || isWaiting || visitEnded) && (
                             <div className="absolute inset-0 flex items-center justify-center bg-black/70 z-10">
@@ -296,7 +305,7 @@ export default function VisitPage() {
                         )}
                     </div>
                     
-                    <div className={cn(
+                     <div className={cn(
                         "flex w-full max-w-sm items-center justify-center gap-2 sm:gap-4 p-3 z-10",
                         visitEnded && "hidden"
                     )}>
@@ -313,8 +322,7 @@ export default function VisitPage() {
                             <PhoneOff className="h-7 w-7" />
                         </Button>
                     </div>
-                </div>
-
+                </main>
             </div>
             
             <div className={cn(
@@ -323,11 +331,11 @@ export default function VisitPage() {
             )} onClick={() => setIsChatOpen(false)} />
             
             <div className={cn(
-                "fixed bottom-0 left-0 right-0 z-40 h-[75vh] transform-gpu transition-transform duration-300 ease-in-out lg:relative lg:h-full lg:w-96 lg:transform-gpu-none lg:transition-none lg:border-l-2 lg:border-r-0 lg:border-t-0 lg:border-b-0",
+                "fixed bottom-0 left-0 right-0 z-40 h-[75vh] transform-gpu transition-transform duration-300 ease-in-out lg:relative lg:h-full lg:w-96 lg:translate-y-0 lg:transition-none lg:border-l",
                 isChatOpen ? "translate-y-0" : "translate-y-full lg:translate-y-0",
                 !visitEnded && "lg:flex"
             )}>
-                <Card className="w-full h-full flex flex-col rounded-t-lg lg:rounded-none">
+                <Card className="w-full h-full flex flex-col rounded-t-lg lg:rounded-none shadow-none border-none">
                     <CardHeader className="flex-shrink-0 flex-row items-center justify-between">
                         <CardTitle>In-call Messages</CardTitle>
                         <Button variant="ghost" size="icon" className="lg:hidden" onClick={() => setIsChatOpen(false)}>
@@ -404,3 +412,4 @@ export default function VisitPage() {
         </div>
     );
 }
+
