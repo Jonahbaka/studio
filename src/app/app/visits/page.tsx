@@ -35,7 +35,7 @@ export default function MyVisitsPage() {
   const { data: visits, isLoading: areVisitsLoading, error } = useCollection(visitsQuery);
   
   // The component is loading if the user is still authenticating OR if the visits are being fetched.
-  const isLoading = isUserLoading || areVisitsLoading;
+  const isLoading = isUserLoading || (user && areVisitsLoading);
 
   const getStatusVariant = (status: string): "default" | "secondary" | "destructive" | "outline" => {
     switch (status) {
