@@ -48,7 +48,7 @@ const featureCards = [
         title: 'Find Doctors Near You',
         description: 'Search by specialty and location.',
         icon: Search,
-        href: '#',
+        href: '#specialties',
         color: 'text-green-500',
         bgColor: 'bg-green-50'
     },
@@ -191,3 +191,5 @@ export default function Home() {
     </div>
   );
 }
+
+    
