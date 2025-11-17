@@ -3,7 +3,8 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowRight, Video, UserMd, FlaskConical, HeartPulse, CheckCircle, Brain, Meh, Search } from 'lucide-react';
+import { ArrowRight, Video, FlaskConical, HeartPulse, CheckCircle, Brain, Meh, Search } from 'lucide-react';
+import { Stethoscope, User } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { Header } from '@/components/shared/header';
@@ -14,10 +15,10 @@ import { LocationSearch } from '@/components/shared/location-search';
 const treatments = [
     { name: 'Cold & Flu', icon: Meh },
     { name: 'Mental Health', icon: Brain },
-    { name: 'Skin Problems', icon: UserMd },
+    { name: 'Skin Problems', icon: User },
     { name: 'Urgent Care', icon: HeartPulse },
     { name: 'Lab Tests', icon: FlaskConical },
-    { name: 'Prescription Refills', icon: UserMd },
+    { name: 'Prescription Refills', icon: Stethoscope },
 ];
 
 const howItWorks = [
@@ -88,14 +89,17 @@ export default function Home() {
                     <p className="mt-2 text-lg text-muted-foreground max-w-2xl mx-auto">From everyday illnesses to ongoing care, we're here for you.</p>
                 </div>
                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 text-center">
-                    {treatments.map((treatment) => (
-                         <Link href="#" key={treatment.name} className="group block">
-                            <div className="p-6 bg-background rounded-lg shadow-sm hover:shadow-lg hover:-translate-y-1 transition-transform duration-300">
-                                <treatment.icon className="h-10 w-10 text-accent mx-auto" />
-                                <h3 className="mt-4 font-semibold text-base text-foreground group-hover:text-primary transition-colors">{treatment.name}</h3>
-                            </div>
-                        </Link>
-                    ))}
+                    {treatments.map((treatment) => {
+                         const Icon = treatment.icon;
+                         return (
+                             <Link href="#" key={treatment.name} className="group block">
+                                <div className="p-6 bg-background rounded-lg shadow-sm hover:shadow-lg hover:-translate-y-1 transition-transform duration-300">
+                                    <Icon className="h-10 w-10 text-accent mx-auto" />
+                                    <h3 className="mt-4 font-semibold text-base text-foreground group-hover:text-primary transition-colors">{treatment.name}</h3>
+                                </div>
+                            </Link>
+                         );
+                    })}
                 </div>
                 <div className="text-center mt-12">
                      <Button variant="outline" asChild>
