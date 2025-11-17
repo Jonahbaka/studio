@@ -162,12 +162,17 @@ export default function VisitPage() {
         }
     };
     
-    const handleReturnToDashboard = () => {
+    const handleReturnToDashboard = async () => {
+        // Stop camera/mic tracks before navigating away
+        if (streamRef.current) {
+            streamRef.current.getTracks().forEach(track => track.stop());
+        }
+
         // Redirect based on role
         if (visit?.providerId === user?.uid) {
-            router.push('/provider/queue');
+            router.push('/provider');
         } else {
-            router.push('/app/visits');
+            router.push('/app');
         }
     };
 
@@ -237,14 +242,14 @@ export default function VisitPage() {
         <div className="flex flex-col lg:flex-row h-[calc(100vh-4rem)] bg-background relative overflow-hidden">
             <div className="flex-1 flex flex-col relative">
                 {/* Header for Visit Info */}
-                 <header className="flex-shrink-0 p-2 sm:p-4 bg-primary text-primary-foreground">
+                 <header className="flex-shrink-0 p-2 sm:p-4 bg-card border-b">
                     <div className="flex flex-row items-center gap-4">
-                         <Button variant="ghost" size="icon" className="shrink-0 hover:bg-primary-foreground/10" onClick={handleReturnToDashboard}>
+                         <Button variant="ghost" size="icon" className="shrink-0" onClick={handleReturnToDashboard}>
                             <ArrowLeft />
                         </Button>
                         <div className="flex-grow">
                             <h1 className="text-lg font-semibold">Your Visit</h1>
-                            <p className="text-sm text-primary-foreground/80">Reason: {visit?.reason || 'Loading...'}</p>
+                            <p className="text-sm text-muted-foreground">Reason: {visit?.reason || 'Loading...'}</p>
                         </div>
                          <div className="hidden md:flex items-center gap-4 text-sm">
                             <div>
@@ -258,7 +263,7 @@ export default function VisitPage() {
                                 </Avatar>
                                 <span>{visit?.providerName || 'Waiting...'}</span>
                             </div>
-                            {visit?.status && <Badge variant={visit.status === 'In Progress' ? "destructive" : "secondary"}>{visit.status}</Badge>}
+                            {visit?.status && <Badge variant={visit.status === 'In Progress' ? "default" : "secondary"}>{visit.status}</Badge>}
                         </div>
                     </div>
                  </header>

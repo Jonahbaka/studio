@@ -83,7 +83,7 @@ function WaitingRoomContent() {
                                         <Badge variant="outline" className="mt-1">{calculateWaitTime(patient.createdAt)}</Badge>
                                     </div>
                                 </Link>
-                                <Button asChild size="sm" className="bg-accent hover:bg-accent/90 shrink-0">
+                                <Button asChild size="sm" className="shrink-0">
                                     <Link href={`/app/visit/${patient.patientId}/${patient.id}`}>
                                         <Video className="mr-2 h-4 w-4"/>
                                         Start
@@ -126,7 +126,7 @@ function WaitingRoomContent() {
                                 <Badge variant="outline">{calculateWaitTime(patient.createdAt)}</Badge>
                             </TableCell>
                             <TableCell className="text-right">
-                                <Button asChild size="sm" className="bg-accent hover:bg-accent/90">
+                                <Button asChild size="sm">
                                     <Link href={`/app/visit/${patient.patientId}/${patient.id}`}>
                                         <Video className="mr-2 h-4 w-4"/>
                                         Start Visit

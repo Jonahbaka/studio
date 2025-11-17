@@ -1,4 +1,3 @@
-
 'use client';
 
 import {
@@ -84,7 +83,7 @@ function WaitingRoomContent() {
                        <Badge variant="outline">{calculateWaitTime(patient.createdAt)}</Badge>
                    </TableCell>
                    <TableCell className="text-right">
-                       <Button asChild size="sm" className="bg-accent hover:bg-accent/90">
+                       <Button asChild size="sm">
                            <Link href={`/app/visit/${patient.patientId}/${patient.id}`}>
                                <Video className="mr-2 h-4 w-4"/>
                                Start Visit
