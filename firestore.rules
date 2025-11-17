@@ -30,10 +30,10 @@ service cloud.firestore {
       }
     }
     
-    // Providers can query the waiting room for 'Waiting' patients.
-    // Patients can query for their own visits using a 'participants' filter.
+    // Providers/Admins can query the waiting room. Patients can query for their own visits.
     match /visits/{visitId} {
-       allow list: if (get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role in ['doctor', 'nurse', 'admin'] && request.query.where.size() == 1 && request.query.where[0].field == "status" && request.query.where[0].op == "==" && request.query.where[0].value == "Waiting") || (request.query.where.size() == 1 && request.query.where[0].field == "participants." + request.auth.uid && request.query.where[0].op == "==" && request.query.where[0].value == true);
+       allow list: if (get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role in ['doctor', 'nurse', 'admin'])
+                      || (request.query.where[0].field == "participants." + request.auth.uid);
     }
 
     // Fallback for other collections - requires authentication
