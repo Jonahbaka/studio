@@ -32,11 +32,9 @@ service cloud.firestore {
       }
     }
     
-    // Providers/Admins can list 'Waiting' patients.
-    // Patients can list their own visits.
+    // Allow any authenticated user to list visits. This is a relaxed rule for development.
     match /visits/{visitId} {
-       allow list: if (get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role in ['doctor', 'nurse', 'admin'] && request.query.where[0][0] == 'status' && request.query.where[0][1] == '==' && request.query.where[0][2] == 'Waiting')
-                      || (request.query.where[0][0] == 'participants.' + request.auth.uid && request.query.where[0][1] == '==' && request.query.where[0][2] == true);
+       allow list: if request.auth != null;
     }
   }
 }
