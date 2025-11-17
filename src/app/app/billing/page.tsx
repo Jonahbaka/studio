@@ -142,10 +142,10 @@ export default function BillingPage() {
                       <Loader2 className="animate-spin" />
                     </div>
                   ) : userProfile?.isGoldMember ? (
-                      <div className="p-6 rounded-lg bg-yellow-400/10 border border-yellow-500/30 text-center">
-                          <Star className="w-12 h-12 text-yellow-500 mx-auto mb-4" />
-                          <h3 className="text-xl font-bold text-yellow-300">You are a Gold Member!</h3>
-                          <p className="text-yellow-400/80 text-sm">Your benefits are active. Member since {userProfile.goldMemberSince?.toDate().toLocaleDateString()}</p>
+                      <div className="p-6 rounded-lg bg-accent/10 border border-accent/30 text-center">
+                          <Star className="w-12 h-12 text-accent mx-auto mb-4" />
+                          <h3 className="text-xl font-bold text-accent-foreground">You are a Gold Member!</h3>
+                          <p className="text-accent-foreground/80 text-sm">Your benefits are active. Member since {userProfile.goldMemberSince?.toDate().toLocaleDateString()}</p>
                       </div>
                   ) : (
                       <div className="p-6 rounded-lg bg-secondary text-center">
@@ -180,7 +180,7 @@ export default function BillingPage() {
                         <Button onClick={() => handlePayment('monthly')} disabled={isProcessing || userProfile?.isGoldMember} size="lg" className="w-full bg-primary hover:bg-primary/90">
                             {isProcessing ? <Loader2 className="animate-spin" /> : (userProfile?.isGoldMember ? 'You are a Gold Member' : 'Upgrade Monthly - $25/mo')}
                         </Button>
-                        <Button onClick={() => handlePayment('yearly')} disabled={isProcessing || userProfile?.isGoldMember} size="lg" className="w-full bg-accent hover:bg-accent/90">
+                        <Button onClick={() => handlePayment('yearly')} disabled={isProcessing || userProfile?.isGoldMember} size="lg" className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
                             {isProcessing ? <Loader2 className="animate-spin" /> : (userProfile?.isGoldMember ? 'You are a Gold Member' : 'Upgrade Yearly - $120/yr (Save 60%)')}
                         </Button>
                     </div>

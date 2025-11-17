@@ -101,7 +101,7 @@ export default function Home() {
         {/* Zuma Gold Ad Section */}
         <section className="py-12 bg-background">
             <div className="container mx-auto px-4">
-                <Card className="bg-gradient-to-r from-yellow-300 via-yellow-400 to-yellow-500 text-black overflow-hidden shadow-lg">
+                <Card className="bg-gradient-to-r from-accent/80 via-accent to-accent/80 text-accent-foreground overflow-hidden shadow-lg">
                    <div className="p-8 md:p-12 text-center md:text-left">
                         <h2 className="text-3xl font-headline">Save even more with Zuma Gold</h2>
                         <p className="mt-2 text-lg">
