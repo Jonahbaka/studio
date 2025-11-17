@@ -1,6 +1,6 @@
 'use client';
 
-import { Suspense } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Header } from '@/components/shared/header';
@@ -9,7 +9,7 @@ import { Loader2, MapPin, Stethoscope, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 
-// Mock data for search results. In a real app, this would come from an API call.
+// Mock data for search results.
 const mockDoctors = [
   { id: 1, name: 'Dr. Emily Carter', specialty: 'Cardiologist', address: '123 Health St, Wellness City, CA', rating: 4.9, reviews: 145 },
   { id: 2, name: 'Dr. Ben Hanson', specialty: 'Dermatologist', address: '456 Skin Ave, Glow Valley, CA', rating: 4.8, reviews: 210 },
@@ -22,9 +22,37 @@ function SearchResults() {
   const searchParams = useSearchParams();
   const query = searchParams.get('q');
   const location = searchParams.get('location');
+  const lat = searchParams.get('lat');
+  const lon = searchParams.get('lon');
 
-  // In a real app, you would use these params to fetch data from an API.
-  // We'll just display them and show the mock data.
+  const [detectedLocation, setDetectedLocation] = useState('');
+  const [isLoadingLocation, setIsLoadingLocation] = useState(false);
+
+  useEffect(() => {
+    if (lat && lon) {
+      setIsLoadingLocation(true);
+      // Using a free, public reverse geocoding API. No API key needed.
+      fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`)
+        .then(response => response.json())
+        .then(data => {
+          if (data.address) {
+            const { city, state, country } = data.address;
+            setDetectedLocation([city, state, country].filter(Boolean).join(', '));
+          }
+        })
+        .catch(error => {
+          console.error("Error fetching location:", error);
+          setDetectedLocation('your area');
+        })
+        .finally(() => {
+          setIsLoadingLocation(false);
+        });
+    }
+  }, [lat, lon]);
+
+  const displayLocation = lat && lon 
+    ? (isLoadingLocation ? 'Detecting location...' : detectedLocation) 
+    : location;
 
   if (!query) {
     return (
@@ -39,7 +67,7 @@ function SearchResults() {
       <div>
         <h1 className="text-3xl font-headline">Search Results</h1>
         <p className="text-muted-foreground">
-          Showing results for <span className="font-semibold text-primary">{`"${query}"`}</span> near <span className="font-semibold text-primary">{`"${location}"`}</span>
+          Showing results for <span className="font-semibold text-primary">{`"${query}"`}</span> near <span className="font-semibold text-primary">{`"${displayLocation}"`}</span>
         </p>
       </div>
 

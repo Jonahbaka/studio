@@ -21,6 +21,7 @@ export function LocationSearch() {
     const [currentTermIndex, setCurrentTermIndex] = useState(0);
     const [searchQuery, setSearchQuery] = useState('');
     const [location, setLocation] = useState('');
+    const [coords, setCoords] = useState<{lat: number, lon: number} | null>(null);
     const [isLocating, setIsLocating] = useState(false);
     const { toast } = useToast();
     const router = useRouter();
@@ -48,11 +49,13 @@ export function LocationSearch() {
         setIsLocating(true);
         navigator.geolocation.getCurrentPosition(
             (position) => {
+                const { latitude, longitude } = position.coords;
+                setCoords({ lat: latitude, lon: longitude });
                 setLocation('Current Location');
                 setIsLocating(false);
                 toast({
                     title: 'Location Found',
-                    description: 'Your current location has been set.',
+                    description: 'Your current location will be used for the search.',
                 });
             },
             (error) => {
@@ -60,7 +63,7 @@ export function LocationSearch() {
                 toast({
                     variant: 'destructive',
                     title: 'Unable to retrieve location',
-                    description: 'Please ensure location services are enabled in your browser and try again.',
+                    description: 'Please ensure location services are enabled and try again.',
                 });
                 console.error('Geolocation error:', error);
             }
@@ -70,9 +73,17 @@ export function LocationSearch() {
     const handleSearch = (e: React.FormEvent) => {
         e.preventDefault();
         const finalQuery = searchQuery || searchTerms[currentTermIndex].term;
-        const finalLocation = location || 'anywhere';
+        
+        let url = `/search?q=${encodeURIComponent(finalQuery)}`;
+        if (coords) {
+            url += `&lat=${coords.lat}&lon=${coords.lon}`;
+        } else if (location && location !== 'Current Location') {
+            url += `&location=${encodeURIComponent(location)}`;
+        } else {
+             url += `&location=anywhere`;
+        }
 
-        router.push(`/search?q=${encodeURIComponent(finalQuery)}&location=${encodeURIComponent(finalLocation)}`);
+        router.push(url);
     }
 
     return (
@@ -102,7 +113,10 @@ export function LocationSearch() {
                                 placeholder="Your location"
                                 className="h-full w-full border-none bg-transparent pl-12 pr-10 text-base focus-visible:ring-0"
                                 value={location}
-                                onChange={(e) => setLocation(e.target.value)}
+                                onChange={(e) => {
+                                    setLocation(e.target.value);
+                                    if (coords) setCoords(null); // Clear coords if user types a new location
+                                }}
                             />
                             <Button
                                 type="button"
