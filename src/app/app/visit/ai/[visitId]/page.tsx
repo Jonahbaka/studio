@@ -90,10 +90,10 @@ export default function AiVisitPage() {
                 patientHistory: `Previous conversation: ${history}\nReason for visit: ${visit?.reason}\nPatient notes: ${visit?.details}`
             });
 
-            if (aiResult.response) {
+            if (aiResult.potentialDiagnoses) {
                 const aiMessage: Omit<Message, 'id'> = {
                     sender: 'ai',
-                    text: aiResult.response,
+                    text: aiResult.potentialDiagnoses,
                     timestamp: serverTimestamp()
                 };
                 await addDoc(messagesCollection, aiMessage);
