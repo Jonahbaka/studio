@@ -102,32 +102,20 @@ export default function Home() {
         <section className="py-12 bg-background">
             <div className="container mx-auto px-4">
                 <Card className="bg-gradient-to-r from-yellow-300 via-yellow-400 to-yellow-500 text-black overflow-hidden shadow-lg">
-                   <div className="grid md:grid-cols-2 items-center">
-                        <div className="p-8 md:p-12">
-                            <h2 className="text-3xl font-headline">Save even more with Zuma Gold</h2>
-                            <p className="mt-2 text-lg">
-                                Get exclusive prices on virtual care, prescriptions, and more.
-                            </p>
-                            <ul className="mt-4 space-y-2 text-sm">
-                                <li className="flex items-center gap-2"><span>•</span> Unlimited doctor consultations starting at $25</li>
-                                <li className="flex items-center gap-2"><span>•</span> Up to 50% off on tests &amp; check-ups</li>
-                                <li className="flex items-center gap-2"><span>•</span> Covers up to 6 family members</li>
-                            </ul>
-                             <Button asChild className="mt-6 bg-primary text-primary-foreground hover:bg-primary/90">
-                                <Link href="/app/billing">Explore Zuma Gold <ArrowRight className="ml-2"/></Link>
-                            </Button>
-                        </div>
-                        <div className="relative h-64 md:h-full">
-                           {PlaceHolderImages.find(p => p.id === 'goodrx-ad-1')?.imageUrl &&
-                             <Image 
-                                src={PlaceHolderImages.find(p => p.id === 'goodrx-ad-1')?.imageUrl || ''}
-                                alt="Zuma Gold Ad"
-                                fill
-                                className="object-cover"
-                                data-ai-hint="gold phone"
-                             />
-                           }
-                        </div>
+                   <div className="p-8 md:p-12 text-center md:text-left">
+                        <h2 className="text-3xl font-headline">Save even more with Zuma Gold</h2>
+                        <p className="mt-2 text-lg">
+                            Get exclusive prices on virtual care, prescriptions, and more.
+                        </p>
+                        <ul className="mt-4 space-y-2 text-sm max-w-md mx-auto md:mx-0">
+                            <li className="flex items-center gap-2"><span>•</span> 50% off on one treatment purchase</li>
+                            <li className="flex items-center gap-2"><span>•</span> Priority support from our team</li>
+                            <li className="flex items-center gap-2"><span>•</span> Exclusive access to new treatments</li>
+                            <li className="flex items-center gap-2"><span>•</span> Lower-cost prescription renewals</li>
+                        </ul>
+                         <Button asChild className="mt-6 bg-primary text-primary-foreground hover:bg-primary/90">
+                            <Link href="/app/billing">Explore Zuma Gold <ArrowRight className="ml-2"/></Link>
+                        </Button>
                    </div>
                 </Card>
             </div>
