@@ -14,8 +14,7 @@
 
 import { ai } from '@/ai/genkit';
 import { z } from 'genkit';
-import { getFirestore } from 'firebase-admin/firestore';
-import { initializeApp, getApps, App } from 'firebase-admin/app';
+
 
 // Define the input schema for booking a visit
 const BookVisitInputSchema = z.object({
@@ -34,17 +33,6 @@ const BookVisitOutputSchema = z.object({
 });
 export type BookVisitOutput = z.infer<typeof BookVisitOutputSchema>;
 
-
-// Helper function to initialize Firebase Admin SDK idempotently.
-function getFirebaseAdminApp(): App {
-  const appName = 'zumadoc-admin-book-visit';
-  const existingApp = getApps().find(app => app.name === appName);
-  if (existingApp) {
-    return existingApp;
-  }
-
-  return initializeApp({}, appName);
-}
 
 // Exported wrapper function to be called from the client
 export async function bookVisit(input: BookVisitInput): Promise<BookVisitOutput> {
