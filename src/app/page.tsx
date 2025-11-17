@@ -20,7 +20,7 @@ import {
 } from "@/components/ui/carousel"
 
 const specialties = [
-    { name: 'General', icon: Stethoscope },
+    { name: 'General Physician', icon: Stethoscope },
     { name: 'Psychiatry', icon: Brain },
     { name: 'Pediatrics', icon: Baby },
     { name: 'Cardiology', icon: HeartPulse },
@@ -98,7 +98,7 @@ export default function Home() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                     {featureCards.map((card) => (
                         <Link href={card.href} key={card.title} className="group">
-                             <Card className="shadow-md hover:shadow-xl transition-shadow duration-300 text-center">
+                             <Card className="shadow-md hover:shadow-xl transition-shadow duration-300 text-center min-h-full">
                                 <CardContent className="p-6 flex flex-col items-center justify-center gap-4">
                                     <div className={`p-4 rounded-full ${card.bgColor}`}>
                                         <card.icon className={`h-8 w-8 ${card.color}`} />
@@ -172,12 +172,12 @@ export default function Home() {
         {/* Specialties Section */}
         <section id="specialties" className="py-16 bg-secondary">
             <div className="container mx-auto px-4">
-                <h2 className="text-3xl font-headline text-center mb-8">All the specialists you need</h2>
+                <h2 className="text-3xl font-headline text-center mb-8">Find a Doctor for your Health Problem</h2>
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-x-4 gap-y-8 text-center">
                     {specialties.map((specialty) => (
                         <Link href="#" key={specialty.name} className="flex flex-col items-center gap-2 group">
-                            <div className="w-20 h-20 bg-background rounded-full flex items-center justify-center group-hover:bg-primary/10 transition-colors shadow-md">
-                                <specialty.icon className="h-10 w-10 text-primary" />
+                            <div className="w-24 h-24 bg-blue-100 rounded-lg flex items-center justify-center group-hover:bg-blue-200/80 transition-colors shadow-md">
+                                <specialty.icon className="h-12 w-12 text-blue-600" />
                             </div>
                             <p className="text-base font-medium text-foreground group-hover:text-primary">{specialty.name}</p>
                         </Link>
