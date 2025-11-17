@@ -78,7 +78,7 @@ export function LocationSearch() {
         <Card className="w-full bg-transparent border-none shadow-none">
             <CardContent className="p-0">
                 <form onSubmit={handleSearch}>
-                    <div className="flex h-14 w-full items-center rounded-lg bg-background shadow-inner border">
+                    <div className="flex h-14 w-full items-center rounded-full bg-background shadow-inner border">
                         {/* Search Query Input */}
                         <div className="relative flex h-full flex-grow items-center">
                             <CurrentIcon className="absolute left-4 h-5 w-5 text-muted-foreground" />
@@ -117,7 +117,7 @@ export function LocationSearch() {
                         </div>
 
                         {/* Search Button */}
-                        <Button type="submit" size="lg" className="m-2 h-10 shrink-0 rounded-md px-6">
+                        <Button type="submit" size="lg" className="m-2 h-10 shrink-0 rounded-full px-6">
                             <Search className="mr-2 h-5 w-5" />
                             <span className="hidden sm:inline">Search</span>
                         </Button>
