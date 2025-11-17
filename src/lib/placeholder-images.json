@@ -1,10 +1,10 @@
 {
   "placeholderImages": [
     {
-      "id": "hero",
+      "id": "hero-teladoc",
       "description": "A compassionate doctor consulting with a patient via a tablet.",
-      "imageUrl": "https://images.unsplash.com/photo-1758691462848-ba1e929da259?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8dGVsZWhlYWx0aCUyMGNvbnN1bHRhdGlvbnxlbnwwfHx8fDE3NjMzNTU2Mzd8MA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "telehealth consultation"
+      "imageUrl": "https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=1080&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "imageHint": "telehealth doctor consultation"
     },
     {
       "id": "practo-clinic",

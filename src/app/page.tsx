@@ -3,66 +3,46 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowRight, Brain, Stethoscope, Video, Droplet, Bone, Baby, HeartPulse, CheckCircle, Pill, Search } from 'lucide-react';
+import { ArrowRight, Video, UserMd, FlaskConical, HeartPulse, CheckCircle, Brain, Meh, Search } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
-import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { Header } from '@/components/shared/header';
 import { Footer } from '@/components/shared/footer';
+import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { LocationSearch } from '@/components/shared/location-search';
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel"
-
-const specialties = [
-    { name: 'General Physician', icon: Stethoscope },
-    { name: 'Psychiatry', icon: Brain },
-    { name: 'Pediatrics', icon: Baby },
-    { name: 'Cardiology', icon: HeartPulse },
-    { name: 'Urology', icon: Droplet },
-    { name: 'Orthopedics', icon: Bone },
-];
 
 const treatments = [
-    { name: 'Erectile Dysfunction', imageId: 'treatment3', category: 'Men\'s Health' },
-    { name: 'Hair Loss', imageId: 'treatment2', category: 'Wellness' },
-    { name: 'Mental Health', imageId: 'treatment4', category: 'Psychiatry' },
-    { name: 'Urgent Care', imageId: 'treatment5', category: 'General' },
-]
+    { name: 'Cold & Flu', icon: Meh },
+    { name: 'Mental Health', icon: Brain },
+    { name: 'Skin Problems', icon: UserMd },
+    { name: 'Urgent Care', icon: HeartPulse },
+    { name: 'Lab Tests', icon: FlaskConical },
+    { name: 'Prescription Refills', icon: UserMd },
+];
 
-const featureCards = [
+const howItWorks = [
     {
-        title: 'Instant Video Consultation',
-        description: 'Connect with a doctor in minutes.',
-        imageId: 'practo-video',
-        href: '/app/book-visit',
+        step: 1,
+        title: 'Talk to a doctor anytime',
+        description: 'Tell us how you’re feeling and what you need. A board-certified doctor will review and get back to you in minutes.',
+        imageHint: 'doctor using computer'
     },
     {
-        title: 'Find Doctors Near You',
-        description: 'Search by specialty and location.',
-        imageId: 'practo-clinic',
-        href: '#specialties',
+        step: 2,
+        title: 'Get a treatment plan',
+        description: 'Our doctors can provide a diagnosis, prescriptions, lab tests, and more, all from the comfort of your home.',
+        imageHint: 'patient on video call'
     },
     {
-        title: 'Zuma Gold Membership',
-        description: 'Exclusive benefits and savings.',
-        imageId: 'goodrx-ad-1',
-        href: '/app/billing',
-    },
-    {
-        title: 'Order Medicines',
-        description: 'Coming soon to your area.',
-        imageId: 'treatment6',
-        href: '#',
+        step: 3,
+        title: 'Feel better sooner',
+        description: 'Pick up your prescription from your local pharmacy or have it delivered. Follow your plan and get well.',
+        imageHint: 'person smiling happy'
     }
-]
+];
 
 export default function Home() {
+  const heroImage = PlaceHolderImages.find(p => p.id === 'hero-teladoc');
 
   return (
     <div className="flex flex-col min-h-screen bg-background">
@@ -70,128 +50,110 @@ export default function Home() {
       <main className="flex-grow">
         
         {/* Hero Section */}
-        <section className="relative bg-primary/10">
-            <div className="container mx-auto px-4 text-center py-12 md:py-20">
-                <h1 className="text-4xl md:text-6xl font-headline text-primary">
-                    Your home for health
-                </h1>
-                <p className="mt-4 text-lg md:text-xl text-foreground/80 max-w-2xl mx-auto">
-                    Find and book in-person or video consultations. Search for treatments, medications, doctors, labs and pharmacies.
-                </p>
-                <div className="mt-8 max-w-xl mx-auto">
-                   <LocationSearch />
-                </div>
+        <section className="relative text-white">
+          <div className="absolute inset-0">
+            {heroImage && (
+                 <Image 
+                    src={heroImage.imageUrl} 
+                    alt={heroImage.description} 
+                    fill 
+                    className="object-cover" 
+                    data-ai-hint={heroImage.imageHint}
+                />
+            )}
+            <div className="absolute inset-0 bg-primary/70"></div>
+          </div>
+          <div className="relative container mx-auto px-4 text-center py-20 md:py-32">
+            <h1 className="text-4xl md:text-6xl font-headline text-white drop-shadow-md">
+                Quality healthcare when you need it most
+            </h1>
+            <p className="mt-4 text-lg md:text-xl text-white/90 max-w-3xl mx-auto drop-shadow-sm">
+                Connect with board-certified doctors 24/7 for diagnosis and treatment from the comfort of your home.
+            </p>
+            <div className="mt-8">
+              <Button size="lg" asChild className="bg-accent text-accent-foreground hover:bg-accent/90 shadow-lg">
+                <Link href="/signup">
+                    Get Started
+                </Link>
+              </Button>
             </div>
+          </div>
         </section>
 
-        {/* Feature Cards Section */}
-        <section className="py-12">
+        {/* What We Treat Section */}
+        <section className="py-16 bg-secondary">
             <div className="container mx-auto px-4">
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                    {featureCards.map((card) => {
-                         const image = PlaceHolderImages.find(p => p.id === card.imageId);
-                         return (
-                            <Link href={card.href} key={card.title} className="group">
-                                <Card className="shadow-md hover:shadow-xl transition-shadow duration-300 h-full overflow-hidden flex flex-col">
-                                   {image && (
-                                     <div className="relative h-48 w-full">
-                                         <Image src={image.imageUrl} alt={card.title} fill className="object-cover" data-ai-hint={image.imageHint} />
-                                     </div>
-                                   )}
-                                    <CardHeader>
-                                        <CardTitle className="text-lg font-semibold transition-colors text-foreground group-hover:text-primary">{card.title}</CardTitle>
-                                    </CardHeader>
-                                    <CardContent className="flex-grow">
-                                        <p className="text-sm text-muted-foreground mt-1">{card.description}</p>
-                                    </CardContent>
-                                    <CardFooter>
-                                        <div className="flex items-center text-sm font-semibold text-primary">
-                                            <span>Learn More</span>
-                                            <ArrowRight className="ml-2 h-4 w-4" />
-                                        </div>
-                                    </CardFooter>
-                                </Card>
-                            </Link>
-                        )
-                    })}
+                <div className="text-center mb-12">
+                    <h2 className="text-3xl font-headline text-primary">What we treat</h2>
+                    <p className="mt-2 text-lg text-muted-foreground max-w-2xl mx-auto">From everyday illnesses to ongoing care, we're here for you.</p>
                 </div>
-            </div>
-        </section>
-        
-        {/* Ad Banner for Gold */}
-        <section className="py-12 bg-yellow-400/20">
-            <div className="container mx-auto px-4 text-center">
-                <h2 className="text-2xl md:text-3xl font-headline text-yellow-800">Become a Zuma Gold Member</h2>
-                <p className="mt-2 text-yellow-700/80 max-w-2xl mx-auto">Get exclusive pricing on meds, unlimited $25 doctor visits, and more for just $99/year.</p>
-                <Button asChild size="lg" className="mt-6 bg-yellow-500 hover:bg-yellow-600 text-yellow-900">
-                    <Link href="/app/billing">Learn More <ArrowRight className="ml-2" /></Link>
-                </Button>
-            </div>
-        </section>
-
-        {/* Treatments Section */}
-        <section className="py-16">
-            <div className="container mx-auto px-4">
-                 <h2 className="text-3xl font-headline text-center mb-2">Find care for your condition</h2>
-                 <p className="text-center text-muted-foreground mb-8 max-w-xl mx-auto">From urgent care to chronic conditions, we've got you covered. Here are some of our popular treatments.</p>
-                <Carousel
-                    opts={{
-                        align: "start",
-                        loop: true,
-                    }}
-                    className="w-full"
-                >
-                    <CarouselContent>
-                         {treatments.map((treatment) => {
-                            const image = PlaceHolderImages.find(p => p.id === treatment.imageId);
-                            return (
-                                <CarouselItem key={treatment.name} className="md:basis-1/2 lg:basis-1/3">
-                                    <Link href="#" className="group block h-full">
-                                        <Card className="overflow-hidden h-full flex flex-col shadow-lg hover:shadow-2xl transition-shadow duration-300">
-                                            {image && (
-                                                <div className="h-56 relative">
-                                                    <Image src={image.imageUrl} alt={treatment.name} fill className="object-cover" data-ai-hint={image.imageHint} />
-                                                </div>
-                                            )}
-                                            <CardHeader>
-                                                <p className="text-sm font-semibold text-primary">{treatment.category}</p>
-                                                <CardTitle className="text-xl group-hover:text-primary transition-colors">{treatment.name}</CardTitle>
-                                            </CardHeader>
-                                             <CardContent className="flex-grow flex items-end">
-                                                <p className="text-primary font-semibold group-hover:underline">Learn More <ArrowRight className="inline h-4 w-4 ml-1" /></p>
-                                            </CardContent>
-                                        </Card>
-                                    </Link>
-                                </CarouselItem>
-                            );
-                        })}
-                    </CarouselContent>
-                    <CarouselPrevious className="hidden sm:flex" />
-                    <CarouselNext className="hidden sm:flex" />
-                </Carousel>
-            </div>
-        </section>
-        
-        {/* Specialties Section */}
-        <section id="specialties" className="py-16 bg-secondary">
-            <div className="container mx-auto px-4">
-                <h2 className="text-3xl font-headline text-center mb-8">Find a Doctor for your Health Problem</h2>
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-x-4 gap-y-8 text-center">
-                    {specialties.map((specialty) => (
-                        <Link href="#" key={specialty.name} className="flex flex-col items-center gap-2 group">
-                            <div className="w-24 h-24 bg-blue-100 rounded-lg flex items-center justify-center group-hover:bg-blue-200/80 transition-colors shadow-md">
-                                <specialty.icon className="h-12 w-12 text-blue-600" />
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 text-center">
+                    {treatments.map((treatment) => (
+                         <Link href="#" key={treatment.name} className="group block">
+                            <div className="p-6 bg-background rounded-lg shadow-sm hover:shadow-lg hover:-translate-y-1 transition-transform duration-300">
+                                <treatment.icon className="h-10 w-10 text-accent mx-auto" />
+                                <h3 className="mt-4 font-semibold text-base text-foreground group-hover:text-primary transition-colors">{treatment.name}</h3>
                             </div>
-                            <p className="text-base font-medium text-foreground group-hover:text-primary">{specialty.name}</p>
                         </Link>
+                    ))}
+                </div>
+                <div className="text-center mt-12">
+                     <Button variant="outline" asChild>
+                        <Link href="#">See all conditions <ArrowRight className="ml-2 h-4 w-4" /></Link>
+                    </Button>
+                </div>
+            </div>
+        </section>
+
+        {/* How It Works Section */}
+        <section className="py-20">
+            <div className="container mx-auto px-4">
+                 <div className="text-center mb-12">
+                    <h2 className="text-3xl font-headline text-primary">Healthcare at your fingertips</h2>
+                    <p className="mt-2 text-lg text-muted-foreground max-w-2xl mx-auto">Get care in three simple steps.</p>
+                </div>
+                <div className="grid md:grid-cols-3 gap-8 md:gap-12 text-center">
+                    {howItWorks.map((item) => (
+                        <div key={item.step} className="flex flex-col items-center">
+                            <div className="flex items-center justify-center h-16 w-16 rounded-full bg-primary text-primary-foreground font-bold text-xl mb-4 shadow-md">
+                                {item.step}
+                            </div>
+                            <h3 className="text-xl font-headline mb-2">{item.title}</h3>
+                            <p className="text-muted-foreground">{item.description}</p>
+                        </div>
                     ))}
                 </div>
             </div>
         </section>
         
+        {/* Why Choose Us Section */}
+        <section className="bg-primary text-primary-foreground py-20">
+            <div className="container mx-auto px-4">
+                <div className="text-center mb-12">
+                    <h2 className="text-3xl font-headline">The ZumaiDoc Difference</h2>
+                </div>
+                 <div className="grid md:grid-cols-3 gap-8 text-center">
+                    <div className="flex flex-col items-center">
+                        <CheckCircle className="h-10 w-10 text-accent mb-4" />
+                        <h3 className="text-xl font-semibold">24/7 Access</h3>
+                        <p className="mt-1 text-primary-foreground/80">Connect with doctors on your schedule, day or night.</p>
+                    </div>
+                     <div className="flex flex-col items-center">
+                        <CheckCircle className="h-10 w-10 text-accent mb-4" />
+                        <h3 className="text-xl font-semibold">Top Clinicians</h3>
+                        <p className="mt-1 text-primary-foreground/80">Our providers are board-certified and expert-trained.</p>
+                    </div>
+                     <div className="flex flex-col items-center">
+                        <CheckCircle className="h-10 w-10 text-accent mb-4" />
+                        <h3 className="text-xl font-semibold">Private & Secure</h3>
+                        <p className="mt-1 text-primary-foreground/80">Your health information is always safe and confidential.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
       </main>
       <Footer />
     </div>
   );
 }
-    
