@@ -237,32 +237,30 @@ export default function VisitPage() {
         <div className="flex flex-col lg:flex-row h-[calc(100vh-4rem)] bg-background relative overflow-hidden">
             <div className="flex-1 flex flex-col relative">
                 {/* Header for Visit Info */}
-                 <header className="flex-shrink-0 p-2 sm:p-4 border-b">
-                    <Card className="shadow-none border-none">
-                        <CardHeader className="p-2 flex-row items-center gap-4 space-y-0">
-                             <Button variant="ghost" size="icon" className="shrink-0" onClick={handleReturnToDashboard}>
-                                <ArrowLeft />
-                            </Button>
-                            <div className="flex-grow">
-                                <CardTitle className="text-lg">Your Visit</CardTitle>
-                                <p className="text-sm text-muted-foreground">Reason: {visit?.reason || 'Loading...'}</p>
+                 <header className="flex-shrink-0 p-2 sm:p-4 bg-primary text-primary-foreground">
+                    <div className="flex flex-row items-center gap-4">
+                         <Button variant="ghost" size="icon" className="shrink-0 hover:bg-primary-foreground/10" onClick={handleReturnToDashboard}>
+                            <ArrowLeft />
+                        </Button>
+                        <div className="flex-grow">
+                            <h1 className="text-lg font-semibold">Your Visit</h1>
+                            <p className="text-sm text-primary-foreground/80">Reason: {visit?.reason || 'Loading...'}</p>
+                        </div>
+                         <div className="hidden md:flex items-center gap-4 text-sm">
+                            <div>
+                                <span className="font-semibold">Patient:</span> {visit?.patientName || '...'}
                             </div>
-                             <div className="hidden md:flex items-center gap-4 text-sm">
-                                <div>
-                                    <span className="font-semibold">Patient:</span> {visit?.patientName || '...'}
-                                </div>
-                                 <div className="flex items-center gap-2">
-                                     <span className="font-semibold">Provider:</span>
-                                     <Avatar className="h-6 w-6">
-                                        {providerAvatar && <AvatarImage src={providerAvatar.imageUrl} />}
-                                        <AvatarFallback>DR</AvatarFallback>
-                                    </Avatar>
-                                    <span>{visit?.providerName || 'Waiting...'}</span>
-                                </div>
-                                {visit?.status && <Badge variant={visit.status === 'Waiting' ? 'outline' : 'secondary'}>{visit.status}</Badge>}
+                             <div className="flex items-center gap-2">
+                                 <span className="font-semibold">Provider:</span>
+                                 <Avatar className="h-6 w-6">
+                                    {providerAvatar && <AvatarImage src={providerAvatar.imageUrl} />}
+                                    <AvatarFallback>DR</AvatarFallback>
+                                </Avatar>
+                                <span>{visit?.providerName || 'Waiting...'}</span>
                             </div>
-                        </CardHeader>
-                    </Card>
+                            {visit?.status && <Badge variant={visit.status === 'In Progress' ? "destructive" : "secondary"}>{visit.status}</Badge>}
+                        </div>
+                    </div>
                  </header>
 
 
@@ -413,3 +411,5 @@ export default function VisitPage() {
     );
 }
 
+
+    
