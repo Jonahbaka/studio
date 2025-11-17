@@ -75,7 +75,12 @@ function CheckoutForm() {
   }
 
   if (!clientSecret) {
-    return null; // The loading state is handled by the Suspense fallback
+    return (
+        <div className="flex flex-col items-center justify-center py-12">
+            <Loader2 className="h-12 w-12 animate-spin text-primary" />
+            <p className="mt-4 text-sm text-muted-foreground">Preparing your secure checkout...</p>
+        </div>
+    );
   }
 
   return (
@@ -87,19 +92,6 @@ function CheckoutForm() {
 
 
 export default function CheckoutPage() {
-    const searchParams = useSearchParams();
-    const plan = searchParams.get('plan');
-
-    const getTitle = () => {
-      if (plan) return 'Upgrade to Zuma Gold';
-      return 'Finalizing Your Consultation'
-    }
-  
-    const getDescription = () => {
-        if (plan) return `You are subscribing to the ${plan} plan. Please wait while we prepare your secure checkout.`;
-        return 'Please wait while we securely prepare your payment...'
-    }
-
     return (
         <div className="flex min-h-screen w-full flex-col items-center justify-center p-4 bg-secondary">
             <Card className="w-full max-w-lg">
@@ -107,14 +99,14 @@ export default function CheckoutPage() {
                     <div className="mx-auto mb-4">
                         <Logo />
                     </div>
-                    <CardTitle>{plan ? "Zuma Gold Membership" : "Pay for Consultation"}</CardTitle>
+                    <CardTitle>Secure Checkout</CardTitle>
                     <CardDescription>Complete your payment securely below.</CardDescription>
                 </CardHeader>
                 <CardContent>
                     <Suspense fallback={
                         <div className="flex flex-col items-center justify-center py-12">
                             <Loader2 className="h-12 w-12 animate-spin text-primary" />
-                             <p className="mt-4 text-sm text-muted-foreground">{getDescription()}</p>
+                             <p className="mt-4 text-sm text-muted-foreground">Loading payment options...</p>
                         </div>
                     }>
                         <CheckoutForm />
