@@ -51,7 +51,7 @@ export default function Home() {
                         Your home for health
                     </h1>
                     <p className="mt-4 text-lg md:text-xl text-foreground/80 max-w-2xl mx-auto lg:mx-0">
-                        Find and book in-person or video consultations with the best doctors and specialists.
+                        Find and book in-person or video consultations. Search for treatments, medications, doctors, labs and pharmacies.
                     </p>
                     <div className="mt-8 max-w-xl mx-auto lg:mx-0">
                        <LocationSearch />
@@ -171,5 +171,3 @@ export default function Home() {
     </div>
   );
 }
-
-    
