@@ -42,9 +42,6 @@ const handleSubscription = async (plan: string, returnUrl: string) => {
             return_url: returnUrl,
             metadata: {
                 subscription_plan: plan,
-            },
-            subscription_data: {
-              promotion_code: 'promo_1PTl4RRxu18cI3d12WKy6A1c'
             }
         });
 
