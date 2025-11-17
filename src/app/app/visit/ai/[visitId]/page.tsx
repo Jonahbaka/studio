@@ -128,6 +128,13 @@ export default function AiVisitPage() {
         setIsProcessingPayment(true);
 
         try {
+            // This is the crucial step. We change the status to indicate readiness for payment,
+            // which also prepares it to be seen by providers.
+            await updateDoc(visitRef, {
+                status: 'Pending Payment',
+                updatedAt: serverTimestamp(),
+            });
+            
             // Redirect to our new checkout page, passing the visitId
             router.push(`/checkout?visitId=${visitId}`);
 
@@ -265,36 +272,30 @@ export default function AiVisitPage() {
                 <AlertDialogHeader>
                   <AlertDialogTitle>Ready to See a Doctor?</AlertDialogTitle>
                   <AlertDialogDescription>
-                    To speak with a provider, please complete your profile and add a payment method for the $49.00 consultation fee.
+                    To speak with a provider, a $49.00 consultation fee is required. Your AI chat history will be shared with the doctor.
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <div className="p-6 my-4 bg-secondary rounded-lg flex items-center justify-between">
-                    <span className="font-medium text-lg">Consultation Fee</span>
+                    <span className="font-medium text-lg">One-time Fee</span>
                     <span className="font-bold text-2xl text-primary">$49.00</span>
                 </div>
-                <AlertDialogFooter className='sm:justify-between sm:gap-2'>
+                <AlertDialogFooter>
                     <AlertDialogCancel asChild>
                          <Button variant='outline' disabled={isProcessingPayment}>Cancel</Button>
                     </AlertDialogCancel>
-                    <div className='flex flex-col-reverse sm:flex-row gap-2 mt-2 sm:mt-0'>
-                        <Button variant='outline' asChild>
-                            <Link href="/app/account">
-                                <UserCircle className="mr-2 h-4 w-4" />
-                                Complete Profile
-                            </Link>
-                        </Button>
-                        <Button onClick={handleConfirmPaymentAndBook} disabled={isProcessingPayment}>
-                            {isProcessingPayment ? <Loader2 className="animate-spin" /> : (
-                                <>
-                                <CreditCard className="mr-2 h-4 w-4" />
-                                 Add Payment Method
-                                </>
-                            )}
-                        </Button>
-                    </div>
+                    <Button onClick={handleConfirmPaymentAndBook} disabled={isProcessingPayment}>
+                        {isProcessingPayment ? <Loader2 className="animate-spin" /> : (
+                            <>
+                            <CreditCard className="mr-2 h-4 w-4" />
+                                Proceed to Payment
+                            </>
+                        )}
+                    </Button>
                 </AlertDialogFooter>
               </AlertDialogContent>
             </AlertDialog>
         </div>
     );
 }
+
+    
