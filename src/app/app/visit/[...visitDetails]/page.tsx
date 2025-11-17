@@ -8,7 +8,7 @@ import { doc, collection, addDoc, serverTimestamp, query, orderBy, updateDoc, ge
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
-import { Loader2, Video, Mic, MessageSquare, PhoneOff, AlertTriangle, VideoOff, MicOff, Send, X, ArrowLeft } from 'lucide-react';
+import { Loader2, Video, Mic, MessageSquare, PhoneOff, AlertTriangle, VideoOff, MicOff, Send, X, ArrowLeft, Sun, Wand } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { useToast } from '@/hooks/use-toast';
@@ -313,6 +313,12 @@ export default function VisitPage() {
                         <Button variant={isMicMuted ? "destructive" : "secondary"} size="icon" className="rounded-full h-12 w-12" onClick={toggleAudio}>
                             {isMicMuted ? <MicOff className="h-6 w-6" /> : <Mic className="h-6 w-6" />}
                         </Button>
+                         <Button variant="secondary" size="icon" className="rounded-full h-12 w-12" onClick={() => toast({ title: 'Feature Coming Soon!', description: 'Virtual backgrounds will be available in a future update.' })}>
+                            <Wand className="h-6 w-6" />
+                        </Button>
+                         <Button variant="secondary" size="icon" className="rounded-full h-12 w-12" onClick={() => toast({ title: 'Feature Coming Soon!', description: 'Lighting enhancement will be available soon.' })}>
+                            <Sun className="h-6 w-6" />
+                        </Button>
                         <Button variant={isChatOpen ? "default" : "secondary"} size="icon" className="rounded-full h-12 w-12" onClick={() => setIsChatOpen(!isChatOpen)}>
                             <MessageSquare className="h-6 w-6" />
                         </Button>
@@ -410,6 +416,5 @@ export default function VisitPage() {
         </div>
     );
 }
-
 
     
