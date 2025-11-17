@@ -31,6 +31,15 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  devIndicators: {
+    buildActivity: false,
+  },
+  experimental: {
+    // This is the fix for the cross-origin warning in the dev environment
+    allowedDevOrigins: [
+      'https://6000-firebase-zumadoc-1762991153763.cluster-id7eoc2eeze4orwbg4q7mtb36q.cloudworkstations.dev',
+    ],
+  },
 };
 
 export default nextConfig;
