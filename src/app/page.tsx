@@ -3,64 +3,47 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowRight, DollarSign, HeartPulse, MessageSquare, Pill, Search, ShieldCheck, Stethoscope } from 'lucide-react';
+import { ArrowRight, Bot, Clock, Video, Wallet } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { Header } from '@/components/shared/header';
 import { Footer } from '@/components/shared/footer';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { LocationSearch } from '@/components/shared/location-search';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card } from '@/components/ui/card';
 
-const valueProps = [
+
+const featureCards = [
     {
-        icon: DollarSign,
-        title: 'Find affordable care',
-        description: 'Compare prices for doctors, treatments, and prescriptions.'
+        icon: Video,
+        title: 'Instant Video Consultation',
+        description: 'Connect with a board-certified doctor in minutes, 24/7.',
+        href: '/app/book-visit',
+        cta: 'Start a Visit'
     },
     {
-        icon: MessageSquare,
-        title: 'Talk to a doctor 24/7',
-        description: 'Connect with board-certified doctors in minutes, anytime.'
+        icon: Bot,
+        title: 'AI Symptom Checker',
+        description: 'Get instant insights and guidance on your symptoms from our AI.',
+        href: '/app/book-visit',
+        cta: 'Try AI Now'
     },
     {
-        icon: Pill,
-        title: 'Get prescriptions online',
-        description: 'Receive a diagnosis and have prescriptions sent to your pharmacy.'
+        icon: Wallet,
+        title: 'Exclusive Medication Discounts',
+        description: 'Save up to 80% on prescriptions with our Gold membership.',
+        href: '/app/billing',
+        cta: 'Become a Member'
     },
     {
-        icon: ShieldCheck,
-        title: 'Private and secure',
-        description: 'Our platform is HIPAA-compliant to protect your privacy.'
+        icon: Clock,
+        title: 'On-Demand & Scheduled Care',
+        description: 'Enter our virtual waiting room or schedule an appointment.',
+        href: '/app/visits',
+        cta: 'View Visits'
     }
 ];
 
-const infoCards = [
-    { 
-        title: 'Cold & Flu', 
-        description: 'Get relief from cold and flu symptoms quickly.', 
-        href: '#', 
-        image: PlaceHolderImages.find(p => p.id === 'goodrx-info-1') 
-    },
-    { 
-        title: 'Blood Pressure', 
-        description: 'Learn how to manage your blood pressure.', 
-        href: '#', 
-        image: PlaceHolderImages.find(p => p.id === 'goodrx-info-2') 
-    },
-     { 
-        title: 'Hair Loss', 
-        description: 'Explore treatment options for hair loss.',
-        href: '#', 
-        image: PlaceHolderImages.find(p => p.id === 'treatment2') 
-    },
-    { 
-        title: 'Mental Health', 
-        description: 'Connect with a therapist or psychiatrist.',
-        href: '#', 
-        image: PlaceHolderImages.find(p => p.id === 'treatment4') 
-    },
-];
 
 export default function Home() {
   const heroImage = PlaceHolderImages.find(p => p.id === 'hero-teladoc');
@@ -75,11 +58,11 @@ export default function Home() {
           <div className="relative container mx-auto px-4 text-center">
             <div className='max-w-3xl mx-auto'>
                 <h1 className="text-4xl md:text-6xl font-headline text-primary">
-                    Fast, affordable healthcare.
-                    Right from your phone.
+                    Instant, intelligent healthcare.
+                    On your terms.
                 </h1>
                 <p className="mt-4 text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
-                    Find doctors, book virtual appointments, and get prescriptions from the comfort of your home.
+                    Find doctors, start an AI consultation, or get prescriptions from the comfort of your home.
                 </p>
             </div>
             <div className="mt-8 max-w-4xl mx-auto">
@@ -88,19 +71,29 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Value Propositions Section */}
+        {/* Feature Grid Section */}
         <section className="py-16 bg-background">
             <div className="container mx-auto px-4">
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                    {valueProps.map((prop) => (
-                        <div key={prop.title} className="text-center">
-                           <div className="flex items-center justify-center h-12 w-12 rounded-full bg-primary/10 text-primary mx-auto">
-                                <prop.icon className="h-6 w-6" />
-                           </div>
-                            <h3 className="font-headline text-xl text-foreground mt-4">{prop.title}</h3>
-                            <p className="text-sm text-muted-foreground mt-1">{prop.description}</p>
-                        </div>
-                    ))}
+                    {featureCards.map((card) => {
+                        const Icon = card.icon;
+                        return (
+                            <Card key={card.title} className="group flex flex-col p-6 text-center hover:shadow-xl hover:-translate-y-1 transition-transform duration-300">
+                               <div className="flex-shrink-0">
+                                    <div className="flex items-center justify-center h-16 w-16 rounded-full bg-primary/10 text-primary mx-auto">
+                                        <Icon className="h-8 w-8" />
+                                    </div>
+                                    <h3 className="font-headline text-xl text-foreground mt-4">{card.title}</h3>
+                                    <p className="text-sm text-muted-foreground mt-1 min-h-[40px]">{card.description}</p>
+                               </div>
+                                <div className="mt-6 flex-grow flex items-end justify-center">
+                                    <Button asChild variant="ghost" className="text-primary hover:text-primary">
+                                        <Link href={card.href}>{card.cta} <ArrowRight className="ml-2 h-4 w-4" /></Link>
+                                    </Button>
+                                </div>
+                           </Card>
+                        )
+                    })}
                 </div>
             </div>
         </section>
@@ -139,40 +132,6 @@ export default function Home() {
                 </Card>
             </div>
         </section>
-
-        {/* Informational Cards Section */}
-        <section className="py-16">
-            <div className="container mx-auto px-4">
-                 <div className="mb-8 text-center">
-                    <h2 className="text-3xl font-headline text-primary">Stay Informed and Healthy</h2>
-                    <p className="mt-1 text-muted-foreground">Explore popular topics and get the care you need.</p>
-                </div>
-                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                    {infoCards.map((card) => (
-                        <Link href={card.href} key={card.title} className="group block">
-                           <Card className="overflow-hidden h-full flex flex-col shadow-md hover:shadow-xl transition-shadow">
-                                {card.image && (
-                                    <div className="relative h-40">
-                                        <Image
-                                            src={card.image.imageUrl}
-                                            alt={card.title}
-                                            fill
-                                            className="object-cover transition-transform duration-300 group-hover:scale-105"
-                                            data-ai-hint={card.image.imageHint}
-                                        />
-                                    </div>
-                                )}
-                                <CardContent className="p-4 flex-grow flex flex-col">
-                                    <h3 className="font-headline text-lg text-foreground">{card.title}</h3>
-                                    <p className="text-sm text-muted-foreground mt-1 flex-grow">{card.description}</p>
-                                </CardContent>
-                           </Card>
-                        </Link>
-                    ))}
-                </div>
-            </div>
-        </section>
-        
 
       </main>
       <Footer />
