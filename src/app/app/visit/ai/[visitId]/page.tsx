@@ -195,7 +195,7 @@ export default function AiVisitPage() {
                         <p className="text-sm text-muted-foreground">This is an AI assistant and does not provide medical advice.</p>
                     </div>
                     <Button variant="ghost" asChild>
-                        <Link href="/app/visits"><ArrowLeft className="mr-2"/> End Session</Link>
+                        <Link href="/"><ArrowLeft className="mr-2"/> End Session</Link>
                     </Button>
                 </CardHeader>
                 <Separator />
