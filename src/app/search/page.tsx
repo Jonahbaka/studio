@@ -5,7 +5,7 @@ import { useSearchParams } from 'next/navigation';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Header } from '@/components/shared/header';
 import { Footer } from '@/components/shared/footer';
-import { Loader2, MapPin, Stethoscope, Star } from 'lucide-react';
+import { Loader2, MapPin, Stethoscope, Star, Building } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 
@@ -18,9 +18,63 @@ const mockDoctors = [
   { id: 5, name: 'Dr. Aisha Khan', specialty: 'Neurologist', address: '212 Brainy Path, Mindful Metro, NY', rating: 4.9, reviews: 180 },
 ];
 
+const mockPharmacies = [
+    { id: 1, name: 'CVS Pharmacy', address: '123 Main St, Palo Alto, CA', phone: '650-555-1234' },
+    { id: 2, name: 'Walgreens', address: '456 University Ave, Palo Alto, CA', phone: '650-555-5678' },
+    { id: 3, name: 'Rite Aid', address: '789 El Camino Real, Mountain View, CA', phone: '650-555-9012' },
+    { id: 4, name: 'Costco Pharmacy', address: '1000 N Rengstorff Ave, Mountain View, CA', phone: '650-555-3456' },
+    { id: 5, name: 'Walmart Pharmacy', address: '600 Showers Dr, Mountain View, CA', phone: '650-555-7890' },
+];
+
+const DoctorCard = ({ doctor }: { doctor: typeof mockDoctors[0] }) => (
+    <Card className="flex flex-col">
+        <CardHeader>
+            <CardTitle>{doctor.name}</CardTitle>
+            <CardDescription className="flex items-center gap-2">
+            <Stethoscope className="h-4 w-4" /> {doctor.specialty}
+            </CardDescription>
+        </CardHeader>
+        <CardContent className="flex-grow">
+            <p className="flex items-start gap-2 text-sm text-muted-foreground">
+            <MapPin className="h-4 w-4 mt-1 shrink-0" /> <span>{doctor.address}</span>
+            </p>
+        </CardContent>
+        <CardFooter className="flex justify-between items-center">
+            <div className="flex items-center gap-1">
+            <Star className="w-5 h-5 text-yellow-500 fill-yellow-400" />
+            <span className="font-bold">{doctor.rating}</span>
+            <span className="text-sm text-muted-foreground">({doctor.reviews} reviews)</span>
+            </div>
+            <Button asChild>
+            <Link href="/app/book-visit">Book Now</Link>
+            </Button>
+        </CardFooter>
+    </Card>
+);
+
+const PharmacyCard = ({ pharmacy }: { pharmacy: typeof mockPharmacies[0] }) => (
+    <Card className="flex flex-col">
+        <CardHeader>
+            <CardTitle>{pharmacy.name}</CardTitle>
+             <CardDescription className="flex items-center gap-2">
+                <Building className="h-4 w-4" /> Pharmacy
+            </CardDescription>
+        </CardHeader>
+        <CardContent className="flex-grow">
+             <p className="flex items-start gap-2 text-sm text-muted-foreground">
+                <MapPin className="h-4 w-4 mt-1 shrink-0" /> <span>{pharmacy.address}</span>
+            </p>
+        </CardContent>
+        <CardFooter>
+             <Button variant="outline" className="w-full">Set as My Pharmacy</Button>
+        </CardFooter>
+    </Card>
+)
+
+
 function SearchResults() {
   const searchParams = useSearchParams();
-  const query = searchParams.get('q');
+  const query = searchParams.get('q')?.toLowerCase() || '';
   const location = searchParams.get('location');
   const lat = searchParams.get('lat');
   const lon = searchParams.get('lon');
@@ -53,14 +107,19 @@ function SearchResults() {
   const displayLocation = lat && lon 
     ? (isLoadingLocation ? 'Detecting location...' : detectedLocation) 
     : location;
+    
+  const isPharmacySearch = ['pharmacy', 'cvs', 'walgreens', 'rite aid', 'medication'].some(term => query.includes(term));
 
   if (!query) {
     return (
       <div className="text-center text-muted-foreground">
-        <p>Please enter a search term to find a provider.</p>
+        <p>Please enter a search term to find providers or pharmacies.</p>
       </div>
     );
   }
+
+  const results = isPharmacySearch ? mockPharmacies : mockDoctors;
+  const ResultCard = isPharmacySearch ? PharmacyCard : DoctorCard;
 
   return (
     <div className="space-y-6">
@@ -72,30 +131,9 @@ function SearchResults() {
       </div>
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {mockDoctors.map(doctor => (
-          <Card key={doctor.id} className="flex flex-col">
-            <CardHeader>
-              <CardTitle>{doctor.name}</CardTitle>
-              <CardDescription className="flex items-center gap-2">
-                <Stethoscope className="h-4 w-4" /> {doctor.specialty}
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="flex-grow">
-              <p className="flex items-start gap-2 text-sm text-muted-foreground">
-                <MapPin className="h-4 w-4 mt-1 shrink-0" /> <span>{doctor.address}</span>
-              </p>
-            </CardContent>
-            <CardFooter className="flex justify-between items-center">
-              <div className="flex items-center gap-1">
-                <Star className="w-5 h-5 text-yellow-500 fill-yellow-400" />
-                <span className="font-bold">{doctor.rating}</span>
-                <span className="text-sm text-muted-foreground">({doctor.reviews} reviews)</span>
-              </div>
-              <Button asChild>
-                <Link href="/app/book-visit">Book Now</Link>
-              </Button>
-            </CardFooter>
-          </Card>
+        {results.map(item => (
+          // @ts-ignore - We know the types match based on isPharmacySearch
+          <ResultCard key={item.id} doctor={item} pharmacy={item} />
         ))}
       </div>
     </div>
