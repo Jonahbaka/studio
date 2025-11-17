@@ -77,6 +77,24 @@
       "description": "Portrait of a female doctor.",
       "imageUrl": "https://images.unsplash.com/photo-1673865641073-4479f93a7776?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxmZW1hbGUlMjBkb2N0b3J8ZW58MHx8fHwxNzYyOTE5ODY3fDA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "female doctor"
+    },
+    {
+      "id": "goodrx-ad-1",
+      "description": "Advertisement for a mobile app showing prescription savings.",
+      "imageUrl": "https://images.unsplash.com/photo-1623511907283-2803370a1642?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxtb2JpbGUlMjBhcHAlMjBwcmVzY3JpcHRpb258ZW58MHx8fHwxNzYzMzU1MzgxfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "mobile app prescription"
+    },
+    {
+      "id": "goodrx-info-1",
+      "description": "Informational card about cold and flu season.",
+      "imageUrl": "https://images.unsplash.com/photo-1634128221567-3220e071d1ea?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxjb2xkJTIwZmx1fGVufDB8fHx8MTc2MzM1NTM4MXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "cold flu"
+    },
+    {
+      "id": "goodrx-info-2",
+      "description": "Informational card about blood pressure.",
+      "imageUrl": "https://images.unsplash.com/photo-1631815587646-b85a1bb027e1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxibG9vZCUyMHByZXNzdXJlfGVufDB8fHx8MTc2MzM1NTM4MXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "blood pressure"
     }
   ]
 }
