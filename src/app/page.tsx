@@ -3,7 +3,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowRight, Brain, Stethoscope, Video, Droplet, Bone, Baby, HeartPulse, CheckCircle } from 'lucide-react';
+import { ArrowRight, Brain, Stethoscope, Video, Droplet, Bone, Baby, HeartPulse, CheckCircle, Pill, Search, Hospital } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -35,11 +35,42 @@ const treatments = [
     { name: 'Urgent Care', imageId: 'treatment5', category: 'General' },
 ]
 
+const featureCards = [
+    {
+        title: 'Instant Video Consultation',
+        description: 'Connect with a doctor in minutes.',
+        icon: Video,
+        href: '/app/book-visit',
+        color: 'text-blue-500',
+        bgColor: 'bg-blue-50'
+    },
+    {
+        title: 'Find Doctors Near You',
+        description: 'Search by specialty and location.',
+        icon: Search,
+        href: '#',
+        color: 'text-green-500',
+        bgColor: 'bg-green-50'
+    },
+    {
+        title: 'Zuma Gold Membership',
+        description: 'Exclusive benefits and savings.',
+        icon: CheckCircle,
+        href: '/app/billing',
+        color: 'text-yellow-500',
+        bgColor: 'bg-yellow-50'
+    },
+    {
+        title: 'Order Medicines',
+        description: 'Coming soon to your area.',
+        icon: Pill,
+        href: '#',
+        color: 'text-purple-500',
+        bgColor: 'bg-purple-50'
+    }
+]
+
 export default function Home() {
-  const heroImage = PlaceHolderImages.find(p => p.id === 'hero');
-  const step1Image = PlaceHolderImages.find(p => p.id === 'step-search-diverse');
-  const step2Image = PlaceHolderImages.find(p => p.id === 'step-book-diverse');
-  const step3Image = PlaceHolderImages.find(p => p.id === 'step-consult-diverse');
 
   return (
     <div className="flex flex-col min-h-screen bg-background">
@@ -48,58 +79,38 @@ export default function Home() {
         
         {/* Hero Section */}
         <section className="relative bg-primary/10">
-            <div className="container mx-auto px-4 grid lg:grid-cols-2 gap-8 items-center py-12 md:py-24">
-                <div className="text-center lg:text-left">
-                    <h1 className="text-4xl md:text-6xl font-headline text-primary">
-                        Your home for health
-                    </h1>
-                    <p className="mt-4 text-lg md:text-xl text-foreground/80 max-w-2xl mx-auto lg:mx-0">
-                        Find and book in-person or video consultations. Search for treatments, medications, doctors, labs and pharmacies.
-                    </p>
-                    <div className="mt-8 max-w-xl mx-auto lg:mx-0">
-                       <LocationSearch />
-                    </div>
+            <div className="container mx-auto px-4 text-center py-12 md:py-20">
+                <h1 className="text-4xl md:text-6xl font-headline text-primary">
+                    Your home for health
+                </h1>
+                <p className="mt-4 text-lg md:text-xl text-foreground/80 max-w-2xl mx-auto">
+                    Find and book in-person or video consultations. Search for treatments, medications, doctors, labs and pharmacies.
+                </p>
+                <div className="mt-8 max-w-xl mx-auto">
+                   <LocationSearch />
                 </div>
-                 <div className="relative h-80 lg:h-full min-h-[20rem] rounded-lg overflow-hidden shadow-2xl">
-                    {heroImage && (
-                        <Image src={heroImage.imageUrl} alt={heroImage.description} fill className="object-cover" data-ai-hint={heroImage.imageHint} />
-                    )}
-                 </div>
             </div>
         </section>
 
-        {/* How It Works Section */}
-        <section className="py-16">
+        {/* Feature Cards Section */}
+        <section className="py-12">
             <div className="container mx-auto px-4">
-                <h2 className="text-3xl font-headline text-center mb-8">Get Started in 3 Easy Steps</h2>
-                <div className="grid md:grid-cols-3 gap-8 text-center">
-                    <Card className="shadow-lg">
-                        <CardHeader>
-                            {step1Image && <Image src={step1Image.imageUrl} alt={step1Image.description} width={200} height={200} className="w-32 h-32 rounded-full mx-auto object-cover mb-4" data-ai-hint={step1Image.imageHint}/>}
-                            <CardTitle>1. Find Your Provider</CardTitle>
-                        </CardHeader>
-                        <CardContent>
-                            <p className="text-muted-foreground">Search for doctors by specialty, condition, or name. Find the right care for you, anytime.</p>
-                        </CardContent>
-                    </Card>
-                     <Card className="shadow-lg">
-                        <CardHeader>
-                            {step2Image && <Image src={step2Image.imageUrl} alt={step2Image.description} width={200} height={200} className="w-32 h-32 rounded-full mx-auto object-cover mb-4" data-ai-hint={step2Image.imageHint}/>}
-                            <CardTitle>2. Book a Consultation</CardTitle>
-                        </CardHeader>
-                        <CardContent>
-                            <p className="text-muted-foreground">Choose an in-person appointment or start an instant video visit in minutes.</p>
-                        </CardContent>
-                    </Card>
-                     <Card className="shadow-lg">
-                        <CardHeader>
-                            {step3Image && <Image src={step3Image.imageUrl} alt={step3Image.description} width={200} height={200} className="w-32 h-32 rounded-full mx-auto object-cover mb-4" data-ai-hint={step3Image.imageHint}/>}
-                            <CardTitle>3. Get Care</CardTitle>
-                        </CardHeader>
-                        <CardContent>
-                            <p className="text-muted-foreground">Talk to a licensed provider, get a diagnosis, and receive a treatment plan.</p>
-                        </CardContent>
-                    </Card>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    {featureCards.map((card) => (
+                        <Link href={card.href} key={card.title} className="group">
+                             <Card className="h-full shadow-md hover:shadow-xl transition-shadow duration-300">
+                                <CardContent className="p-6 flex items-center gap-4">
+                                    <div className={`p-3 rounded-full ${card.bgColor}`}>
+                                        <card.icon className={`h-6 w-6 ${card.color}`} />
+                                    </div>
+                                    <div>
+                                        <h3 className="text-lg font-semibold group-hover:text-primary transition-colors">{card.title}</h3>
+                                        <p className="text-sm text-muted-foreground">{card.description}</p>
+                                    </div>
+                                </CardContent>
+                            </Card>
+                        </Link>
+                    ))}
                 </div>
             </div>
         </section>
