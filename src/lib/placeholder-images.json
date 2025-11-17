@@ -7,24 +7,6 @@
       "imageHint": "telehealth consultation"
     },
     {
-      "id": "step-search-diverse",
-      "description": "A diverse group of people looking at a phone.",
-      "imageUrl": "https://images.unsplash.com/photo-1551836022-d5d88e9218df?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxkaXZlcnNlJTIwZ3JvdXAlMjBwaG9uZXxlbnwwfHx8fDE3NjMzNTU2Mzd8MA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "diverse people phone"
-    },
-    {
-      "id": "step-book-diverse",
-      "description": "A person of color using a laptop for a video call.",
-      "imageUrl": "https://images.unsplash.com/photo-1618255219424-54b159b5b157?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxibGFjayUyMHBlcnNvbiUyMGxhcHRvcHxlbnwwfHx8fDE3NjMzNTU2Mzd8MA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "person laptop"
-    },
-    {
-      "id": "step-consult-diverse",
-      "description": "A doctor of Nigerian descent consulting with a patient.",
-      "imageUrl": "https://images.unsplash.com/photo-1622253692010-333f2da60710?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxibGFjayUyMGRvY3RvcnxlbnwwfHx8fDE3NjMzNTU2Mzd8MA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "black doctor"
-    },
-    {
       "id": "practo-clinic",
       "description": "A female doctor smiling at her desk in a clinic.",
       "imageUrl": "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxmZW1hbGUlMjBkb2N0b3J8ZW58MHx8fHwxNzYzMjc1NTk1fDA&ixlib=rb-4.1.0&q=80&w=1080",
