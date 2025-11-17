@@ -1,20 +1,19 @@
 
 'use server';
 /**
- * @fileOverview This file defines the dual-path prescription dispensing flow.
+ * @fileOverview This file defines the prescription dispensing flow.
  *
- * - dispensePrescription - Main flow to handle dispensing for US and Nigeria.
+ * - dispensePrescription - Main flow to handle e-prescribing via DoseSpot.
  * - DispenseInput - The input type for the dispensePrescription function.
  * - DispenseOutput - The return type for the dispensePrescription function.
  */
 
 import { ai } from '@/ai/genkit';
-import { z } from 'genkit';
+import { z } from 'zod';
 
 // Mock patient data for simulation
 const mockPatientDatabase: Record<string, any> = {
   patient1: { uid: 'patient1', name: 'John Doe', country: 'US', phone: '+15551234567', email: 'john.doe@example.com', dosespotPatientId: 'abc123' },
-  patient2: { uid: 'patient2', name: 'Chioma Okoro', country: 'NG', phone: '+2348031234567', email: 'chioma.okoro@example.com' },
 };
 
 const DispenseInputSchema = z.object({
@@ -25,7 +24,7 @@ const DispenseInputSchema = z.object({
     quantity: z.number(),
     daysSupply: z.number(),
     pharmacy: z.object({
-        id: z.string().optional(), // For Nigeria
+        id: z.string().optional(),
         npi: z.string().optional(), // For USA
     }),
 });
@@ -54,53 +53,29 @@ const dispensePrescriptionFlow = ai.defineFlow(
       throw new Error('Patient not found');
     }
 
-    const isNigeria = patient.country === 'NG';
+    // USA PATH (DoseSpot ePrescribe)
+    console.log(`Dispensing for US patient via DoseSpot: ${patient.name}`);
+    // Simulate API call to DoseSpot
+    const dosespotPayload = {
+        clinicId: process.env.DOSESPOT_CLINIC_ID || 'MOCK_CLINIC_ID',
+        userId: 'PROVIDER_UID_HERE', // This would be context.auth.uid in a real scenario
+        patientId: patient.dosespotPatientId,
+        pharmacyNpi: input.pharmacy.npi,
+        ndc: input.ndc,
+        sig: input.sig,
+        quantity: input.quantity,
+        daysSupply: input.daysSupply
+    };
 
-    let status: string;
-    let method: string;
-    let pdfUrl: string | undefined;
+    console.log('Calling DoseSpot API with data:', dosespotPayload);
 
-    if (isNigeria) {
-      // NIGERIA PATH (PDF + WhatsApp + Email – Nationwide)
-      console.log(`Dispensing for Nigerian patient: ${patient.name}`);
-      // 1. Generate Secure Rx PDF (Simulated)
-      pdfUrl = `https://zumaidoc.web.app/rx_secure/${input.visitId}_${Date.now()}.pdf`;
-      console.log(`Generated secure PDF: ${pdfUrl}`);
-
-      // 2. Send notifications (Simulated)
-      console.log(`Sending PDF via WhatsApp to patient: ${patient.phone}`);
-      console.log(`Sending PDF via Email to patient: ${patient.email}`);
-      if (input.pharmacy.id) {
-          console.log(`Sending PDF to Nigerian pharmacy ID: ${input.pharmacy.id}`);
-      }
-      
-      status = 'sent_ng_nationwide';
-      method = 'WhatsApp+PDF';
-      
-    } else {
-      // USA PATH (DoseSpot ePrescribe)
-      console.log(`Dispensing for US patient via DoseSpot: ${patient.name}`);
-      // Simulate API call to DoseSpot
-      const dosespotPayload = {
-          clinicId: process.env.DOSESPOT_CLINIC_ID || 'MOCK_CLINIC_ID',
-          userId: 'PROVIDER_UID_HERE', // This would be context.auth.uid in a real scenario
-          patientId: patient.dosespotPatientId,
-          pharmacyNpi: input.pharmacy.npi,
-          ndc: input.ndc,
-          sig: input.sig,
-          quantity: input.quantity,
-          daysSupply: input.daysSupply
-      };
-
-      console.log('Calling DoseSpot API with data:', dosespotPayload);
-
-      // In a real scenario, this ID would come from the DoseSpot API response
-      const dosespotPrescriptionId = `ds_${Date.now()}`;
-      
-      status = 'sent_us';
-      method = 'DoseSpot';
-      pdfUrl = dosespotPrescriptionId; // Use the DoseSpot ID as a reference
-    }
+    // In a real scenario, this ID would come from the DoseSpot API response
+    const dosespotPrescriptionId = `ds_${Date.now()}`;
+    
+    const status = 'sent_us';
+    const method = 'DoseSpot';
+    const pdfUrl = dosespotPrescriptionId; // Use the DoseSpot ID as a reference
+    
 
     // Log dispense event (Simulated)
     console.log('--- DISPENSE EVENT LOG ---');
@@ -113,7 +88,7 @@ const dispensePrescriptionFlow = ai.defineFlow(
         timestamp: new Date().toISOString()
     }, null, 2));
     
-    console.log("🚀 DISPENSE ENGINE CALLED – DUAL PATH LOGIC EXECUTED");
+    console.log("🚀 DISPENSE ENGINE CALLED – SINGLE PATH LOGIC EXECUTED");
 
     return { status, method, pdfUrl };
   }

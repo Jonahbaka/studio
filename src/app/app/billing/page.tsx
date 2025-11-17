@@ -19,7 +19,7 @@ import { doc, setDoc, updateDoc, serverTimestamp } from "firebase/firestore";
 import Link from "next/link";
 
 const goldFeatures = [
-    'Discounted pricing on low-cost prescription meds',
+    '50% off on one treatment purchase',
     'Priority support from our team',
     'Exclusive access to new treatments',
     'Lower-cost prescription renewals'

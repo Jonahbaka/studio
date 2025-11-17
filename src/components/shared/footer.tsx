@@ -11,7 +11,7 @@ export function Footer() {
           <div className="flex flex-col gap-4">
             <Logo className="text-primary-foreground"/>
             <p className="text-sm text-primary-foreground/70">
-              ED Meds from $2.99 · Doctor in 5 Min · Gold Unlimited $99/yr · Now in ALL Nigeria
+              ED Meds from $2.99 · Doctor in 5 Min · Gold Unlimited $99/yr
             </p>
             <div className="flex flex-col gap-2 text-sm">
                 <a href="https://wa.me/14083049969" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-primary-foreground/70 hover:text-primary-foreground">

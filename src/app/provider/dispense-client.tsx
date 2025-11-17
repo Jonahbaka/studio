@@ -14,12 +14,6 @@ import React, { useState, useTransition } from 'react';
 // Mock data, in a real app this would come from Firestore/API
 const mockPatients = [
     { uid: 'patient1', name: 'John Doe (USA)', country: 'US', dosespotPatientId: 'dsp123' },
-    { uid: 'patient2', name: 'Chioma Okoro (Nigeria)', country: 'NG' },
-];
-
-const mockPharmaciesNG = [
-    { id: 'pharm1', name: 'HealthPlus Ikeja', street: '12 Allen Avenue', city: 'Ikeja', state: 'Lagos', phone: '+2348031234567', email: 'ikeja@healthplus.com' },
-    { id: 'pharm2', name: 'MedPlus Garki', street: '5 Garki Mall', city: 'Garki', state: 'Abuja', phone: '+2348055554321', email: 'garki@medplus.com' },
 ];
 
 const mockPharmaciesUS = [
@@ -31,7 +25,7 @@ const mockPharmaciesUS = [
     { id: 'uspharm6', name: 'Kaiser Permanente Pharmacy', street: '555 Castro St', city: 'Mountain View', state: 'CA', npi: '1023048592' },
 ];
 
-type Pharmacy = (typeof mockPharmaciesUS)[0] | (typeof mockPharmaciesNG)[0];
+type Pharmacy = (typeof mockPharmaciesUS)[0];
 type PharmacyWithDistance = Pharmacy & { distance: number };
 
 
@@ -51,8 +45,6 @@ export default function DispenseClient() {
     const [isSearchingPharmacies, setIsSearchingPharmacies] = useState(false);
     
     const selectedPatient = mockPatients.find(p => p.uid === patientUid);
-    const isNigeria = selectedPatient?.country === 'NG';
-    const isUSA = selectedPatient?.country === 'US';
     
     const handleFindPharmacies = (useGeo = false) => {
         setIsSearchingPharmacies(true);
@@ -67,7 +59,7 @@ export default function DispenseClient() {
         console.log(`Searching for pharmacies near: ${useGeo ? 'current device location' : userAddress}`);
 
         setTimeout(() => {
-            const pharmaciesToSearch = isUSA ? mockPharmaciesUS : mockPharmaciesNG;
+            const pharmaciesToSearch = mockPharmaciesUS;
             
             const pharmaciesWithDistance = pharmaciesToSearch.map(p => ({
                 ...p,
@@ -125,7 +117,7 @@ export default function DispenseClient() {
                         eDispense
                     </div>
                 </CardTitle>
-                <CardDescription>Send prescriptions to US & Nigerian pharmacies. Full US pharmacy list enabled.</CardDescription>
+                <CardDescription>Send prescriptions to US pharmacies via DoseSpot.</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
                 <div className="space-y-2">
@@ -225,11 +217,7 @@ export default function DispenseClient() {
                 )}
                 
                 <Button onClick={handleDispense} disabled={isPending || !selectedPharmacy} className="w-full">
-                    {isPending ? <Loader2 className="animate-spin" /> : (
-                        isNigeria 
-                            ? "Send to Nigerian Pharmacy (WhatsApp + PDF)" 
-                            : "ePrescribe via DoseSpot (USA)"
-                    )}
+                    {isPending ? <Loader2 className="animate-spin" /> : "ePrescribe via DoseSpot (USA)"}
                 </Button>
             </CardContent>
         </Card>
