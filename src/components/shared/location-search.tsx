@@ -75,8 +75,8 @@ export function LocationSearch() {
     }
 
     return (
-        <Card className="w-full bg-background/80 backdrop-blur-sm text-foreground shadow-2xl">
-            <CardContent className="p-2">
+        <Card className="w-full bg-transparent border-none shadow-none">
+            <CardContent className="p-0">
                 <form onSubmit={handleSearch}>
                     <div className="flex h-14 w-full items-center rounded-lg bg-background shadow-inner border">
                         {/* Search Query Input */}
