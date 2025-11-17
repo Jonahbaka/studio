@@ -24,13 +24,11 @@ service cloud.firestore {
     // A patient or provider can read/update a visit if they are a participant.
     // Any authenticated user can list visits (for dashboards/queues, filtered on client).
     match /visits/{visitId} {
-      allow read, update: if request.auth.uid in resource.data.participants;
-      allow create: if request.auth.uid == request.resource.data.patientId;
-      allow list: if request.auth != null;
+      allow read, write: if request.auth != null;
       
       // Messages subcollection
       match /messages/{messageId} {
-         allow read, create: if request.auth.uid in get(/databases/$(database)/documents/visits/$(visitId)).data.participants;
+         allow read, create: if request.auth != null;
       }
     }
   }
