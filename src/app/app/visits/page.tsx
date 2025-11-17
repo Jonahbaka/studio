@@ -1,4 +1,3 @@
-
 'use client';
 
 import Link from "next/link";
@@ -19,7 +18,7 @@ import { format } from "date-fns";
 import { Loader2, Video, PlusCircle, CalendarPlus, Sparkles } from "lucide-react";
 
 export default function MyVisitsPage() {
-  const { user, isUserLoading } = useUser(); // Get loading state for user
+  const { user, isUserLoading } = useUser();
   const firestore = useFirestore();
 
   const visitsQuery = useMemoFirebase(() => 
