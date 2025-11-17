@@ -95,6 +95,30 @@
       "description": "Informational card about blood pressure.",
       "imageUrl": "https://images.unsplash.com/photo-1631815587646-b85a1bb027e1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxibG9vZCUyMHByZXNzdXJlfGVufDB8fHx8MTc2MzM1NTM4MXww&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "blood pressure"
+    },
+    {
+      "id": "feature-video",
+      "description": "A person on a video call with a doctor.",
+      "imageUrl": "https://images.unsplash.com/photo-1659353887977-c310d90c751a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHx2aWRlbyUyMGNhbGwlMjBkb2N0b3J8ZW58MHx8fHwxNzYzMzU4ODg4fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "video call doctor"
+    },
+    {
+      "id": "feature-find",
+      "description": "A map interface showing locations of doctors.",
+      "imageUrl": "https://images.unsplash.com/photo-1527824786100-2787b7fdc674?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxkb2N0b3IlMjBtYXB8ZW58MHx8fHwxNzYzMzU4ODg4fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "doctor map"
+    },
+    {
+      "id": "feature-gold",
+      "description": "Abstract gold patterns.",
+      "imageUrl": "https://images.unsplash.com/photo-1608935405374-223bbea5d535?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxnb2xkJTIwcGF0dGVybnxlbnwwfHx8fDE3NjMzNTg4ODh8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "gold pattern"
+    },
+    {
+      "id": "feature-meds",
+      "description": "A variety of pills and capsules.",
+      "imageUrl": "https://images.unsplash.com/photo-1668453569370-789848f41ebe?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxwaWxscyUyMG1lZGljYXRpb258ZW58MHx8fHwxNzYzMzExNDczfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "pills medication"
     }
   ]
 }

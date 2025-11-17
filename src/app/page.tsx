@@ -3,7 +3,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowRight, Brain, Stethoscope, Video, Droplet, Bone, Baby, HeartPulse, CheckCircle, Pill, Search, Hospital } from 'lucide-react';
+import { ArrowRight, Brain, Stethoscope, Video, Droplet, Bone, Baby, HeartPulse, CheckCircle, Pill, Search } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -41,32 +41,28 @@ const featureCards = [
         description: 'Connect with a doctor in minutes.',
         icon: Video,
         href: '/app/book-visit',
-        color: 'text-blue-500',
-        bgColor: 'bg-blue-50'
+        image: PlaceHolderImages.find(p => p.id === 'feature-video')
     },
     {
         title: 'Find Doctors Near You',
         description: 'Search by specialty and location.',
         icon: Search,
         href: '#specialties',
-        color: 'text-green-500',
-        bgColor: 'bg-green-50'
+        image: PlaceHolderImages.find(p => p.id === 'feature-find')
     },
     {
         title: 'Zuma Gold Membership',
         description: 'Exclusive benefits and savings.',
         icon: CheckCircle,
         href: '/app/billing',
-        color: 'text-yellow-500',
-        bgColor: 'bg-yellow-50'
+        image: PlaceHolderImages.find(p => p.id === 'feature-gold')
     },
     {
         title: 'Order Medicines',
         description: 'Coming soon to your area.',
         icon: Pill,
         href: '#',
-        color: 'text-purple-500',
-        bgColor: 'bg-purple-50'
+        image: PlaceHolderImages.find(p => p.id === 'feature-meds')
     }
 ]
 
@@ -98,14 +94,21 @@ export default function Home() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                     {featureCards.map((card) => (
                         <Link href={card.href} key={card.title} className="group">
-                             <Card className="shadow-md hover:shadow-xl transition-shadow duration-300 text-center h-full">
-                                <CardContent className="p-6 flex flex-col items-center justify-center gap-4">
-                                    <div className={`p-4 rounded-full ${card.bgColor}`}>
-                                        <card.icon className={`h-8 w-8 ${card.color}`} />
-                                    </div>
+                             <Card className="shadow-md hover:shadow-xl transition-shadow duration-300 h-full overflow-hidden relative text-white">
+                                {card.image && (
+                                    <>
+                                        <Image src={card.image.imageUrl} alt={card.title} fill className="object-cover transition-transform duration-300 group-hover:scale-105" data-ai-hint={card.image.imageHint} />
+                                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+                                    </>
+                                )}
+                                <CardContent className="p-4 flex flex-col justify-end items-start gap-4 h-full relative z-10">
                                     <div className="flex-1">
-                                        <h3 className="text-lg font-semibold group-hover:text-primary transition-colors">{card.title}</h3>
-                                        <p className="text-sm text-muted-foreground mt-1">{card.description}</p>
+                                        <h3 className="text-lg font-semibold transition-colors">{card.title}</h3>
+                                        <p className="text-sm text-white/80 mt-1">{card.description}</p>
+                                    </div>
+                                    <div className="flex items-center text-sm font-semibold group-hover:underline">
+                                      <span>Learn More</span>
+                                      <ArrowRight className="ml-2 h-4 w-4" />
                                     </div>
                                 </CardContent>
                             </Card>
