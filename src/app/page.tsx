@@ -41,28 +41,32 @@ const featureCards = [
         description: 'Connect with a doctor in minutes.',
         icon: Video,
         href: '/app/book-visit',
-        image: PlaceHolderImages.find(p => p.id === 'feature-video')
+        iconColor: 'text-sky-500',
+        iconBg: 'bg-sky-100',
     },
     {
         title: 'Find Doctors Near You',
         description: 'Search by specialty and location.',
-        icon: Search,
+        icon: Stethoscope,
         href: '#specialties',
-        image: PlaceHolderImages.find(p => p.id === 'feature-find')
+        iconColor: 'text-red-500',
+        iconBg: 'bg-red-100',
     },
     {
         title: 'Zuma Gold Membership',
         description: 'Exclusive benefits and savings.',
         icon: CheckCircle,
         href: '/app/billing',
-        image: PlaceHolderImages.find(p => p.id === 'feature-gold')
+        iconColor: 'text-amber-500',
+        iconBg: 'bg-amber-100',
     },
     {
         title: 'Order Medicines',
         description: 'Coming soon to your area.',
         icon: Pill,
         href: '#',
-        image: PlaceHolderImages.find(p => p.id === 'feature-meds')
+        iconColor: 'text-teal-500',
+        iconBg: 'bg-teal-100',
     }
 ]
 
@@ -94,19 +98,16 @@ export default function Home() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                     {featureCards.map((card) => (
                         <Link href={card.href} key={card.title} className="group">
-                             <Card className="shadow-md hover:shadow-xl transition-shadow duration-300 h-full overflow-hidden relative text-white">
-                                {card.image && (
-                                    <>
-                                        <Image src={card.image.imageUrl} alt={card.title} fill className="object-cover transition-transform duration-300 group-hover:scale-105" data-ai-hint={card.image.imageHint} />
-                                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
-                                    </>
-                                )}
-                                <CardContent className="p-4 flex flex-col justify-end items-start gap-4 h-full relative z-10">
-                                    <div className="flex-1">
-                                        <h3 className="text-lg font-semibold transition-colors">{card.title}</h3>
-                                        <p className="text-sm text-white/80 mt-1">{card.description}</p>
+                             <Card className="shadow-md hover:shadow-xl transition-shadow duration-300 h-full overflow-hidden">
+                                <CardContent className="p-6 flex flex-col items-start gap-4 h-full text-left">
+                                    <div className={`w-14 h-14 rounded-lg flex items-center justify-center ${card.iconBg}`}>
+                                        <card.icon className={`w-8 h-8 ${card.iconColor}`} />
                                     </div>
-                                    <div className="flex items-center text-sm font-semibold group-hover:underline">
+                                    <div className="flex-1">
+                                        <h3 className="text-lg font-semibold transition-colors text-foreground">{card.title}</h3>
+                                        <p className="text-sm text-muted-foreground mt-1">{card.description}</p>
+                                    </div>
+                                    <div className="flex items-center text-sm font-semibold text-primary group-hover:underline">
                                       <span>Learn More</span>
                                       <ArrowRight className="ml-2 h-4 w-4" />
                                     </div>
