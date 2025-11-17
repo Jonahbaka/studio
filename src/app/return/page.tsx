@@ -9,6 +9,7 @@ import { doc, updateDoc, serverTimestamp, setDoc } from 'firebase/firestore';
 import { Loader2, CheckCircle, AlertTriangle } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 
 function ReturnContent() {
   const router = useRouter();
@@ -59,7 +60,8 @@ function ReturnContent() {
                         paymentStatus: 'Paid',
                         updatedAt: serverTimestamp(),
                     });
-                    toast({ title: "Payment Successful!", description: "You've been placed in the waiting room." });
+                    toast({ title: "Payment Successful!", description: "You are now in the waiting room." });
+                    // This is the "whisk away" moment.
                     router.push(`/app/visit/${user.uid}/${visitId}`);
                 } catch (updateError: any) {
                     setError('Failed to update visit status. Please contact support.');
@@ -94,7 +96,7 @@ function ReturnContent() {
         <CheckCircle className="h-16 w-16 text-green-500 mx-auto mb-4" />
         <h1 className="text-2xl font-bold">Payment Successful!</h1>
         <p className="text-muted-foreground mt-2">
-            Thank you, {customerEmail}. Your transaction is complete. Redirecting...
+            Thank you, {customerEmail}. You are being whisked away to the waiting room...
         </p>
         <Loader2 className="h-8 w-8 animate-spin mx-auto mt-6" />
       </div>
@@ -108,10 +110,10 @@ function ReturnContent() {
         <AlertTriangle className="h-16 w-16 text-yellow-500 mx-auto mb-4" />
         <h1 className="text-2xl font-bold">Payment Incomplete</h1>
         <p className="text-muted-foreground mt-2">
-            Your payment was not completed. You can try again.
+            Your payment was not completed. You can close this window and try again.
         </p>
-        <Button onClick={() => router.push(tryAgainPath)} className="mt-6">
-            Try Again
+        <Button asChild className="mt-6">
+            <Link href={tryAgainPath}>Try Again</Link>
         </Button>
       </div>
     );
@@ -125,8 +127,8 @@ function ReturnContent() {
             <p className="text-destructive-foreground bg-destructive/20 p-2 rounded-md mt-2">
                {error || "An unknown error occurred while processing your payment."}
             </p>
-            <Button onClick={() => router.push('/app')} className="mt-6">
-                Return to Dashboard
+            <Button asChild className="mt-6">
+                <Link href="/app">Return to Dashboard</Link>
             </Button>
         </div>
       )

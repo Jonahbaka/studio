@@ -67,6 +67,22 @@ export default function AiVisitPage() {
         chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
     }, [messages]);
     
+    // Add an introductory message from the AI when the chat loads
+    useEffect(() => {
+        const addInitialMessage = async () => {
+            if (!messages && !areMessagesLoading && firestore && visit && visit.reason) {
+                 const introMessage: Omit<Message, 'id'> = {
+                    sender: 'ai',
+                    text: `Hi! I see you're here about "${visit.reason}". I'm an AI assistant and I'm here to help. Please describe your symptoms in more detail so I can assist you. \n\nAt any time, you can choose to speak with a real doctor.`,
+                    timestamp: serverTimestamp()
+                };
+                const messagesCollection = collection(firestore, 'visits', visitId, 'messages');
+                await addDoc(messagesCollection, introMessage);
+            }
+        }
+        addInitialMessage();
+    }, [messages, areMessagesLoading, firestore, visitId, visit]);
+
     const handleSendMessage = async () => {
         if (messageInput.trim() === '' || !user || !firestore || !visitId) return;
         
@@ -105,7 +121,7 @@ export default function AiVisitPage() {
             console.error("Error with AI diagnosis:", error);
             const errorMessage: Omit<Message, 'id'> = {
                 sender: 'ai',
-                text: "I'm sorry, but I encountered an error and can't provide a response right now. Please try again later.",
+                text: "I'm sorry, but I encountered an error and can't provide a response right now. Please try again later, or book a visit with a doctor.",
                 timestamp: serverTimestamp()
             };
             await addDoc(messagesCollection, errorMessage);
@@ -128,14 +144,13 @@ export default function AiVisitPage() {
         setIsProcessingPayment(true);
 
         try {
-            // This is the crucial step. We change the status to indicate readiness for payment,
-            // which also prepares it to be seen by providers.
+            // Update visit status to show it's ready for payment
             await updateDoc(visitRef, {
                 status: 'Pending Payment',
                 updatedAt: serverTimestamp(),
             });
             
-            // Redirect to our new checkout page, passing the visitId
+            // Redirect to the dedicated checkout page
             router.push(`/checkout?visitId=${visitId}`);
 
         } catch (error: any) {
@@ -240,7 +255,7 @@ export default function AiVisitPage() {
                  <div className="p-4 border-t">
                     <Button onClick={() => setShowPaymentDialog(true)} className="w-full">
                         <Video className="mr-2" />
-                        Book Video Visit with a Doctor Now
+                        Ready to see a Doctor? Click here.
                     </Button>
                 </div>
                 <CardFooter className="p-2 border-t">
@@ -272,7 +287,7 @@ export default function AiVisitPage() {
                 <AlertDialogHeader>
                   <AlertDialogTitle>Ready to See a Doctor?</AlertDialogTitle>
                   <AlertDialogDescription>
-                    To speak with a provider, a $49.00 consultation fee is required. Your AI chat history will be shared with the doctor.
+                    To speak with a provider, a one-time consultation fee is required. Your AI chat history will be shared with the doctor to continue your consultation.
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <div className="p-6 my-4 bg-secondary rounded-lg flex items-center justify-between">
@@ -287,7 +302,7 @@ export default function AiVisitPage() {
                         {isProcessingPayment ? <Loader2 className="animate-spin" /> : (
                             <>
                             <CreditCard className="mr-2 h-4 w-4" />
-                                Proceed to Payment
+                                Add Payment & See Doctor
                             </>
                         )}
                     </Button>
@@ -297,5 +312,3 @@ export default function AiVisitPage() {
         </div>
     );
 }
-
-    
