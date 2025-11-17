@@ -1,0 +1,533 @@
+{
+  "entities": {
+    "Patient": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Patient",
+      "type": "object",
+      "description": "Represents a patient using the ZumaTeledocAI platform.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Patient entity."
+        },
+        "firstName": {
+          "type": "string",
+          "description": "The first name of the patient."
+        },
+        "lastName": {
+          "type": "string",
+          "description": "The last name of the patient."
+        },
+        "dateOfBirth": {
+          "type": "string",
+          "description": "The date of birth of the patient.",
+          "format": "date-time"
+        },
+        "email": {
+          "type": "string",
+          "description": "The email address of the patient.",
+          "format": "email"
+        },
+        "phoneNumber": {
+          "type": "string",
+          "description": "The phone number of the patient."
+        },
+        "address": {
+          "type": "string",
+          "description": "The address of the patient."
+        },
+        "insuranceId": {
+          "type": "string",
+          "description": "Reference to Insurance. (Relationship: Patient 1:1 Insurance)"
+        },
+        "isGoldMember": {
+            "type": "boolean",
+            "description": "Indicates if the patient has a Gold membership."
+        },
+        "goldMemberSince": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The date the patient became a Gold member."
+        }
+      },
+      "required": [
+        "id",
+        "firstName",
+        "lastName",
+        "dateOfBirth",
+        "email",
+        "phoneNumber"
+      ]
+    },
+    "Doctor": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Doctor",
+      "type": "object",
+      "description": "Represents a doctor using the ZumaTeledocAI platform.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Doctor entity."
+        },
+        "firstName": {
+          "type": "string",
+          "description": "The first name of the doctor."
+        },
+        "lastName": {
+          "type": "string",
+          "description": "The last name of the doctor."
+        },
+        "email": {
+          "type": "string",
+          "description": "The email address of the doctor.",
+          "format": "email"
+        },
+        "phoneNumber": {
+          "type": "string",
+          "description": "The phone number of the doctor."
+        },
+        "licenseNumber": {
+          "type": "string",
+          "description": "The license number of the doctor."
+        },
+        "npi": {
+          "type": "string",
+          "description": "The NPI (National Provider Identifier) of the doctor."
+        }
+      },
+      "required": [
+        "id",
+        "firstName",
+        "lastName",
+        "email",
+        "phoneNumber",
+        "licenseNumber",
+        "npi"
+      ]
+    },
+    "Appointment": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Appointment",
+      "type": "object",
+      "description": "Represents an appointment between a patient and a doctor.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Appointment entity."
+        },
+        "patientId": {
+          "type": "string",
+          "description": "Reference to Patient. (Relationship: Patient 1:N Appointment)"
+        },
+        "doctorId": {
+          "type": "string",
+          "description": "Reference to Doctor. (Relationship: Doctor 1:N Appointment)"
+        },
+        "startTime": {
+          "type": "string",
+          "description": "The start time of the appointment.",
+          "format": "date-time"
+        },
+        "endTime": {
+          "type": "string",
+          "description": "The end time of the appointment.",
+          "format": "date-time"
+        },
+        "status": {
+          "type": "string",
+          "description": "The status of the appointment (e.g., scheduled, completed, cancelled)."
+        },
+        "reasonForVisit": {
+          "type": "string",
+          "description": "The patient's stated reason for the visit."
+        }
+      },
+      "required": [
+        "id",
+        "patientId",
+        "doctorId",
+        "startTime",
+        "endTime",
+        "status"
+      ]
+    },
+    "Prescription": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Prescription",
+      "type": "object",
+      "description": "Represents a prescription issued to a patient.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Prescription entity."
+        },
+        "patientId": {
+          "type": "string",
+          "description": "Reference to Patient. (Relationship: Patient 1:N Prescription)"
+        },
+        "doctorId": {
+          "type": "string",
+          "description": "Reference to Doctor. (Relationship: Doctor 1:N Prescription)"
+        },
+        "medication": {
+          "type": "string",
+          "description": "The name of the prescribed medication."
+        },
+        "dosage": {
+          "type": "string",
+          "description": "The dosage of the medication."
+        },
+        "frequency": {
+          "type": "string",
+          "description": "How often the medication should be taken."
+        },
+        "datePrescribed": {
+          "type": "string",
+          "description": "The date the prescription was prescribed.",
+          "format": "date-time"
+        },
+        "refills": {
+          "type": "number",
+          "description": "The number of refills allowed."
+        },
+        "pharmacyId": {
+          "type": "string",
+          "description": "Reference to Pharmacy. (Relationship: Pharmacy 1:N Prescription)"
+        }
+      },
+      "required": [
+        "id",
+        "patientId",
+        "doctorId",
+        "medication",
+        "dosage",
+        "frequency",
+        "datePrescribed",
+        "refills"
+      ]
+    },
+    "Pharmacy": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Pharmacy",
+      "type": "object",
+      "description": "Represents a pharmacy.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Pharmacy entity."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the pharmacy."
+        },
+        "address": {
+          "type": "string",
+          "description": "The address of the pharmacy."
+        },
+        "phoneNumber": {
+          "type": "string",
+          "description": "The phone number of the pharmacy."
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "address",
+        "phoneNumber"
+      ]
+    },
+    "Insurance": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Insurance",
+      "type": "object",
+      "description": "Represents a patient's insurance information.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Insurance entity."
+        },
+        "companyName": {
+          "type": "string",
+          "description": "The name of the insurance company."
+        },
+        "policyNumber": {
+          "type": "string",
+          "description": "The policy number of the insurance."
+        },
+        "groupNumber": {
+          "type": "string",
+          "description": "The group number of the insurance."
+        }
+      },
+      "required": [
+        "id",
+        "companyName",
+        "policyNumber"
+      ]
+    },
+    "Staff": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Staff",
+      "type": "object",
+      "description": "Represents a staff member of ZumaTeledocAI.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Staff entity."
+        },
+        "firstName": {
+          "type": "string",
+          "description": "The first name of the staff member."
+        },
+        "lastName": {
+          "type": "string",
+          "description": "The last name of the staff member."
+        },
+        "email": {
+          "type": "string",
+          "description": "The email address of the staff member.",
+          "format": "email"
+        },
+        "phoneNumber": {
+          "type": "string",
+          "description": "The phone number of the staff member."
+        },
+        "role": {
+          "type": "string",
+          "description": "The role of the staff member (e.g., nurse, admin)."
+        }
+      },
+      "required": [
+        "id",
+        "firstName",
+        "lastName",
+        "email",
+        "phoneNumber",
+        "role"
+      ]
+    },
+    "AuditLog": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "AuditLog",
+      "type": "object",
+      "description": "Represents an audit log entry for PHI access.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the AuditLog entity."
+        },
+        "patientId": {
+          "type": "string",
+          "description": "Reference to Patient. (Relationship: Patient 1:N AuditLog)"
+        },
+        "userId": {
+          "type": "string",
+          "description": "The ID of the user who accessed the PHI."
+        },
+        "timestamp": {
+          "type": "string",
+          "description": "The timestamp of the PHI access.",
+          "format": "date-time"
+        },
+        "description": {
+          "type": "string",
+          "description": "A description of the PHI access event."
+        }
+      },
+      "required": [
+        "id",
+        "patientId",
+        "userId",
+        "timestamp",
+        "description"
+      ]
+    }
+  },
+  "auth": {
+    "providers": [
+      "password",
+      "anonymous"
+    ]
+  },
+  "firestore": {
+    "structure": [
+      {
+        "path": "/patients/{patientId}",
+        "definition": {
+          "entityName": "Patient",
+          "schema": {
+            "$ref": "#/backend/entities/Patient"
+          },
+          "description": "Collection of patient profiles.  Owned by the patient. Includes denormalized 'patientId' for easier querying and rule creation.",
+          "params": [
+            {
+              "name": "patientId",
+              "description": "The unique identifier for the patient."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/doctors/{doctorId}",
+        "definition": {
+          "entityName": "Doctor",
+          "schema": {
+            "$ref": "#/backend/entities/Doctor"
+          },
+          "description": "Collection of doctor profiles.",
+          "params": [
+            {
+              "name": "doctorId",
+              "description": "The unique identifier for the doctor."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/appointments/{appointmentId}",
+        "definition": {
+          "entityName": "Appointment",
+          "schema": {
+            "$ref": "#/backend/entities/Appointment"
+          },
+          "description": "Collection of appointments. Includes 'patientId' and 'doctorId' for easier querying and rule creation.",
+          "params": [
+            {
+              "name": "appointmentId",
+              "description": "The unique identifier for the appointment."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/prescriptions/{prescriptionId}",
+        "definition": {
+          "entityName": "Prescription",
+          "schema": {
+            "$ref": "#/backend/entities/Prescription"
+          },
+          "description": "Collection of prescriptions. Includes 'patientId', 'doctorId', and 'pharmacyId' for easier querying and rule creation.",
+          "params": [
+            {
+              "name": "prescriptionId",
+              "description": "The unique identifier for the prescription."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/pharmacies/{pharmacyId}",
+        "definition": {
+          "entityName": "Pharmacy",
+          "schema": {
+            "$ref": "#/backend/entities/Pharmacy"
+          },
+          "description": "Collection of pharmacies.",
+          "params": [
+            {
+              "name": "pharmacyId",
+              "description": "The unique identifier for the pharmacy."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/insurances/{insuranceId}",
+        "definition": {
+          "entityName": "Insurance",
+          "schema": {
+            "$ref": "#/backend/entities/Insurance"
+          },
+          "description": "Collection of insurance information.",
+          "params": [
+            {
+              "name": "insuranceId",
+              "description": "The unique identifier for the insurance record."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/staff/{staffId}",
+        "definition": {
+          "entityName": "Staff",
+          "schema": {
+            "$ref": "#/backend/entities/Staff"
+          },
+          "description": "Collection of staff member profiles.",
+          "params": [
+            {
+              "name": "staffId",
+              "description": "The unique identifier for the staff member."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/auditLogs/{auditLogId}",
+        "definition": {
+          "entityName": "AuditLog",
+          "schema": {
+            "$ref": "#/backend/entities/AuditLog"
+          },
+          "description": "Collection of audit log entries for PHI access.  Includes 'patientId' and 'userId' for querying.",
+          "params": [
+            {
+              "name": "auditLogId",
+              "description": "The unique identifier for the audit log entry."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/users/{userId}",
+        "definition": {
+          "entityName": "user",
+          "schema": {
+            "$ref": "#/backend/entities/Patient"
+          },
+          "description": "Collection of user profiles. Could contain denormalized role information.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier for the user."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/licenseRequests/{licenseRequestId}",
+        "definition": {
+          "entityName": "Staff",
+          "schema": {
+            "$ref": "#/backend/entities/Staff"
+          },
+          "description": "Collection to manage doctor/nurse license approval requests.",
+          "params": [
+            {
+              "name": "licenseRequestId",
+              "description": "The unique identifier for the license request."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/roles_admin/{userId}",
+        "definition": {
+          "entityName": "user",
+          "schema": {
+            "$ref": "#/backend/entities/Patient"
+          },
+          "description": "Collection to store admin roles. Existence of a document indicates admin role.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier for the admin user."
+            }
+          ]
+        }
+      }
+    ],
+    "reasoning": "The Firestore data structure is designed to support a HIPAA-compliant telehealth platform, ZumaTeledocAI, focusing on secure access to patient data (PHI), role-based access control, and scalability. The design emphasizes authorization independence and avoids hierarchical authorization dependencies to enhance security and simplify rules. It incorporates strategies for denormalization of authorization context, structural segregation for homogeneous security, and consistent access modeling. \n\nKey highlights of the approach:\n\n1.  **Authorization Independence (Denormalization):** To avoid using `get()` calls in security rules, authorization data (e.g., user roles, membership status) is denormalized. For example, if access to `Appointments` depends on a user's role or membership, relevant role information is copied into the appointment documents.\n2.  **Structural Segregation:** Data with different access requirements is stored in separate collections to simplify security rules. For example, patient data and admin data are stored in distinct collections.\n3.  **Access Modeling:** The structure uses path-based ownership and membership maps to define access control. Patient-owned data is organized under `/users/{userId}`. Collaborative data, like appointments shared between patients and doctors, uses membership maps to determine access.\n4.  **QAPs (Rules are not Filters):** The data structure enables secure `list` operations without filtering data based on rules. Segregation of data types (e.g., public vs. private) ensures only authorized data is ever queried.\n5.  **User Roles:** User roles (patient, doctor, nurse, pharmacist, staff, admin, superadmin) are managed using a combination of dedicated collections (`/roles_admin/{uid}`) and/or denormalized fields in user documents (`/users/{uid}`).\n\nSpecifically, the structure addresses the application's core requirements as follows:\n\n*   **Unified Patient Chart:** Patient charts are organized under `/patients/{patientId}` with subcollections for different types of PHI. Access to these subcollections is controlled based on user roles and patient-doctor relationships, with audit logs recording all PHI access.\n*   **Provider Dashboard:** Doctor/nurse schedules are stored under `/users/{userId}/appointments`, synced with Google Calendar. Access is restricted to the owning doctor/nurse or authorized staff.\n*   **Admin and Staff Tools:** Admin-related data and tools are stored under `/admin` and secured using role-based access control.\n*   **AI-Powered Diagnosis:** AI-assisted diagnoses, potentially stored as part of the patient's visit history or treatment plans, inherit the access controls of the parent document.\n*   **Real-time Patient Chart Search:** Algolia integration ensures search is performed on appropriately permissioned data.\n*   **Secure Sign-up/Login Logic:** The `/users/{uid}` collection stores user profiles, and the `/licenseRequests` collection manages license approvals. Custom claims are assigned after admin approval.\n*   **Video + E2EE Messaging:** Secure video consultations and end-to-end encrypted messaging data are stored separately with appropriate encryption and access controls.\n*   **Audit and Activity Log:** All PHI access is logged in the immutable `/auditLogs` collection, enabling compliance monitoring.\n*   **HIPAA Compliance:** Every aspect of the data structure and security rules is designed to ensure HIPAA compliance, protecting patient data and maintaining auditability."
+  }
+}
