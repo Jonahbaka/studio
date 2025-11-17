@@ -325,8 +325,7 @@ export default function VisitPage() {
             <div className={cn(
                 "fixed bottom-0 left-0 right-0 z-40 h-[75vh] transform-gpu transition-transform duration-300 ease-in-out lg:relative lg:h-full lg:w-96 lg:transform-gpu-none lg:transition-none lg:border-l-2 lg:border-r-0 lg:border-t-0 lg:border-b-0",
                 isChatOpen ? "translate-y-0" : "translate-y-full lg:translate-y-0",
-                (!isChatOpen || visitEnded) && "hidden lg:flex",
-                visitEnded && "hidden"
+                !visitEnded && "lg:flex"
             )}>
                 <Card className="w-full h-full flex flex-col rounded-t-lg lg:rounded-none">
                     <CardHeader className="flex-shrink-0 flex-row items-center justify-between">
@@ -405,6 +404,3 @@ export default function VisitPage() {
         </div>
     );
 }
-
-
-    
