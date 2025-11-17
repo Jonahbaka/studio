@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/button';
 import { Header } from '@/components/shared/header';
 import { Footer } from '@/components/shared/footer';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
+import { LocationSearch } from '@/components/shared/location-search';
 
 const treatments = [
     { name: 'Cold & Flu', icon: Meh },
