@@ -1,3 +1,4 @@
+
 'use server';
 
 /**
@@ -50,7 +51,7 @@ const prompt = ai.definePrompt({
   2.  **Acute Bronchitis:** Rationale based on persistent cough, often viral in origin.
   3.  **Congestive Heart Failure (CHF) Exacerbation:** Rationale considering history of HTN and shortness of breath.
   `,
-  model: 'googleai/gemini-2.5-flash',
+  model: 'googleai/gemini-1.5-pro',
   config: {
     safetySettings: [
       {
