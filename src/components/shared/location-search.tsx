@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { MapPin, Search, Loader2, Stethoscope } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
-import { Separator } from '../ui/separator';
+import { Separator } from '@/components/ui/separator';
 
 export function LocationSearch() {
     const [searchQuery, setSearchQuery] = useState('');
