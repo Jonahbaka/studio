@@ -2,8 +2,11 @@
 'use client';
 
 import Link from "next/link";
-import { useCollection, useUser, useFirestore, useMemoFirebase } from "@/firebase";
-import { collection, query, orderBy, where } from "firebase/firestore";
+import { useMemo } from "react";
+import { useUser } from "@/appwrite/hooks/useUser";
+import { useDocuments } from "@/appwrite/hooks/useDocuments";
+import { Query } from "appwrite";
+import { COLLECTION_IDS } from "@/appwrite/config";
 import {
   DashboardShell,
   DashboardHeader,
@@ -20,20 +23,16 @@ import { Loader2, Video, PlusCircle, CalendarPlus, Sparkles } from "lucide-react
 
 export default function MyVisitsPage() {
   const { user, isUserLoading } = useUser();
-  const firestore = useFirestore();
 
-  const visitsQuery = useMemoFirebase(() => 
-    // **FIX**: Only create the query if the user object is available.
-    firestore && user ? 
-      query(
-        collection(firestore, 'visits'), 
-        where(`participants.${user.uid}`, '==', true),
-        orderBy('createdAt', 'desc')
-      ) : null,
-    [firestore, user]
-  );
+  const queries = useMemo(() => {
+    if (!user) return [];
+    return [
+      Query.equal(`participants.${user.uid}`, true),
+      Query.orderDesc('createdAt')
+    ];
+  }, [user]);
 
-  const { data: visits, isLoading: areVisitsLoading, error } = useCollection(visitsQuery);
+  const { data: visits, isLoading: areVisitsLoading, error } = useDocuments(COLLECTION_IDS.VISITS, queries);
   
   // The component is loading if the user is still authenticating OR if the visits are being fetched.
   const isLoading = isUserLoading || (user && areVisitsLoading);
@@ -92,13 +91,14 @@ export default function MyVisitsPage() {
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {visits.map(visit => {
+                    {visits.map((visit: any) => {
                       const isAiVisit = visit.status === 'AI In Progress';
                       const isHumanVisit = visit.status === 'Waiting' || visit.status === 'In Progress';
+                      const visitDate = visit.createdAt ? (typeof visit.createdAt === 'string' ? new Date(visit.createdAt) : new Date()) : null;
                       return (
-                        <TableRow key={visit.id}>
+                        <TableRow key={visit.$id || visit.id}>
                             <TableCell>
-                                {visit.createdAt?.toDate ? format(visit.createdAt.toDate(), "MMM d, yyyy 'at' h:mm a") : 'N/A'}
+                                {visitDate ? format(visitDate, "MMM d, yyyy 'at' h:mm a") : 'N/A'}
                             </TableCell>
                             <TableCell>{visit.reason}</TableCell>
                             <TableCell>

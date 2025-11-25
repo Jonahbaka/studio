@@ -9,6 +9,8 @@ import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import { Loader2, Sparkles } from 'lucide-react';
 import React, { useState, useTransition } from 'react';
+import { useFirestore, useUser } from '@/firebase';
+import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 
 const placeholderHistory = `Patient is a 45-year-old male presenting with a persistent cough for the last 2 weeks. He reports associated fatigue and occasional shortness of breath. Denies fever or chills.
 Past Medical History: Hypertension, managed with Lisinopril 10mg daily.
@@ -19,8 +21,11 @@ Vitals: BP 130/85, HR 78, Temp 98.6°F, O2 Sat 97% on room air.
 export default function SoapNoteClient() {
     const [isPending, startTransition] = useTransition();
     const { toast } = useToast();
+    const firestore = useFirestore();
+    const { user } = useUser();
     const [history, setHistory] = useState(placeholderHistory);
     const [soapNote, setSoapNote] = useState('');
+    const [isSaving, setIsSaving] = useState(false);
 
     const handleGenerate = () => {
         startTransition(async () => {
@@ -36,6 +41,35 @@ export default function SoapNoteClient() {
                 });
             }
         });
+    };
+
+    const handleSave = async () => {
+        if (!firestore || !user || !soapNote) return;
+        setIsSaving(true);
+        try {
+            await addDoc(collection(firestore, 'medicalRecords'), {
+                patientId: 'placeholder_patient_id', // In real app, pass via props
+                providerId: user.uid,
+                type: 'soap_note',
+                data: {
+                    soapNote: {
+                        fullText: soapNote,
+                        // Parse sections if needed
+                    }
+                },
+                createdAt: serverTimestamp(),
+                updatedAt: serverTimestamp(),
+                version: 1
+            });
+            toast({ title: "SOAP Note Saved", description: "Added to patient's medical record." });
+            setSoapNote('');
+            setHistory('');
+        } catch (error) {
+            console.error("Error saving note:", error);
+            toast({ variant: "destructive", title: "Save Failed", description: "Could not save the note." });
+        } finally {
+            setIsSaving(false);
+        }
     };
 
     return (
@@ -73,13 +107,15 @@ export default function SoapNoteClient() {
                             disabled={isPending}
                             className="bg-secondary/50"
                         />
-                         {isPending && <div className="text-sm text-muted-foreground flex items-center justify-center p-4"><Loader2 className="animate-spin mr-2" />Generating...</div>}
+                        {isPending && <div className="text-sm text-muted-foreground flex items-center justify-center p-4"><Loader2 className="animate-spin mr-2" />Generating...</div>}
                     </div>
                 )}
-                 {soapNote && !isPending && (
+                {soapNote && !isPending && (
                     <div className="flex gap-2">
-                        <Button className="w-full">Accept & Save to Chart</Button>
-                        <Button variant="outline" className="w-full">Clear</Button>
+                        <Button className="w-full" onClick={handleSave} disabled={isSaving}>
+                            {isSaving ? <Loader2 className="animate-spin" /> : 'Accept & Save to Chart'}
+                        </Button>
+                        <Button variant="outline" className="w-full" onClick={() => setSoapNote('')}>Clear</Button>
                     </div>
                 )}
             </CardContent>

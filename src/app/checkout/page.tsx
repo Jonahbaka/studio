@@ -17,13 +17,27 @@ function CheckoutForm() {
   const searchParams = useSearchParams();
   const [clientSecret, setClientSecret] = useState<string | null>(null);
   const [loadingError, setLoadingError] = useState<string | null>(null);
+  const [appointmentData, setAppointmentData] = useState<any>(null);
 
   const visitId = searchParams.get('visitId');
   const plan = searchParams.get('plan');
+  const isAppointment = searchParams.get('appointment') === 'true';
 
   useEffect(() => {
-    if (!visitId && !plan) {
-      const errorMsg = 'No visit or plan provided. Cannot initiate payment.';
+    // Get appointment data from sessionStorage if booking appointment
+    if (isAppointment) {
+      const stored = sessionStorage.getItem('pendingAppointment');
+      if (stored) {
+        try {
+          setAppointmentData(JSON.parse(stored));
+        } catch (e) {
+          console.error('Error parsing appointment data:', e);
+        }
+      }
+    }
+
+    if (!visitId && !plan && !isAppointment) {
+      const errorMsg = 'No visit, plan, or appointment provided. Cannot initiate payment.';
       toast({
         variant: 'destructive',
         title: 'Error',
@@ -38,7 +52,7 @@ function CheckoutForm() {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ visitId, plan }),
+      body: JSON.stringify({ visitId, plan, appointment: isAppointment ? appointmentData : null }),
     })
       .then((res) => res.json())
       .then((data) => {
@@ -63,7 +77,7 @@ function CheckoutForm() {
         });
         setLoadingError(errorMsg);
       });
-  }, [toast, visitId, plan]);
+  }, [toast, visitId, plan, isAppointment, appointmentData]);
 
   if (loadingError) {
       return (

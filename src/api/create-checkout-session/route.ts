@@ -55,19 +55,29 @@ const handleSubscription = async (plan: string, returnUrl: string) => {
     }
 };
 
-const handleOneTimePayment = async (visitId: string, returnUrl: string) => {
+const handleOneTimePayment = async (visitId: string | null, returnUrl: string, appointmentData?: any) => {
      try {
         const product = await getOrCreateProduct(`ZumaTeledoc Consultation`);
         const price = await getOrCreatePrice(product.id, 4900);
+        
+        const metadata: Record<string, string> = {};
+        if (visitId) {
+          metadata.visitId = visitId;
+        }
+        if (appointmentData) {
+          metadata.appointment = 'true';
+          metadata.providerId = appointmentData.providerId;
+          metadata.scheduledAt = appointmentData.scheduledAt;
+          metadata.callType = appointmentData.callType;
+          metadata.reasonForVisit = appointmentData.reasonForVisit;
+        }
         
         const session = await stripe.checkout.sessions.create({
           ui_mode: 'embedded',
           line_items: [{ price: price.id, quantity: 1 }],
           mode: 'payment',
           return_url: returnUrl,
-          metadata: {
-            visitId: visitId,
-          }
+          metadata: metadata
         });
 
         return NextResponse.json({ clientSecret: session.client_secret });
@@ -80,22 +90,22 @@ const handleOneTimePayment = async (visitId: string, returnUrl: string) => {
 
 
 export async function POST(request: Request) {
-  const { visitId, plan } = await request.json();
+  const { visitId, plan, appointment } = await request.json();
 
-  if (!visitId && !plan) {
-      return NextResponse.json({ error: 'A Visit ID or Subscription Plan is required' }, { status: 400 });
+  if (!visitId && !plan && !appointment) {
+      return NextResponse.json({ error: 'A Visit ID, Subscription Plan, or Appointment is required' }, { status: 400 });
   }
   
   const baseUrl = request.headers.get('origin') || 'http://localhost:3000';
-  const returnUrl = `${baseUrl}/return?session_id={CHECKOUT_SESSION_ID}${visitId ? `&visitId=${visitId}` : ''}${plan ? `&plan=${plan}` : ''}`;
+  const returnUrl = `${baseUrl}/return?session_id={CHECKOUT_SESSION_ID}${visitId ? `&visitId=${visitId}` : ''}${plan ? `&plan=${plan}` : ''}${appointment ? `&appointment=true` : ''}`;
 
 
   if (plan) {
     return handleSubscription(plan, returnUrl);
   }
 
-  if (visitId) {
-    return handleOneTimePayment(visitId, returnUrl);
+  if (visitId || appointment) {
+    return handleOneTimePayment(visitId || null, returnUrl, appointment);
   }
   
   return NextResponse.json({ error: 'Invalid request' }, { status: 400 });

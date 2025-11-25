@@ -21,6 +21,7 @@ export async function GET(request: NextRequest) {
       status: session.status,
       customer_email: session.customer_details?.email,
       visitId: session.metadata?.visitId,
+      appointment: session.metadata?.appointment === 'true',
     });
   } catch (error) {
     console.error('Error retrieving session:', error);

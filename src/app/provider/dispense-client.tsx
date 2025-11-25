@@ -1,4 +1,3 @@
-
 'use client';
 
 import { dispensePrescription } from '@/ai/flows/dispense-prescription';
@@ -10,6 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { useToast } from '@/hooks/use-toast';
 import { Loader2, Send, MapPin, Search } from 'lucide-react';
 import React, { useState, useTransition } from 'react';
+import { useFirestore } from '@/firebase';
 
 // Mock data, in a real app this would come from Firestore/API
 const mockPatients = [
@@ -32,20 +32,21 @@ type PharmacyWithDistance = Pharmacy & { distance: number };
 export default function DispenseClient() {
     const [isPending, startTransition] = useTransition();
     const { toast } = useToast();
-    
+    const firestore = useFirestore();
+
     const [patientUid, setPatientUid] = useState('');
     const [selectedPharmacy, setSelectedPharmacy] = useState<Pharmacy | null>(null);
     const [ndc, setNdc] = useState('0069-4210-30'); // Viagra
     const [sig, setSig] = useState('Take 1 tablet by mouth 30 minutes before activity');
     const [quantity, setQuantity] = useState('10');
     const [daysSupply, setDaysSupply] = useState('30');
-    
+
     const [userAddress, setUserAddress] = useState('Palo Alto, CA');
     const [nearbyPharmacies, setNearbyPharmacies] = useState<PharmacyWithDistance[]>([]);
     const [isSearchingPharmacies, setIsSearchingPharmacies] = useState(false);
-    
+
     const selectedPatient = mockPatients.find(p => p.uid === patientUid);
-    
+
     const handleFindPharmacies = (useGeo = false) => {
         setIsSearchingPharmacies(true);
         setNearbyPharmacies([]);
@@ -55,12 +56,12 @@ export default function DispenseClient() {
         // In a real app, you would use a service like Google Maps Geocoding API
         // to turn `userAddress` into coordinates, then use the Haversine formula
         // or a distance matrix API to calculate real distances.
-        
+
         console.log(`Searching for pharmacies near: ${useGeo ? 'current device location' : userAddress}`);
 
         setTimeout(() => {
             const pharmaciesToSearch = mockPharmaciesUS;
-            
+
             const pharmaciesWithDistance = pharmaciesToSearch.map(p => ({
                 ...p,
                 // Simulate distance calculation
@@ -69,7 +70,7 @@ export default function DispenseClient() {
 
             setNearbyPharmacies(pharmaciesWithDistance);
             setIsSearchingPharmacies(false);
-            toast({ title: "Pharmacies Found", description: `Showing ${pharmaciesWithDistance.length} pharmacies near ${userAddress}`});
+            toast({ title: "Pharmacies Found", description: `Showing ${pharmaciesWithDistance.length} pharmacies near ${userAddress}` });
         }, 1500); // Simulate network delay
     };
 
@@ -80,6 +81,7 @@ export default function DispenseClient() {
         }
 
         startTransition(async () => {
+            // Mock DoseSpot call
             const result = await dispensePrescription({
                 visitId: `visit_${Date.now()}`,
                 patientUid,
@@ -87,13 +89,15 @@ export default function DispenseClient() {
                 sig,
                 quantity: parseInt(quantity),
                 daysSupply: parseInt(daysSupply),
-                pharmacy: { 
-                    id: selectedPharmacy.id, 
-                    npi: 'npi' in selectedPharmacy ? selectedPharmacy.npi : undefined 
+                pharmacy: {
+                    id: selectedPharmacy.id,
+                    npi: 'npi' in selectedPharmacy ? selectedPharmacy.npi : undefined
                 },
             });
-            
+
             if (result.status?.startsWith('sent')) {
+                // Save to Firestore logic would go here using 'firestore' variable
+                // For now, just toast as we are fixing syntax errors
                 toast({
                     title: 'Prescription Sent!',
                     description: `Status: ${result.status}. Method: ${result.method}`,
@@ -143,11 +147,11 @@ export default function DispenseClient() {
                         <div className="space-y-2">
                             <Label htmlFor="address">Provider Location or Patient Address</Label>
                             <div className="flex gap-2">
-                                <Input 
-                                    id="address" 
+                                <Input
+                                    id="address"
                                     placeholder="Enter address, city, or zip"
                                     value={userAddress}
-                                    onChange={(e) => setUserAddress(e.target.value)} 
+                                    onChange={(e) => setUserAddress(e.target.value)}
                                 />
                                 <Button variant="outline" onClick={() => handleFindPharmacies(false)} disabled={isSearchingPharmacies}>
                                     <Search className="mr-2 h-4 w-4" /> Find
@@ -157,16 +161,16 @@ export default function DispenseClient() {
                                 <MapPin className="mr-1 h-4 w-4" /> Use My Device Location
                             </Button>
                         </div>
-                        
+
                         {isSearchingPharmacies && (
                             <div className="flex items-center justify-center p-4 text-muted-foreground">
                                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                                 Searching for nearby pharmacies...
                             </div>
                         )}
-                        
+
                         {nearbyPharmacies.length > 0 && (
-                             <div className="space-y-2">
+                            <div className="space-y-2">
                                 <Label htmlFor="pharmacy-select">Select a Pharmacy</Label>
                                 <Select onValueChange={(pharmacyId) => {
                                     const pharmacy = nearbyPharmacies.find(p => p.id === pharmacyId);
@@ -179,8 +183,8 @@ export default function DispenseClient() {
                                         {nearbyPharmacies.map(p => (
                                             <SelectItem key={p.id} value={p.id}>
                                                 <div className="flex flex-col text-left">
-                                                   <span className="font-semibold">{p.name}</span>
-                                                   <span className="text-xs text-muted-foreground">{p.street}, {p.city} - {p.distance} miles away</span>
+                                                    <span className="font-semibold">{p.name}</span>
+                                                    <span className="text-xs text-muted-foreground">{p.street}, {p.city} - {p.distance} miles away</span>
                                                 </div>
                                             </SelectItem>
                                         ))}
@@ -190,7 +194,7 @@ export default function DispenseClient() {
                         )}
                     </div>
                 )}
-                
+
                 {selectedPharmacy && (
                     <div className="space-y-4">
                         <div className="space-y-2">
@@ -208,14 +212,14 @@ export default function DispenseClient() {
                                 <Label htmlFor="quantity">Quantity</Label>
                                 <Input id="quantity" type="number" value={quantity} onChange={e => setQuantity(e.target.value)} />
                             </div>
-                             <div className="space-y-2">
+                            <div className="space-y-2">
                                 <Label htmlFor="days-supply">Days Supply</Label>
                                 <Input id="days-supply" type="number" value={daysSupply} onChange={e => setDaysSupply(e.target.value)} />
                             </div>
                         </div>
                     </div>
                 )}
-                
+
                 <Button onClick={handleDispense} disabled={isPending || !selectedPharmacy} className="w-full">
                     {isPending ? <Loader2 className="animate-spin" /> : "ePrescribe via DoseSpot (USA)"}
                 </Button>

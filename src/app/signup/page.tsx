@@ -1,247 +1,165 @@
-'use client'
+'use client';
 
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { useState, useEffect } from 'react';
-import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Button } from '@/components/ui/button';
 import { Logo } from '@/components/shared/logo';
-import { useAuth, useFirestore, useUser } from '@/firebase';
-import { updateProfile, User as FirebaseUser, createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
-import { doc, setDoc, getDoc, serverTimestamp } from 'firebase/firestore';
-import { useToast } from '@/hooks/use-toast';
-import { Loader2 } from 'lucide-react';
+import { User, Stethoscope, Heart, Video, MessageSquare, Calendar, Award, Clock, Shield } from 'lucide-react';
 
 export default function SignupPage() {
-    const [role, setRole] = useState('patient');
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [licenseNumber, setLicenseNumber] = useState('');
-    const [npiNumber, setNpiNumber] = useState('');
-    const [isLoading, setIsLoading] = useState(false);
-
-    const auth = useAuth();
-    const firestore = useFirestore();
-    const { user, isUserLoading } = useUser();
-    const router = useRouter();
-    const { toast } = useToast();
-
-    const isClinicalRole = ['doctor', 'nurse', 'pharmacist'].includes(role);
-
-    const redirectToPortal = async (user: FirebaseUser) => {
-        if (!firestore) return;
-        const userDocRef = doc(firestore, 'users', user.uid);
-        try {
-          const docSnap = await getDoc(userDocRef);
-          if (docSnap.exists()) {
-            const userData = docSnap.data();
-            if (['doctor', 'nurse', 'admin'].includes(userData.role)) {
-              router.push('/provider');
-            } else {
-              router.push('/app');
-            }
-          } else {
-            // Fallback for social signups or interrupted signups
-            await createUserProfile(user, { role: 'patient' });
-            router.push('/app');
-          }
-        } catch (error) {
-          console.error("Error redirecting user:", error);
-          router.push('/app');
-        }
-    };
-
-    useEffect(() => {
-        if (!isUserLoading && user) {
-            redirectToPortal(user);
-        }
-    }, [user, isUserLoading]);
-
-
-    const createUserProfile = async (user: FirebaseUser, additionalData: any = {}) => {
-        if (!firestore) return;
-        const userProfileRef = doc(firestore, 'users', user.uid);
-        
-        const userProfileSnap = await getDoc(userProfileRef);
-        if (userProfileSnap.exists()) {
-            console.log("User profile already exists.");
-            return;
-        }
-
-        const [fName, ...lNameParts] = (user.displayName || `${additionalData.firstName || ''} ${additionalData.lastName || ''}`).split(' ');
-        const lName = lNameParts.join(' ');
-        
-        const finalRole = additionalData.role || 'patient';
-        
-        const profileData: any = {
-            id: user.uid,
-            email: user.email,
-            firstName: fName || 'New',
-            lastName: lName || 'User',
-            role: finalRole,
-            createdAt: serverTimestamp(),
-            isGoldMember: false,
-        };
-        
-        if (['doctor', 'nurse', 'pharmacist'].includes(finalRole)) {
-            profileData.licenseNumber = additionalData.licenseNumber || 'PENDING_APPROVAL';
-            profileData.npi = additionalData.npiNumber || 'PENDING_APPROVAL';
-            profileData.licenseStatus = 'pending';
-
-            const licenseRequestRef = doc(firestore, 'licenseRequests', user.uid);
-            await setDoc(licenseRequestRef, {
-                userId: user.uid,
-                name: `${profileData.firstName} ${profileData.lastName}`,
-                email: user.email,
-                role: finalRole,
-                licenseNumber: profileData.licenseNumber,
-                npi: profileData.npi,
-                status: 'pending', 
-                submittedAt: serverTimestamp(),
-            });
-        }
-
-        await setDoc(userProfileRef, profileData);
-    };
-
-    const handleSignUp = async (e: React.FormEvent) => {
-        e.preventDefault();
-        if (!auth || !firestore) {
-            toast({ variant: "destructive", title: "Sign up failed", description: "Firebase service is not available." });
-            return;
-        }
-        if (isClinicalRole && (!licenseNumber || !npiNumber)) {
-            toast({ variant: "destructive", title: "Missing Information", description: "License and NPI numbers are required for clinical roles."});
-            return;
-        }
-        setIsLoading(true);
-
-        try {
-            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-            const newUser = userCredential.user;
-            
-            await updateProfile(newUser, { displayName: `${firstName} ${lastName}`.trim() });
-            await sendEmailVerification(newUser);
-
-            await createUserProfile(newUser, { 
-                firstName, 
-                lastName, 
-                role,
-                licenseNumber,
-                npiNumber,
-            });
-            
-            toast({
-                title: "Welcome to ZumaiDoc!",
-                description: isClinicalRole 
-                    ? "Your account is pending approval. Please check your email to verify your address."
-                    : "Please check your inbox to verify your email address. You will be redirected shortly."
-            });
-
-        } catch (error: any) {
-            console.error("Error signing up:", error);
-            let description = error.message;
-            if (error.code === 'auth/email-already-in-use') {
-                description = "This email is already registered. Please log in instead.";
-            }
-            toast({ variant: "destructive", title: "Sign up failed", description });
-        } finally {
-            setIsLoading(false);
-        }
-    };
-    
-    if (isUserLoading || user) {
-        return (
-          <div className="flex h-screen w-full items-center justify-center">
-            <Loader2 className="h-12 w-12 animate-spin text-muted-foreground" />
-          </div>
-        );
-    }
-
     return (
-        <div className="flex min-h-screen items-center justify-center p-4">
-            <Card className="w-full max-w-md mx-auto">
-                <CardHeader className="text-center">
-                    <div className="mx-auto mb-4">
-                        <Logo />
-                    </div>
-                    <CardTitle className="text-3xl font-headline">Create an Account</CardTitle>
-                    <CardDescription>Join ZumaiDoc to access modern healthcare.</CardDescription>
-                </CardHeader>
-                <CardContent>
-                    <form className="space-y-4" onSubmit={handleSignUp}>
-                        <div className="grid grid-cols-2 gap-4">
-                            <div className="space-y-2">
-                                <Label htmlFor="first-name">First Name</Label>
-                                <Input id="first-name" placeholder="John" required value={firstName} onChange={e => setFirstName(e.target.value)} />
-                            </div>
-                            <div className="space-y-2">
-                                <Label htmlFor="last-name">Last Name</Label>
-                                <Input id="last-name" placeholder="Doe" required value={lastName} onChange={e => setLastName(e.target.value)} />
-                            </div>
-                        </div>
-
-                        <div className="space-y-2">
-                            <Label htmlFor="email">Email</Label>
-                            <Input id="email" type="email" placeholder="m@example.com" required value={email} onChange={e => setEmail(e.target.value)} />
-                        </div>
-                        <div className="space-y-2">
-                            <Label htmlFor="password">Password</Label>
-                            <Input id="password" type="password" required value={password} onChange={e => setPassword(e.target.value)} />
-                        </div>
-                        
-                        <div className="space-y-2">
-                            <Label htmlFor="role">I am a...</Label>
-                            <Select onValueChange={setRole} defaultValue="patient">
-                                <SelectTrigger id="role">
-                                    <SelectValue placeholder="Select a role" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="patient">Patient</SelectItem>
-                                    <SelectItem value="doctor">Doctor</SelectItem>
-                                    <SelectItem value="nurse">Nurse</SelectItem>
-                                    <SelectItem value="pharmacist">Pharmacist</SelectItem>
-                                </SelectContent>
-                            </Select>
-                        </div>
-
-                        {isClinicalRole && (
-                            <div className="space-y-4 rounded-lg border p-4 bg-secondary/50">
-                                <p className="text-sm font-medium text-foreground">Clinical Information</p>
-                                <div className="space-y-2">
-                                    <Label htmlFor="license-number">License Number</Label>
-                                    <Input id="license-number" placeholder="Enter your license number" required={isClinicalRole} value={licenseNumber} onChange={e => setLicenseNumber(e.target.value)} />
-                                </div>
-                                <div className="space-y-2">
-                                    <Label htmlFor="npi-number">NPI Number</Label>
-                                    <Input id="npi-number" placeholder="Enter your NPI number" required={isClinicalRole} value={npiNumber} onChange={e => setNpiNumber(e.target.value)}/>
-                                </div>
-                                <div className="space-y-2">
-                                    <Label htmlFor="license-upload">Upload License (Optional)</Label>
-                                    <Input id="license-upload" type="file" />
-                                    <p className="text-xs text-muted-foreground">Your account will be pending approval by an admin.</p>
-                                </div>
-                            </div>
-                        )}
-
-                        <Button type="submit" className="w-full" disabled={isLoading}>
-                            {isLoading ? <Loader2 className="animate-spin" /> : 'Create Account'}
-                        </Button>
-                    </form>
-
-                    <div className="mt-6 text-center text-sm">
-                        Already have an account?{" "}
-                        <Link href="/login" className="underline">
-                            Log in
+        <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
+            {/* Header */}
+            <div className="container mx-auto px-4 py-8">
+                <div className="flex items-center justify-between">
+                    <Logo />
+                    <div className="text-sm text-muted-foreground">
+                        Already have an account?{' '}
+                        <Link href="/login" className="text-primary font-semibold hover:underline">
+                            Sign In
                         </Link>
                     </div>
-                </CardContent>
-            </Card>
-        </div>
+                </div>
+            </div>
+
+            {/* Hero Section */}
+            <div className="container mx-auto px-4 py-12 text-center">
+                <h1 className="text-5xl font-bold tracking-tight mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                    Join Our Healthcare Platform
+                </h1>
+                <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-12">
+                    Connect with care providers, manage your health, or provide exceptional telehealth services.
+                </p>
+
+                {/* Role Selection Cards */}
+                <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+                    {/* Patient Card */}
+                    <Card className="relative overflow-hidden border-2 hover:border-blue-500 transition-all duration-300 hover:scale-105 hover:shadow-2xl group">
+                        <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+
+                        <CardHeader className="relative">
+                            <div className="w-16 h-16 mx-auto mb-4 bg-blue-100 rounded-full flex items-center justify-center">
+                                <User className="w-8 h-8 text-blue-600" />
+                            </div>
+                            <CardTitle className="text-2xl">I'm a Patient</CardTitle>
+                            <CardDescription className="text-base">
+                                Access quality healthcare from the comfort of your home
+                            </CardDescription>
+                        </CardHeader>
+
+                        <CardContent className="relative space-y-4">
+                            <div className="space-y-3 text-left">
+                                <div className="flex items-start gap-3">
+                                    <Video className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" />
+                                    <div>
+                                        <p className="font-medium">HD Video Consultations</p>
+                                        <p className="text-sm text-muted-foreground">Connect face-to-face with licensed providers</p>
+                                    </div>
+                                </div>
+                                <div className="flex items-start gap-3">
+                                    <MessageSquare className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" />
+                                    <div>
+                                        <p className="font-medium">Secure Messaging</p>
+                                        <p className="text-sm text-muted-foreground">Chat with your care team 24/7</p>
+                                    </div>
+                                </div>
+                                <div className="flex items-start gap-3">
+                                    <Calendar className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" />
+                                    <div>
+                                        <p className="font-medium">Easy Scheduling</p>
+                                        <p className="text-sm text-muted-foreground">Book appointments that fit your schedule</p>
+                                    </div>
+                                </div>
+                                <div className="flex items-start gap-3">
+                                    <Heart className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" />
+                                    <div>
+                                        <p className="font-medium">Comprehensive Care</p>
+                                        <p className="text-sm text-muted-foreground">From primary care to specialty consultations</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <Button asChild className="w-full mt-6 bg-blue-600 hover:bg-blue-700" size="lg">
+                                <Link href="/signup/patient">
+                                    Get Started as Patient
+                                </Link>
+                            </Button>
+                        </CardContent>
+                    </Card>
+
+                    {/* Provider Card */}
+                    <Card className="relative overflow-hidden border-2 hover:border-green-500 transition-all duration-300 hover:scale-105 hover:shadow-2xl group">
+                        <div className="absolute inset-0 bg-gradient-to-br from-green-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+
+                        <CardHeader className="relative">
+                            <div className="w-16 h-16 mx-auto mb-4 bg-green-100 rounded-full flex items-center justify-center">
+                                <Stethoscope className="w-8 h-8 text-green-600" />
+                            </div>
+                            <CardTitle className="text-2xl">I'm a Provider</CardTitle>
+                            <CardDescription className="text-base">
+                                Deliver exceptional care with cutting-edge telehealth tools
+                            </CardDescription>
+                        </CardHeader>
+
+                        <CardContent className="relative space-y-4">
+                            <div className="space-y-3 text-left">
+                                <div className="flex items-start gap-3">
+                                    <Clock className="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" />
+                                    <div>
+                                        <p className="font-medium">Flexible Scheduling</p>
+                                        <p className="text-sm text-muted-foreground">Set your availability, work on your terms</p>
+                                    </div>
+                                </div>
+                                <div className="flex items-start gap-3">
+                                    <Shield className="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" />
+                                    <div>
+                                        <p className="font-medium">HIPAA Compliant</p>
+                                        <p className="text-sm text-muted-foreground">Secure platform with full compliance</p>
+                                    </div>
+                                </div>
+                                <div className="flex items-start gap-3">
+                                    <Award className="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" />
+                                    <div>
+                                        <p className="font-medium">Credentialing Support</p>
+                                        <p className="text-sm text-muted-foreground">We handle the paperwork</p>
+                                    </div>
+                                </div>
+                                <div className="flex items-start gap-3">
+                                    <MessageSquare className="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" />
+                                    <div>
+                                        <p className="font-medium">Integrated EHR</p>
+                                        <p className="text-sm text-muted-foreground">Streamlined clinical documentation</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <Button asChild className="w-full mt-6 bg-green-600 hover:bg-green-700" size="lg">
+                                <Link href="/signup/provider">
+                                    Get Started as Provider
+                                </Link>
+                            </Button>
+                        </CardContent>
+                    </Card>
+                </div>
+
+                {/* Trust Indicators */}
+                <div className="mt-16 max-w-3xl mx-auto">
+                    <div className="grid grid-cols-3 gap-8 text-center">
+                        <div>
+                            <p className="text-3xl font-bold text-blue-600">50K+</p>
+                            <p className="text-sm text-muted-foreground">Active Patients</p>
+                        </div>
+                        <div>
+                            <p className="text-3xl font-bold text-green-600">2K+</p>
+                            <p className="text-sm text-muted-foreground">Licensed Providers</p>
+                        </div>
+                        <div>
+                            <p className="text-3xl font-bold text-purple-600">99.9%</p>
+                            <p className="text-sm text-muted-foreground">Uptime</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div >
     );
 }
